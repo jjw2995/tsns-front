@@ -1,27 +1,33 @@
 div {
-  margin: 5%;
+  padding: 1%;
+  /* margin: 2%; */
+  justify-content: center;
 }
 
 .App {
   text-align: center;
 }
 
-/* nav {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  min-height: 3vh;
-  background-color: lightslategrey;
-  color: white;
-} */
+nav {
+  /* display: flexbox; */
+  /* justify-content: center; */
+  /* align-items: center; */
+  /* min-height: 3vh; */
+  /* width: 100%; */
+  background-color: rgb(179, 198, 216);
+  /* align-content: center; */
+  /* color: white; */
+}
 
-/* .nav-links {
-  width: 18%;
-  display: flex;
-  justify-content: space-around;
+.nav-link {
+  /* width: 100%; */
+  /* display: flexbox;
+  justify-content: center;
   align-items: center;
-  list-style: none;
-} */
+  text-align: center; */
+  /* list-style: none; */
+  /* font-size: 3.4vw; */
+}
 /* .about {
   width: 20%;
   display: flex;

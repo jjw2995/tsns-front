@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-// import { useForm } from "react-hook-form";
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, FormGroup } from "react-bootstrap";
 import axios from "axios";
-import { Formik, Field } from "formik";
+import { Formik, useField } from "formik";
+import { TextField } from "@material-ui/core";
+import * as yup from "yup";
 
 // // import fs from "fs";
 // // const fs = require("fs");
@@ -73,120 +74,129 @@ function RegisterForm() {
 
   const [showPass, setShowPass] = useState(false);
 
+  const showPassFn = () => {
+    return showPass ? "text" : "password";
+  };
+  const MyTextField = ({ placeholder, ...props }) => {
+    const [field, meta] = useField(props);
+    const errorText = meta.error && meta.touched ? meta.error : "";
+
+    return (
+      <div>
+        <TextField
+          placeholder={placeholder}
+          {...field}
+          // helperText={errorText}
+          // type={showPass ? "text" : "password"}
+          error={!!errorText}
+        />
+        <div className="px-5 text-danger">
+          <small error>{errorText}</small>
+        </div>
+      </div>
+    );
+  };
+
+  const MyPasswordField = ({ placeholder, ...props }) => {
+    const [field, meta] = useField(props);
+    const errorText = meta.error && meta.touched ? meta.error : "";
+
+    return (
+      <div>
+        <TextField
+          placeholder={placeholder}
+          {...field}
+          // helperText={errorText}
+          type={showPass ? "text" : "password"}
+          error={!!errorText}
+        />
+        <div className="px-5 text-danger">
+          <small error>{errorText}</small>
+        </div>
+      </div>
+    );
+  };
+
   return (
-    <div>
-      <Formik
-        initialValues={{ nickname: "", email: "" }}
-        onSubmit={(data) => {
-          console.log("submit: ", data);
-        }}
-      >
-        {({ values, handleChange, handleSubmit }) => (
-          <Form onSubmit={handleSubmit} onChange={handleChange}>
-            <form></form>
-            {/* <Form.Group controlId="formBasicNickname">
-              <Form.Control
-                type="text"
-                placeholder="Nickname"
-                value={values.nickname}
-                name="nickname"
-              />
-            </Form.Group>
+    <Formik
+      initialValues={{}}
+      onSubmit={(data, { setSubmitting }) => {
+        setSubmitting(true);
+        // async call
+        console.log("submit: ", data);
+        setSubmitting(false);
+      }}
+      validationSchema={yup.object({
+        nickname: yup
+          .string()
+          .matches(
+            /^[a-zA-Z0-9\_]{3,16}$/,
+            "3~16 alphanumeric (including underscore) characters"
+          ),
+        password: yup
+          .string()
+          .matches(
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,32})/,
+            "8~32 characters containing at least one number, lowercase, UPPERCASE, and special character"
+          ),
+        confirmPassword: yup
+          .string()
+          .oneOf([yup.ref("password"), null], "Passwords must match"),
+        email: yup.string().max(30).email(),
+      })}
+    >
+      {({ values, errors }) => (
+        <Form>
+          <pre>{JSON.stringify(values, null, 2)}</pre>
+          <pre>{JSON.stringify(errors, null, 2)}</pre>
 
-            <Form.Group controlId="formBasicEmail">
-              <Form.Control type="email" placeholder="Email" name="email" />
-            </Form.Group> */}
-            <Button variant="primary" type="submit">
-              Submit
-            </Button>
-            <pre>{JSON.stringify(values, null, 2)}</pre>
-          </Form>
-        )}
-      </Formik>
+          <div>
+            <MyTextField
+              name="nickname"
+              placeholder="Nickname"
+              type="input"
+              as={Form.Control}
+            />
+          </div>
 
-      <Form onSubmit={onSubmit}>
-        <p>{msg}</p>
-        <h4>REGISTER</h4>
+          <div>
+            <MyTextField
+              name="email"
+              placeholder="Email"
+              type="input"
+              as={Form.Control}
+            />
+          </div>
 
-        <Form.Group controlId="formBasicNickname">
-          <Form.Control type="text" placeholder="Nickname" name="nickname" />
-        </Form.Group>
-
-        <Form.Group controlId="formBasicEmail">
-          <Form.Control type="email" placeholder="Email" name="email" />
-        </Form.Group>
-
-        <Form.Group controlId="formBasicPassword">
-          {/* <Form.Label>Password</Form.Label> */}
-          <Form.Control
-            type={showPass ? "text" : "password"}
-            placeholder="Password"
-            name="password"
-          />
-        </Form.Group>
-        <Form.Group controlId="formBasicPassword1">
-          <Form.Control
-            type={showPass ? "text" : "password"}
-            placeholder="Confirm Password"
-            name="password1"
-          />
-        </Form.Group>
-
-        <Form.Group controlId="formBasicCheckbox">
-          <Form.Check
-            type="checkbox"
-            label="show password"
-            onClick={() => setShowPass(!showPass)}
-          />
-        </Form.Group>
-        {/* <div> */}
-        <Button variant="primary" type="submit">
-          Submit
-        </Button>
-
-        {/* <input
-        type="email"
-        placeholder="Email"
-        name="email"
-        ref={register({
-          required: "email required",
-          pattern: {
-            value: /\S+@\S+\.\S+/,
-            message: "email must be a valid email",
-          },
-        })}
-      />
-      <input
-        type={showPass ? "text" : "password"}
-        placeholder="Password"
-        name="password"
-        ref={register({
-          required: "password required",
-          pattern: {
-            value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+])(?=.{8,32})/,
-            message:
-              "password must contain a number, lowercase, UPPERCASE, special, and be 8~32 characters long",
-          },
-        })}
-      />
-      <input
-        type={showPass ? "text" : "password"}
-        placeholder="Confirm Password"
-        name="confirmPass"
-        ref={register({
-          validate: {
-            eqlPassword: (value) =>
-              value === getValues().password || "password does not match",
-          },
-        })}
-      /> */}
-        {/* <input type="submit" value="register"></input> */}
-        {/* {errors.email && <p>{errors.email.message}</p>}
-        {errors.password && <p>{errors.password.message}</p>}
-        {errors.confirmPass && <p>{errors.confirmPass.message}</p>} */}
-        {/* <button onClick={() => setShowPass(!showPass)}>show/hide password</button> */}
-      </Form>
-    </div>
+          <div>
+            <MyPasswordField
+              name="password"
+              placeholder="Password"
+              // type="input"
+              type={showPassFn}
+              as={Form.Control}
+            />
+          </div>
+          <div>
+            <MyPasswordField
+              name="confirmPassword"
+              placeholder="Confirm Password"
+              // type="input"
+              type={showPassFn}
+              as={Form.Control}
+            />
+            <Form.Check
+              type="checkbox"
+              label="show password"
+              onClick={() => setShowPass(!showPass)}
+            />
+          </div>
+          <Button variant="primary" type="submit">
+            REGISTER
+          </Button>
+        </Form>
+      )}
+    </Formik>
   );
 }
 

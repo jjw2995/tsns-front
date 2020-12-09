@@ -17,18 +17,18 @@ import {
 
 function App() {
   return (
-    <Container className="App">
-      <pre>{process.env.REACT_APP_API_URL}</pre>
-      <Router>
-        <Main />
-      </Router>
-    </Container>
+    // <Container fluid className="App">
+    <Router>
+      <Main />
+    </Router>
+    // </Container>
   );
 }
 
 const Main = withRouter(({ location }) => {
   return (
-    <React.Fragment>
+    <Container fluid className="App">
+      <pre>{process.env.REACT_APP_API_URL}</pre>
       <pre>{location.pathname}</pre>
       {location.pathname !== "/" && <NavigationBar activ={location.pathname} />}
       <Switch>
@@ -38,7 +38,7 @@ const Main = withRouter(({ location }) => {
         <Route path="/mine" component={Mine} />
         <Route path="/about" component={About} />
       </Switch>
-    </React.Fragment>
+    </Container>
   );
 });
 

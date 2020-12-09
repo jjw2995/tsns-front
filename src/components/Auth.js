@@ -9,9 +9,9 @@ function Auth() {
     <div>
       {isLogin && <LoginForm />}
       {!isLogin && <RegisterForm />}
-      <div>
+      <div className="mt-4">
         <Button variant="secondary" onClick={() => setIsLogin(!isLogin)}>
-          {isLogin ? "Create New Account" : "if user, login"}
+          {isLogin ? "Create New Account" : "Have Account? Login"}
         </Button>
       </div>
     </div>
