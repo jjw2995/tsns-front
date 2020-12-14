@@ -1,57 +1,70 @@
 import React from "react";
-import { Container, Nav, Navbar, Row, Col } from "react-bootstrap";
-// import { useLocation } from "react-router-dom";
-
+import { Col, Nav, Navbar } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { clearAuth } from "../redux/auth/AuthActions";
 function NavigationBar(props) {
-  // let [actKey, setActiveKey] = useState("/home");
-  // const location = useLocation();
-  // props.activ
+  const path = props.location.pathname;
+  const dispatch = useDispatch();
 
   return (
-    <Navbar>
-      <Nav
-        className="m-auto"
-        // activeKey={actKey}
-        // onSelect={(selectedKey) => {
-        //   console.log(location);
-        //   setActiveKey(selectedKey);
-        // }}
-      >
-        <Nav.Link
-          // Link="/home"
-          href="/home"
-          eventKey="/home"
-        >
-          Home
-        </Nav.Link>
+    <Navbar
+      expand="lg"
+      bg="white"
+      fixed="top"
+      className="row"
+      expanded={true}
+      onClick={() => {
+        console.log(path);
+      }}
+    >
+      <h1 className="col d-flex justify-content-end">tSNS</h1>
+      <Col xs={6}>
+        <Nav className="d-flex justify-content-center">
+          <Nav.Link
+            className="navElem"
+            href="/home"
+            eventKey="/home"
+            active={path === "/home" ? true : false}
+          >
+            Home
+          </Nav.Link>
 
-        <Nav.Link
-          // Link="/explore"
-          href="/explore"
-          eventKey="explore"
-        >
-          Explore
-        </Nav.Link>
+          <Nav.Link
+            className="navElem"
+            href="/explore"
+            eventKey="explore"
+            active={path === "/explore" ? true : false}
+          >
+            Explore
+          </Nav.Link>
 
-        <Nav.Link
-          // Link="/mine"
-          href="/mine"
-          eventKey="mine"
-        >
-          Mine
-        </Nav.Link>
-      </Nav>
-      <Nav>
-        <Nav.Link
-          className="ml-auto"
-          // Link="/about"
+          <Nav.Link
+            className="navElem"
+            href="/mine"
+            eventKey="mine"
+            active={path === "/mine" ? true : false}
+          >
+            Mine
+          </Nav.Link>
+        </Nav>
+      </Col>
 
-          href="/about"
-          eventKey="about"
-        >
-          About
-        </Nav.Link>
-      </Nav>
+      <div className="col">
+        <div className="d-flex flex-column justify-content-end">
+          <a href="/about" className="h3 text-dark">
+            about <b>tSNS</b> & <b>ME</b>
+          </a>
+          <a
+            href=""
+            onClick={() => {
+              dispatch(clearAuth());
+            }}
+            className="text-dark text-size-12"
+          >
+            logout
+          </a>
+        </div>
+      </div>
     </Navbar>
   );
 }

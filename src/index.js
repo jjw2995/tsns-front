@@ -4,6 +4,8 @@ import "./css/index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
+global.msg = (a) => console.log(a, "\n");
+
 ReactDOM.render(
   <React.StrictMode>
     <App />

@@ -1,155 +1,76 @@
 import React, { useState } from "react";
-import { Form, Button, FormGroup } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import axios from "axios";
-import { Formik, useField } from "formik";
-import { TextField } from "@material-ui/core";
+import { Formik, Form } from "formik";
+import { Checkbox, FormControlLabel } from "@material-ui/core";
+import { MyTextField, MyPasswordField } from "../myFields";
 import * as yup from "yup";
 
-// // import fs from "fs";
-// // const fs = require("fs");
-// // let imageFile = fs.readFileSync("./test1.png");
-// import imageFile from "./test1.png";
-// console.log(imageFile);
+const validationSchema = yup.object({
+  nickname: yup
+    .string()
+    .matches(
+      /^[a-zA-Z0-9_]{3,16}$/,
+      "3~16 alphanumeric (including underscore) characters"
+    ),
+  password: yup
+    .string()
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,32})/,
+      "8~32 characters containing at least one number, lowercase, UPPERCASE, and special character"
+    ),
+  confirmPassword: yup
+    .string()
+    .oneOf([yup.ref("password"), null], "Passwords must match"),
+  email: yup.string().max(30).email(),
+});
 
-// // const authHeader = req.headers['authorization'];
-// // 	const token = authHeader && authHeader.split(' ')[1];
-// // 	// Bearer <access token>
-// // log(imageFile);
-// const base = "https://tsns-api.herokuapp.com/api/";
-
-// // axios.post(base + "auth/register", {
-// //   nickname: "asd",
-// //   email: "jjw2995@gmail.com",
-// //   password: "Testing12#",
-// // });
-// axios
-//   .post(base + "auth/login", {
-//     // nickname: "asd",
-//     email: "jjw2995@gmail.com",
-//     password: "Testing12#",
-//   })
-//   // formData.append("file", { uri: "file://path/to/image.png", type: "image/png" });
-
-//   .then((r) => {
-//     let form = new FormData();
-//     // form.append("image", { uri: imageFile, type: "image/png" }, "image.png");
-
-function RegisterForm() {
-  // const { register, getValues, handleSubmit, errors } = useForm();
-
-  const [msg, setMsg] = useState("");
-  const onSubmit = async (e) => {
-    // console.log(getValues());
-    e.preventDefault();
-
-    const formData = new FormData(e.target),
-      formDataObj = Object.fromEntries(formData.entries());
-    console.log(formDataObj);
-    axios
-      .post(process.env.REACT_APP_API_URL + "/api/auth/register", formDataObj)
-      .then((r) => {
-        console.log(r);
-        return <div>asd</div>;
-      })
-      .catch((e) => {
-        // setMsg(e.message);
-        // console.log(e);
-        // console.log(e.message);
-        return <div>asd</div>;
-      });
-    // try {
-    //   let a = await axios.post(
-    //     process.env.REACT_APP_API_URL + "/api/auth/register",
-    //     formDataObj
-    //   );
-    //   console.log(a);
-    // } catch (error) {
-    //   console.log(error);
-    //   console.log(error.message);
-    //   console.log(error.status);
-    // }
-    // .catch((e) => {
-    // });
-  };
-
+function RegisterForm(props) {
   const [showPass, setShowPass] = useState(false);
+  const [notUnique, setNotUnique] = useState("");
 
   const showPassFn = () => {
     return showPass ? "text" : "password";
   };
-  const MyTextField = ({ placeholder, ...props }) => {
-    const [field, meta] = useField(props);
-    const errorText = meta.error && meta.touched ? meta.error : "";
-
-    return (
-      <div>
-        <TextField
-          placeholder={placeholder}
-          {...field}
-          // helperText={errorText}
-          // type={showPass ? "text" : "password"}
-          error={!!errorText}
-        />
-        <div className="px-5 text-danger">
-          <small error>{errorText}</small>
-        </div>
-      </div>
-    );
-  };
-
-  const MyPasswordField = ({ placeholder, ...props }) => {
-    const [field, meta] = useField(props);
-    const errorText = meta.error && meta.touched ? meta.error : "";
-
-    return (
-      <div>
-        <TextField
-          placeholder={placeholder}
-          {...field}
-          // helperText={errorText}
-          type={showPass ? "text" : "password"}
-          error={!!errorText}
-        />
-        <div className="px-5 text-danger">
-          <small error>{errorText}</small>
-        </div>
-      </div>
-    );
-  };
 
   return (
     <Formik
-      initialValues={{}}
-      onSubmit={(data, { setSubmitting }) => {
-        setSubmitting(true);
-        // async call
-        console.log("submit: ", data);
-        setSubmitting(false);
+      initialValues={{
+        nickname: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
       }}
-      validationSchema={yup.object({
-        nickname: yup
-          .string()
-          .matches(
-            /^[a-zA-Z0-9\_]{3,16}$/,
-            "3~16 alphanumeric (including underscore) characters"
-          ),
-        password: yup
-          .string()
-          .matches(
-            /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,32})/,
-            "8~32 characters containing at least one number, lowercase, UPPERCASE, and special character"
-          ),
-        confirmPassword: yup
-          .string()
-          .oneOf([yup.ref("password"), null], "Passwords must match"),
-        email: yup.string().max(30).email(),
-      })}
+      onSubmit={async (data, { setSubmitting }) => {
+        setSubmitting(true);
+
+        try {
+          console.log("submit: ", data);
+          let a = await await axios.post(
+            process.env.REACT_APP_API_URL + "/api/auth/register",
+            data
+          );
+          console.log(a);
+          alert(
+            "validation email with a link has been sent, click link and login"
+          );
+          setSubmitting(false);
+          props.history.push("/login");
+        } catch (e) {
+          setNotUnique(`this ${e.response.data.part} has already been taken`);
+        }
+      }}
+      validationSchema={validationSchema}
     >
       {({ values, errors }) => (
         <Form>
-          <pre>{JSON.stringify(values, null, 2)}</pre>
-          <pre>{JSON.stringify(errors, null, 2)}</pre>
-
+          {/* <pre>{JSON.stringify(values, null, 2)}</pre>
+          <pre>{JSON.stringify(errors, null, 2)}</pre> */}
+          <p className="text-muted">
+            verification email will be sent, click the link within an hour to
+            verify account.
+          </p>
+          <h4 className="text-danger ">{notUnique}</h4>
           <div>
             <MyTextField
               name="nickname"
@@ -158,7 +79,6 @@ function RegisterForm() {
               as={Form.Control}
             />
           </div>
-
           <div>
             <MyTextField
               name="email"
@@ -167,13 +87,12 @@ function RegisterForm() {
               as={Form.Control}
             />
           </div>
-
           <div>
             <MyPasswordField
               name="password"
               placeholder="Password"
-              // type="input"
               type={showPassFn}
+              showPass={showPass}
               as={Form.Control}
             />
           </div>
@@ -181,14 +100,19 @@ function RegisterForm() {
             <MyPasswordField
               name="confirmPassword"
               placeholder="Confirm Password"
-              // type="input"
               type={showPassFn}
+              showPass={showPass}
               as={Form.Control}
             />
-            <Form.Check
-              type="checkbox"
+
+            <FormControlLabel
+              control={
+                <Checkbox
+                  type="checkbox"
+                  onClick={() => setShowPass(!showPass)}
+                />
+              }
               label="show password"
-              onClick={() => setShowPass(!showPass)}
             />
           </div>
           <Button variant="primary" type="submit">

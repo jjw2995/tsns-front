@@ -1,37 +1,37 @@
-div {
-  padding: 1%;
-  /* margin: 2%; */
-  justify-content: center;
+.hidden-text {
+  display: -webkit-box;
+  /* max-width: 200px; */
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-.App {
-  text-align: center;
+.show-white-space {
+  white-space: pre-wrap;
 }
 
-nav {
-  /* display: flexbox; */
-  /* justify-content: center; */
-  /* align-items: center; */
-  /* min-height: 3vh; */
-  /* width: 100%; */
-  background-color: rgb(179, 198, 216);
-  /* align-content: center; */
-  /* color: white; */
+.navElem {
+  font-size: 1.4rem;
+  /* margin: 2rem; */
+  margin-left: 4%;
+  margin-right: 4%;
+  font-weight: bolder;
+  color: black;
+  /* background-color: blanchedalmond; */
+}
+label {
+  margin: 0.4em;
 }
 
-.nav-link {
-  /* width: 100%; */
-  /* display: flexbox;
-  justify-content: center;
-  align-items: center;
-  text-align: center; */
-  /* list-style: none; */
-  /* font-size: 3.4vw; */
+input[type="radio"] {
+  -ms-transform: scale(1.5); /* IE 9 */
+  -webkit-transform: scale(1.5); /* Chrome, Safari, Opera */
+  transform: scale(1.5);
+  margin: 0.4rem;
+  /* padding: 5rem; */
+  /* size: 1rem; */
 }
-/* .about {
-  width: 20%;
-  display: flex;
-  justify-content: space-around;
-  align-items: right;
-  list-style: none;
+
+/* .radio {
+  size: 1rem;
 } */
