@@ -1,5 +1,5 @@
 import React from "react";
-import Post from "../Post";
+import Post from "./Post";
 
 function Posts() {
   return (
@@ -7,6 +7,11 @@ function Posts() {
       <Post />
       <Post />
       <Post />
+      {/* <Post />
+      <Post />
+      <Post />
+      <Post />
+      <Post /> */}
     </div>
   );
 }

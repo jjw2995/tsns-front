@@ -22,7 +22,8 @@ function NavigationBar(props) {
         <Nav className="d-flex justify-content-center">
           <Nav.Link
             className="navElem"
-            href="/home"
+            href="/#"
+            //href="/home"
             eventKey="/home"
             active={path === "/home" ? true : false}
           >
@@ -31,7 +32,8 @@ function NavigationBar(props) {
 
           <Nav.Link
             className="navElem"
-            href="/explore"
+            href="/#"
+            // href="/explore"
             eventKey="explore"
             active={path === "/explore" ? true : false}
           >
@@ -40,7 +42,8 @@ function NavigationBar(props) {
 
           <Nav.Link
             className="navElem"
-            href="/mine"
+            href="/#"
+            // href="/mine"
             eventKey="mine"
             active={path === "/mine" ? true : false}
           >
@@ -52,10 +55,12 @@ function NavigationBar(props) {
       <div className="col">
         <div className="d-flex flex-column justify-content-end">
           <a href="/about" className="h3 text-dark">
+            {/* <a href="/about" className="h3 text-dark"> */}
             about <b>tSNS</b> & <b>ME</b>
           </a>
           <a
-            href=""
+            href="/#"
+            // href=""
             onClick={() => {
               dispatch(clearAuth());
             }}

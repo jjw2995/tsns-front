@@ -11,7 +11,7 @@
 // // 	const token = authHeader && authHeader.split(' ')[1];
 // // 	// Bearer <access token>
 // // log(imageFile);
-// const base = "https://tsns-api.herokuapp.com/api/";
+// const base = "https://tsns-api.herokuapp.com/";
 
 // // axios.post(base + "auth/register", {
 // //   nickname: "asd",
@@ -107,7 +107,7 @@ function LoginForm() {
         try {
           console.log("submit: ", data);
           let a = await await axios.post(
-            process.env.REACT_APP_API_URL + "/api/auth/login",
+            process.env.REACT_APP_API_ENDPOINT + "/auth/login",
             data
           );
           console.log(a);
@@ -199,7 +199,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
 // // 	const token = authHeader && authHeader.split(' ')[1];
 // // 	// Bearer <access token>
 // // log(imageFile);
-// const base = "https://tsns-api.herokuapp.com/api/";
+// const base = "https://tsns-api.herokuapp.com/";
 
 // // axios.post(base + "auth/register", {
 // //   nickname: "asd",

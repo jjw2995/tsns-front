@@ -46,8 +46,9 @@ function RegisterForm(props) {
 
         try {
           console.log("submit: ", data);
-          let a = await await axios.post(
-            process.env.REACT_APP_API_URL + "/api/auth/register",
+
+          let a = await axios.post(
+            process.env.REACT_APP_API_ENDPOINT + "/auth/register",
             data
           );
           console.log(a);

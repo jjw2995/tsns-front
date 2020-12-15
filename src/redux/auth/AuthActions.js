@@ -1,23 +1,19 @@
-import axios from "axios";
-import {
-  REPRIME_STORE_AUTH,
-  SET_AUTH,
-  ERR_AUTH,
-  CLEAR_AUTH,
-} from "./AuthTypes";
-import jwt_decode from "jwt-decode";
+import { HYDRATE_AUTH, SET_AUTH, ERR_AUTH, CLEAR_AUTH } from "./AuthTypes";
 import jwtDecode from "jwt-decode";
+import BaseUrlAxios from "../AuthedAxios";
 
 export const setAuth = ({ _id, nickname, accessToken, refreshToken }) => {
   return {
     type: SET_AUTH,
-    payload: { user: { _id, nickname }, accessToken, refreshToken },
+    payload:
+      _id && nickname
+        ? { user: { _id, nickname }, accessToken, refreshToken }
+        : { accessToken, refreshToken },
   };
 };
-
-export const reprimeAuth = () => {
+export const hydrateAuth = () => {
   return {
-    type: REPRIME_STORE_AUTH,
+    type: HYDRATE_AUTH,
     payload: {},
   };
 };
@@ -37,44 +33,48 @@ export const errAuth = (e) => {
   };
 };
 
-export const updateLoginState = () => (dispatch, getState) => {
-  try {
-    // console.log("BEFORE REPRIME");
-    // console.log(getState());
-    dispatch(reprimeAuth());
-    // console.log("updateLoginState - from getState()");
-    // console.log(getState().auth);
-    const isExpired =
-      jwtDecode(getState().auth.refreshToken).exp <
-      new Date().getMilliseconds();
+export const login = (data) => (dispatch) => {
+  BaseUrlAxios()
+    .post("/auth/login", data)
+    .then((response) => {
+      // console.log(response.data);
+      dispatch(setAuth(response.data));
+    })
+    .catch((e) => {
+      // console.log(e);
+      dispatch(errAuth(e));
+    });
+};
 
-    if (isExpired) {
-      // console.log("CLEAR_AUTH");
-      dispatch(clearAuth());
+export const keepTokensFresh = () => (dispatch, getState) => {
+  const tNow = new Date().getMilliseconds();
+  const refTok = getState().auth.refreshToken;
+
+  const didAccTokExp = jwtDecode(getState().auth.accessToken).exp < tNow;
+  const didRefTokExp = jwtDecode(refTok).exp < tNow;
+  console.log("keep tokens fresh");
+  if (didRefTokExp) {
+    _alertAuthClear(dispatch);
+  } else {
+    if (didAccTokExp) {
+      BaseUrlAxios()
+        .post("/auth/token", { refreshToken: refTok })
+        .then((r) => {
+          console.log(".then of /auth/token - in keepTokensFresh");
+          console.log(r.data);
+          dispatch(setAuth(r.data));
+        })
+        .catch((e) => {
+          console.log(".catch of /auth/token - in keepTokensFresh");
+
+          console.log(e.data);
+          _alertAuthClear(dispatch);
+        });
     }
-  } catch (error) {
-    console.log(error);
   }
 };
 
-export const login = (data) => (dispatch) => {
-  axios
-    .post(process.env.REACT_APP_API_URL + "/api/auth/login", data)
-    // .then((res) => res.json())
-    .then((response) => {
-      console.log(response.data);
-      dispatch(setAuth(response.data));
-    })
-    .catch((e) => dispatch(errAuth(e)));
+const _alertAuthClear = (dispatch) => {
+  alert("your auth has expired, please login again");
+  dispatch(clearAuth());
 };
-
-// export const refreshToken = () => (dispatch) => {
-//   axios
-//     .post(process.env.REACT_APP_API_URL + "/api/auth/login", data)
-//     // .then((res) => res.json())
-//     .then((response) => {
-//       console.log(response.data);
-//       dispatch(setAuth(response.data));
-//     })
-//     .catch((e) => dispatch(errAuth(e)));
-// };

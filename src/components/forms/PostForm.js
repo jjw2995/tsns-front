@@ -1,44 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 import { Form, Formik, Field } from "formik";
 import { Button } from "react-bootstrap";
-import Dropzone, { useDropzone } from "react-dropzone";
-import imageDropZone from "./imageDropZone";
-import PreviewImgs from "../PreviewImgs";
-import Axios from "axios";
+import Dropzone from "react-dropzone";
+import { useDispatch } from "react-redux";
+import { postPost } from "../../redux/posts/postsActions";
 
-// public;
-// followers;
-// private;
-
-// description;
-// level;
-// images;
-
-// {
-//     "reactions": {
-//       "love": 0,
-//       "haha": 0,
-//       "sad": 0,
-//       "angry": 0
-//     },
-//     "description": "PrivatePost",
-//     "media": [
-//       "https://storage.googleapis.com...",
-//       "https://storage.googleapis.com...%3D"
-//     ],
-//     "level": "private",
-//     "_id": "p5faaacd4ec3c410589fef8c6",
-//     "user": {
-//       "_id": "5faaacd0ec3c410589fef8c0",
-//       "nickname": "user1"
-//     },
-//     "createdAt": "2020-11-10T15:08:04.316Z",
-//     "updatedAt": "2020-11-10T15:08:04.316Z",
-//     "userReaction": null
-//   }
 const MAX_NUM_IMAGES = 4;
 
 function PostForm() {
+  const dispatch = useDispatch();
   return (
     <Formik
       initialValues={{
@@ -49,7 +19,18 @@ function PostForm() {
       onSubmit={(values) => {
         //   api request
         console.log(values);
-        Axios.post();
+        let formData = new FormData();
+        formData.set("level", values.level);
+        formData.set("description", values.description);
+        values.images.forEach((r, i) => {
+          formData.set(`${i}`, r);
+        });
+        // formData.set("level", values.level);
+        // level: "public",
+        // description: "",
+        // images: [],
+
+        dispatch(postPost(formData));
       }}
     >
       {({ values, setFieldValue }) => (
@@ -138,6 +119,7 @@ function PostForm() {
                     onClick={() => {}}
                   >
                     <img
+                      alt="not available"
                       src={image.preview}
                       id={idx}
                       className="img-thumbnail m-2"

@@ -40,7 +40,7 @@ function LoginForm(props) {
             props.history.push("/home");
           } catch (e) {
             // TODO: if email or nickname already exists - handle
-            console.log(e.response.data);
+            console.log(e);
           }
         }}
         validationSchema={yup.object({

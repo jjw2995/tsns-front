@@ -1,7 +1,5 @@
 // https://picsum.photos/720
 import React, { useState } from "react";
-import "../css/App.css";
-// import { ButtonGroup, ToggleButton, ToggleButtonGroup } from "react-bootstrap";
 
 const imgurl = "https://picsum.photos/720";
 const text =
@@ -71,7 +69,7 @@ function Post() {
           <h4 className="card-title">Card title</h4>
 
           <h6 className="card-subtitle mb-2 text-muted">Card subtitle</h6>
-          <img src={imgurl} className="card-img" />
+          <img src={imgurl} className="card-img" alt="not available" />
           {/* <button
             onClick={() => {
               setReactValue(2);

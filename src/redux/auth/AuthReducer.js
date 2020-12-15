@@ -1,14 +1,13 @@
-import { SET_AUTH, REPRIME_STORE_AUTH, CLEAR_AUTH } from "./AuthTypes";
+import { SET_AUTH, HYDRATE_AUTH, CLEAR_AUTH } from "./AuthTypes";
 
 const authReducer = (state = {}, { type, payload }) => {
   switch (type) {
     // called when [just logged in, refreshing tokens]
     case SET_AUTH:
-      // console.log("SET_AUTH", JSON.stringify(payload));
-      localStorage.setItem("AUTH", JSON.stringify(payload));
-      return { ...state, ...payload };
-    // called when page reloads
-    case REPRIME_STORE_AUTH:
+      let toStore = { ...state, ...payload };
+      localStorage.setItem("AUTH", JSON.stringify(toStore));
+      return toStore;
+    case HYDRATE_AUTH:
       const data = JSON.parse(localStorage.getItem("AUTH"));
       // console.log("REPRIME_STORE_AUTH - data from storage");
       // console.log(JSON.stringify(data));

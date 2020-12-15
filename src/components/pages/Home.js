@@ -1,14 +1,16 @@
 import { Button } from "react-bootstrap";
 import React, { useState } from "react";
-import Posts from "../Posts";
+import Posts from "../PostComponent/Posts";
 import Modal from "react-modal";
 import PostForm from "../forms/PostForm";
 
 Modal.setAppElement("#root");
 
-function HomePage(props) {
+function Home(props) {
   // TODO: fix after postForm
-  const [modalIsOpen, setModalIsOpen] = useState(false);
+  let [modalIsOpen, setModalIsOpen] = useState(false);
+  modalIsOpen = true;
+
   return (
     <div>
       <Modal
@@ -64,4 +66,4 @@ function HomePage(props) {
   );
 }
 
-export default HomePage;
+export default Home;

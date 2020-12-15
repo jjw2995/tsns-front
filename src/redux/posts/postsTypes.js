@@ -1,1 +1,3 @@
-export const BUY_CAKE = "BUY_CAKE";
+export const APPEND_POSTS_FRONT = "APPEND_POSTS_FRONT";
+export const APPEND_POSTS_END = "APPEND_POSTS_END";
+export const CLEAR_POSTS = "CLEAR_POSTS";
