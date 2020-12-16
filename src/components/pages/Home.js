@@ -28,6 +28,9 @@ function Home(props) {
   console.log("posts.length: ", posts.length);
 
   // useEffect
+  const closeModal = () => {
+    setModalIsOpen(false);
+  };
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -44,21 +47,15 @@ function Home(props) {
   };
   return (
     <div>
-      {/* <pre>{JSON.stringify(posts)}</pre> */}
       <Modal
-        // className="m-10 p-10 fixed-top"
         style={{
-          overlay: {
-            // backgroundColor: "grey",
-          },
+          overlay: {},
           content: {
             top: "13%",
             bottom: "13%",
             left: "20%",
             right: "20%",
             fontFamily: "sans-serif",
-            // color: "",
-            // alignSelf: "center",
           },
         }}
         isOpen={modalIsOpen}
@@ -76,21 +73,12 @@ function Home(props) {
           </Button>
         </div>
         <div className="d-flex justify-content-center">
-          <PostForm />
+          <PostForm closeForm={closeModal} />
         </div>
       </Modal>
-      <div>
-        {/* <Post post={posts[0]} />
-        <Post post={posts[1]} /> */}
-        <Posts posts={posts} fetchMore={fetchMore} />
-        {/* {posts.map((r) => {
-          return (
-            <Post post={r} key={r._id} />
-            // <div>
-            // </div>
-          );
-        })} */}
-      </div>
+
+      <Posts posts={posts} fetchMore={fetchMore} />
+
       <div className="d-flex justify-content-end fixed-bottom">
         <Button
           onClick={() => {

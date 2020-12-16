@@ -89,9 +89,6 @@ export const postPost = (postFormData) => (dispatch, getState) => {
     .post("/posts", postFormData)
     .then((r) => {
       dispatch(appendPostFront(r.data));
-      console.log(r);
-      console.log(r);
-      console.log(r);
     })
     .catch((e) => {
       console.log(e);

@@ -8,7 +8,7 @@ import { keepTokensFresh } from "../../redux/auth/AuthActions";
 
 const MAX_NUM_IMAGES = 4;
 
-function PostForm() {
+function PostForm({ closeForm }) {
   const dispatch = useDispatch();
   return (
     <Formik
@@ -28,6 +28,7 @@ function PostForm() {
         });
         dispatch(keepTokensFresh());
         dispatch(postPost(formData));
+        closeForm();
       }}
     >
       {({ values, setFieldValue }) => (
@@ -158,7 +159,13 @@ function PostForm() {
             }}
           />
 
-          <Button type="submit" className="m-5">
+          <Button
+            type="submit"
+            className="m-5"
+            // onClick={() => {
+            //   closeForm();
+            // }}
+          >
             POST
           </Button>
           <div>
