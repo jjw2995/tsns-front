@@ -1,9 +1,7 @@
 // https://picsum.photos/720
 import React, { useState } from "react";
-
-const imgurl = "https://picsum.photos/720";
-const text =
-  "Some quick example text\n\nto build on the card title and make up the \nbulk of the cample text to build on the card title and make up thebulk of the card'sle text to build on the card title and make up the\n\nbulk of the card'sle text to build on the card title and make up the\nbulk of the card's content.";
+import { Carousel } from "react-bootstrap";
+// import { useEffect } from "react";
 
 // public;
 // followers;
@@ -42,72 +40,64 @@ const text =
 //   { name: "SAD", value: 3 },
 //   { name: "ANGRY", value: 4 },
 // ];
-function Post() {
+function Post({ post }) {
   const [expandText, setExpandText] = useState(false);
-  // const [reactValue, setReactValue] = useState(3);
-
-  // const [value, setValue] = useState(1);
-
-  /*
-   * The second argument that will be passed to
-   * `handleChange` from `ToggleButtonGroup`
-   * is the SyntheticEvent object, but we are
-   * not using it in this example so we will omit it.
-   */
-  // const handleChange = (val) => {
-  //   console.log(val);
-  //   setValue(val);
-  // };
-
+  const {
+    createdAt,
+    description,
+    level,
+    media,
+    reactions,
+    user: postOwner,
+    userReaction,
+    _id: postID,
+  } = post;
+  //   <Carousel>
+  // <Carousel.Item>
+  //   <img
+  //     className="d-block w-100"
+  //     src="holder.js/800x400?text=First slide&bg=373940"
+  //     alt="First slide"
+  //   />
+  //   <Carousel.Caption>
+  //     <h3>First slide label</h3>
+  //     <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+  //   </Carousel.Caption>
+  // </Carousel.Item>
+  const date = new Date(createdAt)
+    .toISOString()
+    .split("T")[0]
+    .replace(/-/g, "/");
+  // .split("-");
+  // date = date.toISOString().split("T")[0];
   return (
-    <div className="d-flex justify-content-center">
+    <div className="d-flex justify-content-center flex-wrap">
       <div
         className="card m-2"
         style={{ maxWidth: "50rem", minWidth: "50rem" }}
       >
         <div className="card-body">
-          <h4 className="card-title">Card title</h4>
+          <h4 className="card-title">{postOwner.nickname}</h4>
+          <h6 className="card-subtitle mb-2 text-muted">
+            created <b>{date}</b>, <b>{level}</b>
+          </h6>
 
-          <h6 className="card-subtitle mb-2 text-muted">Card subtitle</h6>
-          <img src={imgurl} className="card-img" alt="not available" />
-          {/* <button
-            onClick={() => {
-              setReactValue(2);
-            }}
-          >
-            ASDAS
-          </button> */}
-          {/* <ToggleButtonGroup
-            type="radio"
-            name="options"
-            defaultValue={1}
-            onClick={(e) => {
-              console.log(e.target);
-            }}
-          >
-            <ToggleButton value={1}>Radio 1 (pre-checked)</ToggleButton>
-            <ToggleButton value={2}>Radio 2</ToggleButton>
-            <ToggleButton value={3}>Radio 3</ToggleButton>
-          </ToggleButtonGroup> */}
+          <Carousel interval={null} wrap={false}>
+            {media.map((r, index) => {
+              // console.log(postID + index);
+              return (
+                <Carousel.Item key={postID + index}>
+                  <img
+                    src={r}
+                    // id={postID + toString(index)}
+                    className="card-img"
+                    alt="not available"
+                  />
+                </Carousel.Item>
+              );
+            })}
+          </Carousel>
 
-          {/* <ToggleButtonGroup type="checkbox">
-            {reactions.map((reaction, idx) => (
-              <ToggleButton
-                //   {reactValue === reaction.value? active:}
-                key={idx}
-                type="checkbox"
-                value={reaction.value}
-                checked={reactValue === reaction.value}
-                // data-toggle=
-                onChange={(e) => {
-                  console.log(e);
-                  setReactValue(e.currentTarget.value);
-                }}
-              >
-                {reaction.name}
-              </ToggleButton>
-            ))}
-          </ToggleButtonGroup> */}
           <p
             onClick={() => {
               setExpandText(!expandText);
@@ -119,21 +109,8 @@ function Post() {
             }
             style={{ lineHeight: "1em", fontSize: "1.3em", margin: "2px" }}
           >
-            {text}
+            {description}
           </p>
-          {/* <a href="#" className="card-link">
-            Card link
-          </a>
-          <a href="#" className="card-link">
-            Another link
-          </a> */}
-          {/* <button
-            onSubmit={() => {
-              //   dasd;
-            }}
-          >
-            ...
-          </button> */}
         </div>
       </div>
     </div>

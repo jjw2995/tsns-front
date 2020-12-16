@@ -4,6 +4,7 @@ import { Button } from "react-bootstrap";
 import Dropzone from "react-dropzone";
 import { useDispatch } from "react-redux";
 import { postPost } from "../../redux/posts/postsActions";
+import { keepTokensFresh } from "../../redux/auth/AuthActions";
 
 const MAX_NUM_IMAGES = 4;
 
@@ -25,11 +26,7 @@ function PostForm() {
         values.images.forEach((r, i) => {
           formData.set(`${i}`, r);
         });
-        // formData.set("level", values.level);
-        // level: "public",
-        // description: "",
-        // images: [],
-
+        dispatch(keepTokensFresh());
         dispatch(postPost(formData));
       }}
     >
@@ -153,6 +150,7 @@ function PostForm() {
             id="description"
             name="description"
             as="textarea"
+            placeholder="images are optional, desription is NOT"
             style={{
               minHeight: "10rem",
               maxHeight: "10rem",
@@ -160,11 +158,9 @@ function PostForm() {
             }}
           />
 
-          {/* <Field type="text" id="images" name="images" /> */}
           <Button type="submit" className="m-5">
             POST
           </Button>
-          {/* <button className="mt-3 h5 bg-light rounded">post</button> */}
           <div>
             <pre>{JSON.stringify(values, null, 2)}</pre>
           </div>

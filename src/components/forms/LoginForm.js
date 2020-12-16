@@ -21,8 +21,6 @@ function LoginForm(props) {
 
   return (
     <div>
-      {/* <h3>{JSON.stringify(state)}</h3> */}
-
       <pre>{JSON.stringify(state, null, 2)}</pre>
 
       <Formik

@@ -9,6 +9,7 @@ import store from "./redux/store";
 import { hydrateAuth } from "./redux/auth/AuthActions";
 import AuthRequired from "./components/RouteAuthRequired";
 import LogoutRequired from "./components/RouteLogoutRequired";
+import InfScrollText from "./components/PostComponent/InfScrollText";
 
 function App() {
   return (
@@ -25,7 +26,7 @@ const Main = withRouter((props) => {
   const refreshToken = useSelector((state) => state.auth.refreshToken);
 
   return (
-    <Container fluid>
+    <Container className="fluid">
       {refreshToken ? (
         <Route component={AuthRequired} />
       ) : (

@@ -15,7 +15,7 @@ const BaseUrlAxios = (accessToken = "", isMuliPart = false) => {
   // instance.
   instance.interceptors.request.use(function (config) {
     // const token = accessToken
-    console.log(accessToken);
+    // console.log(accessToken);
     config.headers.Authorization = `Bearer ${accessToken}`;
     return config;
   });
