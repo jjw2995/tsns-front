@@ -11,7 +11,7 @@ function Posts({ posts = [], fetchMore }) {
         return (
           <div key={r._id}>
             <Post post={r} />
-            {i === posts.length - 1 && <h1>loading...</h1> && (
+            {i === posts.length - 1 && (
               <Waypoint
                 onEnter={() => {
                   // fetch more

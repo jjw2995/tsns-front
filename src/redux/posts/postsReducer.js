@@ -1,7 +1,7 @@
 import {
   SET_POST,
   APPEND_POSTS_TO_END,
-  APPEND_POST_TO_FRONT,
+  APPEND_POSTS_TO_FRONT,
   CLEAR_POST,
   SET_REQ,
 } from "./postsTypes";
@@ -14,25 +14,17 @@ const postsReducer = (state = initialState, { type, payload }) => {
   // const { oldPosts, oldIsLoading } = state;
   switch (type) {
     case SET_POST:
+      console.log("SET_POST in postsReducer: ", payload);
       return { ...state, ...payload };
 
     case APPEND_POSTS_TO_END:
-      // console.log("여기");
-      // console.log(payload);
-      let a = { ...state, posts: [...state.posts, ...payload.posts] };
-      console.log(a);
-      return a;
-    case APPEND_POST_TO_FRONT:
+      return { ...state, posts: [...state.posts, ...payload.posts] };
+
+    case APPEND_POSTS_TO_FRONT:
       return { ...state, posts: [...payload.posts, ...state.posts] };
 
     case SET_REQ:
       return { ...state, ...payload };
-
-    // case APPEND_POSTS_END:
-    //   // console.log([...state, ...payload]);
-    //   return {,posts:[...state, ...payload]};
-    // case SET_:
-    //   return{...state, isLoading:}
 
     case CLEAR_POST:
       return {};

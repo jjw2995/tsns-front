@@ -108,24 +108,42 @@ function PostForm({ closeForm }) {
             )}
           </Dropzone>
           {values.images.length > 0 ? (
-            <div className="d-flex">
+            <div className="d-flex mb-3">
               {values.images.map((image, idx) => {
                 return (
                   <div
+                    style={{
+                      width: "8rem",
+                      height: "8rem",
+                      position: "relative",
+                    }}
                     // style={{ display: "-webkit-flex column" }}
                     key={idx}
                     onClick={() => {}}
                   >
+                    {/* <div></div> */}
                     <img
                       alt="not available"
                       src={image.preview}
                       id={idx}
-                      className="img-thumbnail m-2"
-                      style={{ width: "8rem", height: "8rem" }}
+                      className="img-thumbnail"
+                      style={{
+                        width: "8rem",
+                        height: "8rem",
+                        // position: "relative",
+                      }}
                     />
 
-                    <button
-                      className="d-flex fixed-botton mb-2"
+                    <Button
+                      size="sm"
+                      variant="dark"
+                      // style={{ zIndex: "1",  }}
+                      style={{
+                        position: "absolute",
+                        right: "0",
+                        top: "0",
+                        zIndex: "1",
+                      }}
                       type="button"
                       id={idx}
                       // key={idx}
@@ -136,8 +154,8 @@ function PostForm({ closeForm }) {
                         setFieldValue("images", copy);
                       }}
                     >
-                      (x)
-                    </button>
+                      x
+                    </Button>
                   </div>
                 );
               })}
@@ -156,6 +174,7 @@ function PostForm({ closeForm }) {
               minHeight: "10rem",
               maxHeight: "10rem",
               fontSize: "1.4rem",
+              marginTop: "auto",
             }}
           />
 

@@ -2,7 +2,7 @@ import Axios from "axios";
 import BaseUrlAxios from "../AuthedAxios";
 import {
   APPEND_POSTS_TO_END,
-  APPEND_POST_TO_FRONT,
+  APPEND_POSTS_TO_FRONT,
   SET_POST,
   SET_REQ,
   CLEAR_POST,
@@ -17,12 +17,10 @@ const genPayload = (newPosts = [], newIsLoading = null) => {
   let rv = {};
   if (newPosts) rv.posts = newPosts;
   if (newIsLoading !== null) rv.isLoading = newIsLoading;
-  console.log(rv);
   return rv;
 };
 
 export const appendPostsEnd = (posts) => {
-  console.log(posts);
   return {
     type: APPEND_POSTS_TO_END,
     payload: genPayload(posts),
@@ -31,7 +29,7 @@ export const appendPostsEnd = (posts) => {
 
 export const appendPostFront = (post) => {
   return {
-    type: APPEND_POST_TO_FRONT,
+    type: APPEND_POSTS_TO_FRONT,
     payload: genPayload([post]),
   };
 };
@@ -110,39 +108,37 @@ export const getPostEndpoints = (userID = "") => {
 // GET/api/posts/explore
 // GET/api/posts/user/{userID}
 
-const mutexWrapper = (dispatch, getState, cb) => {
-  const old = getState().post;
-  if (old.isLoading) {
-    return;
-  }
-  dispatch(setReq(true));
-  cb();
-  // dispatch(setPosts([...old.posts, posts]));
-
-  dispatch(setReq(false));
+export const getPost = (path, lastCreated = null) => (dispatch, getState) => {
+  BaseUrlAxios(getState().auth.accessToken)
+    .get(path, {
+      params: { "last-created-at": lastCreated },
+      createdAt: lastCreated,
+    })
+    .then((r) => {
+      if (r.data.length > 0) {
+        console.log("NEW DATA\n", r.data);
+        dispatch(appendPostsEnd(r.data));
+      }
+    })
+    .catch((e) => {
+      console.log(e);
+      console.log(e.message);
+    });
 };
 
-export const getPost = (path, lastCreated = null) => (dispatch, getState) => {
-  mutexWrapper(dispatch, getState, () =>
-    BaseUrlAxios(getState().auth.accessToken)
-      .get(path, {
-        params: { "last-created-at": lastCreated },
-        createdAt: lastCreated,
-      })
-      .then((r) => {
-        if (r.data.length > 0) {
-          console.log("NEW DATA\n", r.data);
-          // dispatch;
-          // dispatch(setPosts([...getState().post.posts]));
-          dispatch(appendPostsEnd(r.data));
-        }
-      })
-      .catch((e) => {
-        console.log(e);
-        console.log(e.message);
-        // console.log(e.data);
-      })
-  );
+export const deletePost = (postID) => (dispatch, getState) => {
+  BaseUrlAxios(getState().auth.accessToken)
+    .delete(`${getPostEndpoints().HOME}${postID}`)
+    .then((r) => {
+      console.log(r);
+      let updatedPosts = getState().post.posts;
+      updatedPosts.forEach((val, idx) => {
+        console.log(val);
+        if (val._id === postID) updatedPosts.splice(idx, 1);
+      });
+
+      dispatch(setPosts(updatedPosts));
+    });
 };
 
 // Axios.post("/posts", postBody, {

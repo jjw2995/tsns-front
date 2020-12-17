@@ -10,6 +10,7 @@ import { hydrateAuth } from "./redux/auth/AuthActions";
 import AuthRequired from "./components/RouteAuthRequired";
 import LogoutRequired from "./components/RouteLogoutRequired";
 import InfScrollText from "./components/PostComponent/InfScrollText";
+import NavigationBar from "./components/NavigationBar";
 
 function App() {
   return (
@@ -26,7 +27,7 @@ const Main = withRouter((props) => {
   const refreshToken = useSelector((state) => state.auth.refreshToken);
 
   return (
-    <Container className="fluid">
+    <Container className="fluid" style={{ marginBottom: "100px" }}>
       {refreshToken ? (
         <Route component={AuthRequired} />
       ) : (

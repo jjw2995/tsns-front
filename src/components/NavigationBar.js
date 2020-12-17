@@ -15,8 +15,8 @@ function NavigationBar(props) {
     <Navbar
       expand="lg"
       bg="white"
-      fixed="top"
-      className="row"
+      sticky="top"
+      className="row mb-2"
       expanded={true}
       onClick={() => {
         console.log(path);

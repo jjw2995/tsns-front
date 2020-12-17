@@ -15,9 +15,9 @@ function AuthRequired(props) {
   }, []);
   return (
     <div>
-      <div style={{ paddingBottom: "8rem" }} className="navbar-static-top">
-        <NavigationBar {...props} />
-      </div>
+      <NavigationBar {...props} />
+      {/* <div style={{ paddingBottom: "8rem" }} className="navbar-static-top">
+      </div> */}
       {/* <div style={{ marginTop: "6rem" }}> */}
       <Switch>
         <Route exact path="/home" component={Home} />

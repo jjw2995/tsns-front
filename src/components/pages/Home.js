@@ -12,22 +12,12 @@ Modal.setAppElement("#root");
 function Home(props) {
   // TODO: fix after postForm
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [itemCount, setItemCount] = useState(0);
-  // modalIsOpen = true;
-  const posts = useSelector((state) => state.post.posts);
+  const posts = useSelector(
+    (state) => state.post.posts,
+    () => {}
+  );
+  console.log("posts from Home: ", posts);
 
-  // useEffect((prev) => {
-  //   console.log(posts.length);
-  //   setItemCount((pre) => {
-  //     return posts.length;
-  //   });
-  // }, []);
-
-  // console.log(posts);
-  console.log("itemCount: ", itemCount);
-  console.log("posts.length: ", posts.length);
-
-  // useEffect
   const closeModal = () => {
     setModalIsOpen(false);
   };
@@ -39,8 +29,6 @@ function Home(props) {
 
   const fetchMore = () => {
     console.log("here");
-    // console.log(posts[posts.length - 1].createdAt);
-    setItemCount(posts.length);
     dispatch(
       getPost(getPostEndpoints().HOME, posts[posts.length - 1].createdAt)
     );
@@ -49,7 +37,9 @@ function Home(props) {
     <div>
       <Modal
         style={{
-          overlay: {},
+          overlay: {
+            zIndex: "1000",
+          },
           content: {
             top: "13%",
             bottom: "13%",
@@ -64,7 +54,6 @@ function Home(props) {
         <div className="d-flex justify-content-end">
           <Button
             size="lg"
-            // className=""
             onClick={() => {
               setModalIsOpen(false);
             }}
@@ -86,10 +75,11 @@ function Home(props) {
           }}
           variant="secondary"
           size="lg"
-          className="m-5"
+          className="mb-5 mr-5"
+          style={{ left: "100px", top: "150px" }}
         >
           <h4>
-            upload a <b>Post</b>
+            new <b>Post</b>
           </h4>
         </Button>
       </div>
