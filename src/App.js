@@ -9,8 +9,6 @@ import store from "./redux/store";
 import { hydrateAuth } from "./redux/auth/AuthActions";
 import AuthRequired from "./components/RouteAuthRequired";
 import LogoutRequired from "./components/RouteLogoutRequired";
-import InfScrollText from "./components/PostComponent/InfScrollText";
-import NavigationBar from "./components/NavigationBar";
 
 function App() {
   return (

@@ -4,10 +4,21 @@ import "./css/index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
-// {/* <React.StrictMode> */}
+// ReactDOM.render(
+//   <body>
+//     <div id="root"></div>
+//     <div id="modal"></div>
+//     <App />
+//   </body>,
+// );
 
-// {/* </React.StrictMode>, */}
-ReactDOM.render(<App />, document.getElementById("root"));
+//   <React.StrictMode>
+//   </React.StrictMode>,
+ReactDOM.render(
+  <App />,
+
+  document.getElementById("root")
+);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

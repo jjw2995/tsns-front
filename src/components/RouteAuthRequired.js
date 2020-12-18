@@ -12,7 +12,7 @@ function AuthRequired(props) {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(keepTokensFresh());
-  }, []);
+  });
   return (
     <div>
       <NavigationBar {...props} />

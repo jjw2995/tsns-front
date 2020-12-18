@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 const BaseUrlAxios = (accessToken = "", isMuliPart = false) => {
   const defaultOptions = {

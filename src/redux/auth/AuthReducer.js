@@ -1,6 +1,6 @@
 import { SET_AUTH, HYDRATE_AUTH, CLEAR_AUTH } from "./AuthTypes";
 
-const authReducer = (state = {}, { type, payload }) => {
+export const authReducer = (state = {}, { type, payload }) => {
   switch (type) {
     // called when [just logged in, refreshing tokens]
     case SET_AUTH:
@@ -37,7 +37,7 @@ const authReducer = (state = {}, { type, payload }) => {
 //   }
 // };
 
-export default authReducer;
+// export default authReducer;
 
 // import React, { useState } from "react";
 // import { Route } from "react-router-dom";

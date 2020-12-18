@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Button, Carousel } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { deletePost } from "../../redux/posts/postsActions";
+import CommentSection from "../commentComponent/CommentSection";
 // import { useEffect } from "react";
 // {
 //     "reactions": {
@@ -26,11 +27,13 @@ import { deletePost } from "../../redux/posts/postsActions";
 //   { name: "SAD", value: 3 },
 //   { name: "ANGRY", value: 4 },
 // ];
+
 function Post({ post }) {
   const [expandText, setExpandText] = useState(false);
 
   const user = useSelector((state) => state.auth.user);
   // const user = useSelector((state) => state.auth.user);
+
   const dispatch = useDispatch();
 
   const onDeleteHandler = (e) => {
@@ -67,7 +70,7 @@ function Post({ post }) {
               </h6>
             </div>
             {user._id === postOwner._id && (
-              <div style={{ marginLeft: "auto", zIndex: "1000" }}>
+              <div style={{ marginLeft: "auto" }}>
                 <Button
                   type="button"
                   onClick={() => {
@@ -82,29 +85,39 @@ function Post({ post }) {
               </div>
             )}
           </div>
-          {media.length === 1 ? (
-            <img
-              src={media[0]}
-              // id={postID + toString(index)}
-              className="card-img"
-              alt="not available"
+
+          {media.length === 0 ? (
+            <hr
+              className="dashed"
+              style={{
+                margin: "0px",
+                height: "1px",
+                // backgroundColor: "black",
+                borderTop: "1px dashed grey",
+              }}
             />
           ) : (
-            <Carousel interval={null} wrap={false}>
-              {media.map((r, index) => {
-                // console.log(postID + index);
-                return (
-                  <Carousel.Item key={postID + index}>
-                    <img
-                      src={r}
-                      // id={postID + toString(index)}
-                      className="card-img"
-                      alt="not available"
-                    />
-                  </Carousel.Item>
-                );
-              })}
-            </Carousel>
+            <div>
+              {media.length === 1 ? (
+                <img src={media[0]} className="card-img" alt="not available" />
+              ) : (
+                <Carousel interval={null} wrap={false}>
+                  {media.map((r, index) => {
+                    // console.log(postID + index);
+                    return (
+                      <Carousel.Item key={postID + index}>
+                        <img
+                          src={r}
+                          // id={postID + toString(index)}
+                          className="card-img"
+                          alt="not available"
+                        />
+                      </Carousel.Item>
+                    );
+                  })}
+                </Carousel>
+              )}
+            </div>
           )}
           <div>
             <p
@@ -121,6 +134,9 @@ function Post({ post }) {
               {description}
             </p>
           </div>
+        </div>
+        <div className="m-2">
+          <CommentSection postID={post._id} />
         </div>
       </div>
     </div>

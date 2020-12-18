@@ -1,8 +1,8 @@
 import Axios from "axios";
 import BaseUrlAxios from "../AuthedAxios";
 import {
-  APPEND_POSTS_TO_END,
-  APPEND_POSTS_TO_FRONT,
+  ADD_POSTS_TO_END,
+  ADD_POSTS_TO_FRONT,
   SET_POST,
   SET_REQ,
   CLEAR_POST,
@@ -22,14 +22,14 @@ const genPayload = (newPosts = [], newIsLoading = null) => {
 
 export const appendPostsEnd = (posts) => {
   return {
-    type: APPEND_POSTS_TO_END,
+    type: ADD_POSTS_TO_END,
     payload: genPayload(posts),
   };
 };
 
 export const appendPostFront = (post) => {
   return {
-    type: APPEND_POSTS_TO_FRONT,
+    type: ADD_POSTS_TO_FRONT,
     payload: genPayload([post]),
   };
 };

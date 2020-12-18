@@ -1,38 +1,20 @@
 import { Button } from "react-bootstrap";
-import React, { useState, useEffect } from "react";
-// import Posts from "../PostComponent/Posts";
+import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import PostForm from "../forms/PostForm";
+import Posts, { endpoints } from "../PostComponent/Posts";
 
-import { useDispatch, useSelector } from "react-redux";
-import { getPost, getPostEndpoints } from "../../redux/posts/postsActions";
-import Posts from "../PostComponent/Posts";
 Modal.setAppElement("#root");
 
 function Home(props) {
   // TODO: fix after postForm
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const posts = useSelector(
-    (state) => state.post.posts,
-    () => {}
-  );
-  console.log("posts from Home: ", posts);
 
   const closeModal = () => {
     setModalIsOpen(false);
   };
+  useEffect(() => {}, [modalIsOpen]);
 
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getPost(getPostEndpoints().HOME));
-  }, []);
-
-  const fetchMore = () => {
-    console.log("here");
-    dispatch(
-      getPost(getPostEndpoints().HOME, posts[posts.length - 1].createdAt)
-    );
-  };
   return (
     <div>
       <Modal
@@ -66,7 +48,7 @@ function Home(props) {
         </div>
       </Modal>
 
-      <Posts posts={posts} fetchMore={fetchMore} />
+      <Posts endPoint={endpoints().HOME} />
 
       <div className="d-flex justify-content-end fixed-bottom">
         <Button

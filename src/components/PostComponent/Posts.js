@@ -1,10 +1,29 @@
-import React from "react";
-import InfiniteScroll from "react-infinite-scroll-component";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Waypoint } from "react-waypoint";
-import InfScrollText from "./InfScrollText";
+import { getPost, getPostEndpoints } from "../../redux/posts/postsActions";
 import Post from "./Post";
 
-function Posts({ posts = [], fetchMore }) {
+export const endpoints = (userID = null) => {
+  return getPostEndpoints(userID);
+};
+
+function Posts({ endPoint }) {
+  const posts = useSelector(
+    (state) => state.post.posts,
+    () => {}
+  );
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getPost(endPoint));
+  }, []);
+
+  const fetchMore = () => {
+    dispatch(getPost(endPoint, posts[posts.length - 1].createdAt));
+  };
+
   return (
     <div>
       {posts.map((r, i) => {

@@ -4,12 +4,13 @@ import { Button } from "react-bootstrap";
 import Dropzone from "react-dropzone";
 import { useDispatch } from "react-redux";
 import { postPost } from "../../redux/posts/postsActions";
-import { keepTokensFresh } from "../../redux/auth/AuthActions";
+// import { keepTokensFresh } from "../../redux/auth/AuthActions";
 
 const MAX_NUM_IMAGES = 4;
 
 function PostForm({ closeForm }) {
   const dispatch = useDispatch();
+
   return (
     <Formik
       initialValues={{
@@ -26,7 +27,7 @@ function PostForm({ closeForm }) {
         values.images.forEach((r, i) => {
           formData.set(`${i}`, r);
         });
-        dispatch(keepTokensFresh());
+        // dispatch(keepTokensFresh());
         dispatch(postPost(formData));
         closeForm();
       }}
