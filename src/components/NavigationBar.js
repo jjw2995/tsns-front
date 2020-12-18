@@ -4,7 +4,6 @@ import { useDispatch } from "react-redux";
 import { clearAuth } from "../redux/auth/AuthActions";
 function NavigationBar(props) {
   const path = props.location.pathname;
-  console.log(props.history);
   const dispatch = useDispatch();
 
   // const onClickHandler = (path) => {
@@ -18,9 +17,6 @@ function NavigationBar(props) {
       sticky="top"
       className="row mb-2"
       expanded={true}
-      onClick={() => {
-        console.log(path);
-      }}
     >
       <h1 className="col d-flex justify-content-end">tSNS</h1>
       <Col xs={6}>

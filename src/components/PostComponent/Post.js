@@ -66,7 +66,7 @@ function Post({ post }) {
             <div className="column">
               <h4 className="card-title">{postOwner.nickname}</h4>
               <h6 className="card-subtitle mb-2 text-muted">
-                created <b>{date}</b>, <b>{level}</b>
+                <b>{level}</b>, created <b>{date}</b>
               </h6>
             </div>
             {user._id === postOwner._id && (

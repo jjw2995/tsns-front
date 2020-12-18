@@ -1,5 +1,6 @@
 import Axios from "axios";
 import BaseUrlAxios from "../AuthedAxios";
+import { filterExistingContents } from "../utils";
 import {
   ADD_POSTS_TO_END,
   ADD_POSTS_TO_FRONT,
@@ -47,13 +48,6 @@ export const setReq = (isLoading) => {
     payload: { isLoading: isLoading },
   };
 };
-
-// export const hydratePost = () => {
-//   return {
-//     type: HYDRATE_POST,
-//     payload: {},
-//   };
-// };
 
 export const clearPost = () => {
   return {
@@ -109,6 +103,7 @@ export const getPostEndpoints = (userID = "") => {
 // GET/api/posts/user/{userID}
 
 export const getPost = (path, lastCreated = null) => (dispatch, getState) => {
+  let a;
   BaseUrlAxios(getState().auth.accessToken)
     .get(path, {
       params: { "last-created-at": lastCreated },
@@ -116,8 +111,12 @@ export const getPost = (path, lastCreated = null) => (dispatch, getState) => {
     })
     .then((r) => {
       if (r.data.length > 0) {
-        console.log("NEW DATA\n", r.data);
-        dispatch(appendPostsEnd(r.data));
+        // filter duplicate
+        // console.log("NEW DATA\n", r.data);
+
+        dispatch(
+          appendPostsEnd(filterExistingContents(getState().post.posts, r.data))
+        );
       }
     })
     .catch((e) => {
@@ -130,10 +129,8 @@ export const deletePost = (postID) => (dispatch, getState) => {
   BaseUrlAxios(getState().auth.accessToken)
     .delete(`${getPostEndpoints().HOME}${postID}`)
     .then((r) => {
-      console.log(r);
-      let updatedPosts = getState().post.posts;
+      let updatedPosts = [...getState().post.posts];
       updatedPosts.forEach((val, idx) => {
-        console.log(val);
         if (val._id === postID) updatedPosts.splice(idx, 1);
       });
 

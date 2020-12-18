@@ -9,10 +9,7 @@ export const endpoints = (userID = null) => {
 };
 
 function Posts({ endPoint }) {
-  const posts = useSelector(
-    (state) => state.post.posts,
-    () => {}
-  );
+  const posts = useSelector((state) => state.post.posts);
 
   const dispatch = useDispatch();
 

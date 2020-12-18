@@ -18,37 +18,41 @@ function CommentForm({ postID, parentCommentID = null }, ...rest) {
       }}
     >
       {({}) => (
-        <div className="container d-flex flex-row">
-          <Form className="col p-0 m-0">
-            <Field
-              type="text"
-              id="content"
-              name="content"
-              as="textarea"
-              // className="flex-row"
-              placeholder="comment..."
-              style={{
-                // height: "2rem",
-                // minHeight: "1.1rem",
-                // maxHeight: "1.1rem",
-                overflow: "hidden",
-                padding: "0",
-                margin: "0",
-                // fontSize: "1rem",
-                // marginTop: "auto",
-              }}
-            />
-            <Button
-              variant="outline-dark"
-              size="sm"
-              className="p-0 m-0"
-              type="submit"
-              onClick={() => {
-                // console.log("asd");
-              }}
+        <div className="d-flex flex-row">
+          <Form className="col p-0 m-0 d-flex flex-row">
+            <div
+              className="col p-0 m-0 d-flex flex-row justify-content-end"
+              // style={{ alignItems: "stretch" }}
             >
-              post
-            </Button>
+              <Field
+                type="text"
+                id="content"
+                name="content"
+                as="textarea"
+                rows="1"
+                className="card"
+                placeholder="comment..."
+                // className="p-0 m-0 align-items-stretch"
+                style={{
+                  overflow: "hidden",
+                  width: "80%",
+
+                  minHeight: "2rem",
+                  maxHeight: "2rem",
+                }}
+              />
+              <Button
+                variant="outline-dark"
+                size="sm"
+                // className="p-0 m-0 align-items-stretch"
+                type="submit"
+                onClick={() => {
+                  // console.log("asd");
+                }}
+              >
+                post
+              </Button>
+            </div>
           </Form>
         </div>
       )}

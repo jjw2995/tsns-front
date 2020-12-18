@@ -15,7 +15,7 @@ export const postsReducer = (state = initialState, { type, payload }) => {
   // console.log("postsReducer: ", payload);
   switch (type) {
     case SET_POST:
-      console.log("SET_POST in postsReducer: ", payload);
+      // console.log("SET_POST in postsReducer: ", payload);
       return { ...state, ...payload };
 
     case ADD_POSTS_TO_END:

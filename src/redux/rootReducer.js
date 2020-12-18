@@ -7,7 +7,8 @@ import { postsReducer } from "./posts/postsReducer";
 const rootReducer = combineReducers({
   auth: authReducer,
   post: postsReducer,
-  comment: commentsReducer,
+  comments: commentsReducer,
+  // comment: commentsReducer,
 });
 
 export default rootReducer;
