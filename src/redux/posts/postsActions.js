@@ -103,13 +103,14 @@ export const getPostEndpoints = (userID = "") => {
 // GET/api/posts/user/{userID}
 
 export const getPost = (path, lastCreated = null) => (dispatch, getState) => {
-  let a;
+  console.log(" @ getPost: ");
   BaseUrlAxios(getState().auth.accessToken)
     .get(path, {
       params: { "last-created-at": lastCreated },
       createdAt: lastCreated,
     })
     .then((r) => {
+      console.log(r.data);
       if (r.data.length > 0) {
         // filter duplicate
         // console.log("NEW DATA\n", r.data);
@@ -121,7 +122,7 @@ export const getPost = (path, lastCreated = null) => (dispatch, getState) => {
     })
     .catch((e) => {
       console.log(e);
-      console.log(e.message);
+      console.log(e.response);
     });
 };
 

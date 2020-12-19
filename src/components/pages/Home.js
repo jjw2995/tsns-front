@@ -13,7 +13,7 @@ function Home(props) {
   const closeModal = () => {
     setModalIsOpen(false);
   };
-  useEffect(() => {}, [modalIsOpen]);
+  // useEffect(() => {}, [modalIsOpen]);
 
   return (
     <div>
