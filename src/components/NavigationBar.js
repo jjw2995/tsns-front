@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { Col, Nav, Navbar, Row, Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { clearAuth } from "../redux/auth/AuthActions";
+import BaseUrlAxios from "../redux/AuthedAxios";
+
 function NavigationBar(props) {
   const path = props.location.pathname;
   const dispatch = useDispatch();
@@ -10,6 +12,9 @@ function NavigationBar(props) {
   //   props.history.push(path);
   // };
 
+  const [search, setSearch] = useState(null);
+  const [results, setResults] = useState([]);
+
   return (
     <Navbar
       expand="lg"
@@ -17,8 +22,10 @@ function NavigationBar(props) {
       sticky="top"
       className="row mb-2"
       expanded={true}
+      style={{ width: "100%" }}
     >
       <h1 className="col d-flex justify-content-end">tSNS</h1>
+
       <Col xs={6}>
         <Row className="justify-content-center">
           <Nav className="d-flex justify-content-center">
@@ -56,16 +63,34 @@ function NavigationBar(props) {
             </Nav.Link>
           </Nav>
         </Row>
-        {path === "/explore" && (
+
+        {/* {path === "/explore" && (
           <Row className="justify-content-center">
             <input
               className="rounded mx-1"
               type="text"
               placeholder="search user..."
+              onChange={(e) => {
+                let v = e.currentTarget.value;
+                if (v && v.length > 1 && v.length % 2 == 0) {
+                  // call api
+                  BaseUrlAxios()
+                    .post()
+                    .then((r) => {
+                      console.log(r.data);
+                      setResults(r.data);
+                    })
+                    .catch((e) => {
+                      console.log(e.response);
+                    });
+                }
+              }}
             />
-            <Button type="button">Q</Button>
+            <Button type="button" onClick={() => {}}>
+              Q
+            </Button>
           </Row>
-        )}
+        )} */}
       </Col>
 
       <div className="col">

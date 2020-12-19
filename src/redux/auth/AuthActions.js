@@ -46,51 +46,6 @@ export const login = (data) => (dispatch) => {
     });
 };
 
-// // TODO: something wrong with refreshing the tokens
-// export const keepTokensFresh = () => (dispatch, getState) => {
-//   const tNow = Date.now() / 1000;
-//   const refTok = getState().auth.refreshToken;
-//   const accExpAt = jwtDecode(getState().auth.accessToken).exp;
-//   const refExpAt = jwtDecode(refTok).exp;
-//   // console.log();
-//   // console.log(
-//   //   "AccTok exp",
-//   //   new Date(jwtDecode(getState().auth.accessToken).exp)
-//   // );
-//   // console.log("date get millisec : ", tNow);
-//   // console.log(jwtDecode(getState().auth.accessToken).exp < tNow);
-//   // console.log("\ntNow: ", tNow);
-//   // console.log("\naccExpAt: ", accExpAt);
-//   // console.log("\nrefExpAt: ", refExpAt);
-
-//   const didAccTokExp = accExpAt < tNow;
-//   const didRefTokExp = refExpAt < tNow;
-//   // console.log(refTok);
-//   console.log("\ndidAccTokExp? = ", didAccTokExp);
-//   console.log("\ndidRefTokExp? = ", didRefTokExp);
-//   console.log("keep tokens fresh");
-//   if (didRefTokExp) {
-//     _alertAuthClear(dispatch);
-//     return;
-//   }
-//   if (didAccTokExp) {
-//     await BaseUrlAxios()
-//       .post("/auth/token", { refreshToken: refTok })
-//       .then((r) => {
-//         console.log(".then of /auth/token - in keepTokensFresh");
-//         console.log(r.data);
-//         dispatch(setAuth(r.data));
-//       })
-//       .catch((e) => {
-//         console.log(e.data);
-//         console.log(".catch of /auth/token - in keepTokensFresh");
-
-//         console.log(e.data);
-//         _alertAuthClear(dispatch);
-//       });
-//   }
-// };
-
 // TODO: something wrong with refreshing the tokens
 export const keepTokensFresh = () => async (dispatch, getState) => {
   const tNow = Date.now() / 1000;

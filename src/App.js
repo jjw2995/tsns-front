@@ -1,7 +1,6 @@
 import "./css/App.css";
-import React from "react";
+import React, { useEffect } from "react";
 
-import { Container } from "react-bootstrap";
 import { BrowserRouter as Router, Route, withRouter } from "react-router-dom";
 
 import { Provider, useSelector } from "react-redux";
@@ -23,15 +22,19 @@ function App() {
 const Main = withRouter((props) => {
   store.dispatch(hydrateAuth());
   const refreshToken = useSelector((state) => state.auth.refreshToken);
+  useEffect(() => {
+    console.log("rerendering Main");
+  });
 
   return (
-    <Container className="fluid" style={{ marginBottom: "100px" }}>
+    // <Container className="fluid" style={{ marginBottom: "100px" }}>
+    <React.Fragment>
       {refreshToken ? (
         <Route component={AuthRequired} />
       ) : (
         <Route component={LogoutRequired} />
       )}
-    </Container>
+    </React.Fragment>
   );
 });
 

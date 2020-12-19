@@ -49,8 +49,12 @@ function Home(props) {
       </Modal>
 
       <Posts endPoint={endpoints().HOME} />
-
-      <div className="d-flex justify-content-end fixed-bottom">
+      {/* <div></div> */}
+      <div
+        className="d-flex justify-content-end fixed-bottom"
+        style={{ pointerEvents: "none" }}
+      >
+        <div></div>
         <Button
           onClick={() => {
             setModalIsOpen(true);
@@ -58,7 +62,7 @@ function Home(props) {
           variant="secondary"
           size="lg"
           className="mb-5 mr-5"
-          style={{ left: "100px", top: "150px" }}
+          style={{ left: "100px", top: "150px", pointerEvents: "initial" }}
         >
           <h4>
             new <b>Post</b>

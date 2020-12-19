@@ -76,8 +76,7 @@ export const clearPost = () => {
 
 export const postPost = (postFormData) => (dispatch, getState) => {
   console.log(postFormData);
-  // console.log(getState().auth.accessToken);
-  BaseUrlAxios(getState().auth.accessToken, true)
+  BaseUrlAxios(true)
     .post("/posts", postFormData)
     .then((r) => {
       dispatch(appendPostFront(r.data));
@@ -104,7 +103,7 @@ export const getPostEndpoints = (userID = "") => {
 
 export const getPost = (path, lastCreated = null) => (dispatch, getState) => {
   console.log(" @ getPost: ");
-  BaseUrlAxios(getState().auth.accessToken)
+  BaseUrlAxios()
     .get(path, {
       params: { "last-created-at": lastCreated },
       createdAt: lastCreated,
@@ -127,7 +126,7 @@ export const getPost = (path, lastCreated = null) => (dispatch, getState) => {
 };
 
 export const deletePost = (postID) => (dispatch, getState) => {
-  BaseUrlAxios(getState().auth.accessToken)
+  BaseUrlAxios()
     .delete(`${getPostEndpoints().HOME}${postID}`)
     .then((r) => {
       let updatedPosts = [...getState().post.posts];
@@ -138,14 +137,3 @@ export const deletePost = (postID) => (dispatch, getState) => {
       dispatch(setPosts(updatedPosts));
     });
 };
-
-// Axios.post("/posts", postBody, {
-//   headers: { Authorization: `Bearer ${getState().auth.accessToken}` },
-// })
-//   .then((r) => {
-//     console.log(r);
-//   })
-//   .catch((e) => {
-//     console.log(e);
-//     console.log(e.data);
-//   });

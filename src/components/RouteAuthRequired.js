@@ -14,11 +14,8 @@ function AuthRequired(props) {
     dispatch(keepTokensFresh());
   });
   return (
-    <div>
+    <React.Fragment>
       <NavigationBar {...props} />
-      {/* <div style={{ paddingBottom: "8rem" }} className="navbar-static-top">
-      </div> */}
-      {/* <div style={{ marginTop: "6rem" }}> */}
       <Switch>
         <Route exact path="/home" component={Home} />
         <Route exact path="/explore" component={Explore} />
@@ -26,8 +23,7 @@ function AuthRequired(props) {
         <Route exact path="/about" component={About} />
         <Route path="/" component={Home} />
       </Switch>
-      {/* </div> */}
-    </div>
+    </React.Fragment>
   );
 }
 
