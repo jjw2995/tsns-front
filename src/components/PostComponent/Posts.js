@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Waypoint } from "react-waypoint";
-import { getPost, getPostEndpoints } from "../../redux/posts/postsActions";
+import {
+  clearPost,
+  getPost,
+  getPostEndpoints,
+} from "../../redux/posts/postsActions";
 import Post from "./Post";
 
 export const endpoints = (userID = null) => {
@@ -15,6 +19,7 @@ function Posts({ endPoint }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(clearPost());
     dispatch(getPost(endPoint));
     setTimeout(() => {
       setRenderMKP(true);
@@ -25,28 +30,22 @@ function Posts({ endPoint }) {
     dispatch(getPost(endPoint, posts[posts.length - 1].createdAt));
   };
 
-  const isHomeOrMine = () => {
-    return endPoint === endpoints().HOME || endPoint === endpoints().MINE;
-  };
-
   return (
     <div>
       {posts.length > 0
         ? posts.map((r, i) => {
             return (
-              <div>
-                <div key={r._id}>
-                  {i === posts.length - 1 && (
-                    <Waypoint
-                      onEnter={() => {
-                        // fetch more
-                        fetchMore();
-                        // console.log(i);
-                      }}
-                    />
-                  )}
-                  <Post post={r} />
-                </div>
+              <div key={r._id}>
+                {i === posts.length - 1 && (
+                  <Waypoint
+                    onEnter={() => {
+                      // fetch more
+                      fetchMore();
+                      // console.log(i);
+                    }}
+                  />
+                )}
+                <Post post={r} />
               </div>
             );
           })

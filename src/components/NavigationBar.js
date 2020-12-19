@@ -6,14 +6,16 @@ import BaseUrlAxios from "../redux/AuthedAxios";
 
 function NavigationBar(props) {
   const path = props.location.pathname;
+  // console.log(path);
   const dispatch = useDispatch();
+  // console.log(path.split("/")[1]);
 
   // const onClickHandler = (path) => {
   //   props.history.push(path);
   // };
 
-  const [search, setSearch] = useState(null);
-  const [results, setResults] = useState([]);
+  // const [search, setSearch] = useState(null);
+  // const [results, setResults] = useState([]);
 
   return (
     <Navbar

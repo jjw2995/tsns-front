@@ -28,7 +28,7 @@ export const postsReducer = (state = initialState, { type, payload }) => {
       return { ...state, ...payload };
 
     case CLEAR_POST:
-      return {};
+      return { ...initialState };
 
     default:
       return state;
