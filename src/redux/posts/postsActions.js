@@ -1,5 +1,4 @@
-import Axios from "axios";
-import BaseUrlAxios from "../AuthedAxios";
+import BaseUrlAxios from "../../rest/AuthedAxios";
 import { filterExistingContents } from "../utils";
 import {
   ADD_POSTS_TO_END,

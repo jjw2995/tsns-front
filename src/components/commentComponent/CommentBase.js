@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteComment } from "../../redux/comments/commentsActions";
-import CommentForm from "../forms/CommentForm";
 
 function CommentBase({ comment }) {
   const [expandText, setExpandText] = useState(false);
@@ -42,7 +41,6 @@ function CommentBase({ comment }) {
         </div>
         {/*  */}
         <div
-          style={{ columnWidth: "80%" }}
           onClick={() => {
             setExpandText(!expandText);
           }}
@@ -51,7 +49,12 @@ function CommentBase({ comment }) {
               ? "card-text show-white-space col"
               : "hidden-text card-text show-white-space col"
           }
-          style={{ lineHeight: "normal", fontSize: "0.8em", margin: "2px" }}
+          style={{
+            columnWidth: "80%",
+            lineHeight: "normal",
+            fontSize: "0.8em",
+            margin: "2px",
+          }}
         >
           <div>{comment.content}</div>
         </div>

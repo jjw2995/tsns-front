@@ -20,9 +20,10 @@ function App() {
 }
 
 const Main = withRouter((props) => {
-  store.dispatch(hydrateAuth());
+  // TODO: Error: cannot update state while rendering other comp, fix
   const refreshToken = useSelector((state) => state.auth.refreshToken);
   useEffect(() => {
+    store.dispatch(hydrateAuth());
     console.log("rerendering Main");
   });
 

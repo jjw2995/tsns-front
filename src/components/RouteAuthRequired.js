@@ -11,6 +11,7 @@ import User from "./pages/User";
 
 function AuthRequired(props) {
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(keepTokensFresh());
   });
@@ -20,7 +21,7 @@ function AuthRequired(props) {
       <Switch>
         <Route exact path="/home" component={Home} />
         <Route exact path="/explore" component={Explore} />
-        <Route exact path="/explore/users/:uid" component={User} />
+        {/* <Route exact path="/explore/users/:uid" component={User} /> */}
         <Route exact path="/mine" component={Mine} />
         <Route exact path="/about" component={About} />
         <Route path="/" component={Home} />

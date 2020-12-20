@@ -1,9 +1,6 @@
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  deleteComment,
-  getMoreSubComments,
-} from "../../redux/comments/commentsActions";
+import React from "react";
+import { useDispatch } from "react-redux";
+import { getMoreSubComments } from "../../redux/comments/commentsActions";
 import CommentForm from "../forms/CommentForm";
 import CommentBase from "./CommentBase";
 

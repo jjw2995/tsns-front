@@ -24,6 +24,7 @@ function Posts({ endPoint }) {
     setTimeout(() => {
       setRenderMKP(true);
     }, 1000);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchMore = () => {

@@ -1,10 +1,8 @@
-// https://picsum.photos/720
 import React, { useState } from "react";
 import { Button, Carousel } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { deletePost } from "../../redux/posts/postsActions";
 import CommentSection from "../commentComponent/CommentSection";
-// import { useEffect } from "react";
 // {
 //     "reactions": {
 //       "love": 0,
@@ -45,9 +43,9 @@ function Post({ post }) {
     description,
     level,
     media,
-    reactions,
+    // reactions,
     user: postOwner,
-    userReaction,
+    // userReaction,
     _id: postID,
   } = post;
 

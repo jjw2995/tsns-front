@@ -17,7 +17,7 @@ function CommentForm({ postID, parentCommentID = null }, ...rest) {
         dispatch(postComment(postID, parentCommentID, values.content));
       }}
     >
-      {({}) => (
+      {() => (
         <div className="d-flex flex-row">
           <Form className="col p-0 m-0 d-flex flex-row">
             <div

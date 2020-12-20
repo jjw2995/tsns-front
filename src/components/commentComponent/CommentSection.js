@@ -1,10 +1,9 @@
-import { Field, Formik, Form } from "formik";
-import React, { useEffect, useState } from "react";
+// import { Field, Formik, Form } from "formik";
+import React, { useState } from "react";
 import Modal from "react-modal";
 import { Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  postComment,
   getInitialComments,
   clearComments,
   getMoreComments,

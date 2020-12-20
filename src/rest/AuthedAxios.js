@@ -1,6 +1,6 @@
 import axios from "axios";
-import { keepTokensFresh } from "./auth/AuthActions";
-import store from "./store";
+import { keepTokensFresh } from "../redux/auth/AuthActions";
+import store from "../redux/store";
 
 const BaseUrlAxios = (isMuliPart = false) => {
   const defaultOptions = {
