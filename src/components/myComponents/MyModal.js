@@ -2,13 +2,15 @@ import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import Modal from "react-modal";
 
-function MyModal({
-  component: Component,
-  startOpen = false,
-  name: Name,
-  ...rest
-}) {
+function MyModal({ startOpen = false, buttonName, ...rest }) {
+  const props = { ...rest };
   const [open, setOpen] = useState(startOpen);
+  const closeModal = () => {
+    setOpen(false);
+  };
+  const openModal = () => {
+    setOpen(true);
+  };
   return (
     <div>
       <Modal
@@ -29,7 +31,8 @@ function MyModal({
           setOpen(false);
         }}
       >
-        <Component {...rest} />
+        {React.cloneElement(props.children, { closeModal })}
+        {/* {props.children} */}
       </Modal>
       <Button
         className="btn-secondary"
@@ -37,7 +40,7 @@ function MyModal({
           setOpen(true);
         }}
       >
-        {Name}
+        {buttonName}
       </Button>
     </div>
   );

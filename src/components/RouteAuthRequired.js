@@ -7,7 +7,7 @@ import Mine from "./pages/Mine";
 import NavigationBar from "./NavigationBar";
 import { useDispatch } from "react-redux";
 import { keepTokensFresh } from "../redux/auth/AuthActions";
-import User from "./pages/User";
+import User from "./userInfo/User";
 
 function AuthRequired(props) {
   const dispatch = useDispatch();
@@ -21,7 +21,7 @@ function AuthRequired(props) {
       <Switch>
         <Route exact path="/home" component={Home} />
         <Route exact path="/explore" component={Explore} />
-        {/* <Route exact path="/explore/users/:uid" component={User} /> */}
+        <Route exact path="/explore/users/:uid" component={User} />
         <Route exact path="/mine" component={Mine} />
         <Route exact path="/about" component={About} />
         <Route path="/" component={Home} />
@@ -29,5 +29,4 @@ function AuthRequired(props) {
     </React.Fragment>
   );
 }
-
 export default AuthRequired;

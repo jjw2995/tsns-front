@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router";
 import BaseUrlAxios from "../../rest/AuthedAxios";
+import FollowersFollowees from "../follow/Follow";
 import Posts, { endpoints } from "../PostComponent/Posts";
 
 const logErr = (e) => {
   console.log(JSON.parse(JSON.stringify(e)));
 };
 
-function User({ uid }) {
+function User() {
   // get posts by user id
   // user info
   const [user, setUser] = useState();
 
+  const { uid } = useParams();
   console.log(uid);
 
   useEffect(() => {
@@ -36,10 +39,10 @@ function User({ uid }) {
 
   return (
     <div>
-      <pre>{JSON.stringify(user, null, 2)}</pre>
+      {/* <pre>{JSON.stringify(user, null, 2)}</pre> */}
 
       {user ? (
-        <div className="card">
+        <div className="card d-flex flex-col">
           <div>{user.nickname}</div>
           {user.isFollowing ? (
             user.isPending ? (
@@ -74,7 +77,7 @@ function User({ uid }) {
                       .delete(`/followees/${uid}`)
                       .then((r) => {
                         console.log("unfollow request: ", r.data);
-                        newState.isPending = r.data.isPending;
+                        newState.isPending = false;
                         onReqeust(newState);
                       })
                       .catch((e) => {
@@ -85,11 +88,16 @@ function User({ uid }) {
               {user.isFollowing ? <div>unfollow</div> : <div>follow</div>}
             </button>
           </div>
+          <div className="container">
+            <FollowersFollowees
+              id={user._id}
+              isShow={user.isFollowing || !user.isPrivate}
+            />
+          </div>
         </div>
       ) : (
         <div />
       )}
-
       <Posts endPoint={endpoints(uid).USER} />
     </div>
   );

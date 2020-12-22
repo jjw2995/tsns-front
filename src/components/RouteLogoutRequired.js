@@ -10,7 +10,7 @@ function LogoutRequired(props) {
       <Route exact path="/" component={LandingPage} />
       <Route exact path="/login" component={LoginForm} />
       <Route exact path="/register" component={RegisterForm} />
-      {/* <Route path="/" component={LandingPage} /> */}
+      <Route path="/" component={LandingPage} />
     </Switch>
   );
 }

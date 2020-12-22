@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Modal from "react-modal";
 import PostForm from "../forms/PostForm";
 import Posts, { endpoints } from "../PostComponent/Posts";
+import MyModal from "../myComponents/MyModal";
 
 Modal.setAppElement("#root");
 
@@ -17,7 +18,7 @@ function Home(props) {
 
   return (
     <div>
-      <Modal
+      {/* <Modal
         style={{
           overlay: {
             zIndex: "1000",
@@ -46,7 +47,7 @@ function Home(props) {
         <div className="d-flex justify-content-center">
           <PostForm closeForm={closeModal} />
         </div>
-      </Modal>
+      </Modal> */}
 
       <Posts endPoint={endpoints().HOME} />
       {/* <div></div> */}
@@ -54,8 +55,7 @@ function Home(props) {
         className="d-flex justify-content-end fixed-bottom"
         style={{ pointerEvents: "none" }}
       >
-        <div></div>
-        <Button
+        {/* <Button
           onClick={() => {
             setModalIsOpen(true);
           }}
@@ -67,7 +67,20 @@ function Home(props) {
           <h4>
             new <b>Post</b>
           </h4>
-        </Button>
+        </Button> */}
+        <div
+          style={{
+            paddingRight: "2rem",
+            paddingBottom: "2rem",
+            left: "100px",
+            top: "150px",
+            pointerEvents: "initial",
+          }}
+        >
+          <MyModal buttonName="new Post">
+            <PostForm />
+          </MyModal>
+        </div>
       </div>
     </div>
   );

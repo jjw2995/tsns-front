@@ -2,6 +2,7 @@ import React from "react";
 import { Col, Nav, Navbar, Row, Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { clearAuth } from "../redux/auth/AuthActions";
+import Pending from "./follow/Pending";
 
 function NavigationBar(props) {
   const path = props.location.pathname;
@@ -26,7 +27,7 @@ function NavigationBar(props) {
       expanded={true}
       style={{ width: "100%" }}
     >
-      <div className="col d-flex justify-content-end flex-col">
+      <div className="col d-flex justify-content-end">
         <div>
           <h2>tSNS</h2>
           <p>
@@ -74,19 +75,23 @@ function NavigationBar(props) {
       <div className="col">
         <div className="d-flex flex-column justify-content-end">
           <a href="/about" className="h3 text-dark">
-            {/* <a href="/about" className="h3 text-dark"> */}
             about <b>tSNS</b> & <b>ME</b>
           </a>
-          <a
-            // href="/#"
-            href=""
-            onClick={() => {
-              dispatch(clearAuth());
-            }}
-            className="text-dark text-size-12"
-          >
-            logout
-          </a>
+          <div className="d-flex">
+            <div>
+              <Pending className="justify-self-end" />
+              <a
+                // href="/#"
+                href=""
+                onClick={() => {
+                  dispatch(clearAuth());
+                }}
+                className="text-dark text-size-12"
+              >
+                logout
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </Navbar>

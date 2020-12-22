@@ -21,7 +21,7 @@ function LoginForm(props) {
 
   return (
     <div>
-      <pre>{JSON.stringify(state, null, 2)}</pre>
+      {/* <pre>{JSON.stringify(state, null, 2)}</pre> */}
 
       <Formik
         initialValues={{ email: "", password: "" }}

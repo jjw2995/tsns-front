@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import BaseUrlAxios from "../../rest/AuthedAxios";
+import FollowersFollowees from "../follow/Follow";
 import Posts, { endpoints } from "../PostComponent/Posts";
 
 function Mine() {
@@ -8,7 +9,6 @@ function Mine() {
   const [myInfo, setMyInfo] = useState();
 
   useEffect(() => {
-    console.log("???");
     BaseUrlAxios()
       .get(`/users/${user._id}`)
       .then((r) => {
@@ -25,6 +25,7 @@ function Mine() {
   return (
     <div>
       <h1>My info</h1>
+      {/* <UserInfo /> */}
       {myInfo ? (
         <div>
           <div>{myInfo.nickname}</div>
@@ -47,8 +48,9 @@ function Mine() {
                 });
             }}
           >
-            {myInfo.isPrivate ? <div>go Private</div> : <div>go Public</div>}
+            {myInfo.isPrivate ? <div>go Public</div> : <div>go Private</div>}
           </button>
+          <FollowersFollowees id={user._id} isShow={true} />
         </div>
       ) : (
         <div />
