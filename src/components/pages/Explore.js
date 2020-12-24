@@ -18,7 +18,9 @@ function Explore() {
       <SearchUser />
       {/* if clicked, show user Profile */}
       {expUserID ? (
-        <UserInfo uid={expUserID} key={expUserID} />
+        // TODO: ???
+        // <UserInfo uid={expUserID} key={expUserID} />
+        <div>?</div>
       ) : (
         <Posts endPoint={endpoints().EXPLORE} />
       )}

@@ -39,8 +39,6 @@ function User() {
 
   return (
     <div>
-      {/* <pre>{JSON.stringify(user, null, 2)}</pre> */}
-
       {user ? (
         <div className="card d-flex flex-col">
           <div>{user.nickname}</div>
@@ -91,7 +89,7 @@ function User() {
           <div className="container">
             <FollowersFollowees
               id={user._id}
-              isShow={user.isFollowing || !user.isPrivate}
+              isShow={user.isFollowing && !user.isPending}
             />
           </div>
         </div>
@@ -104,37 +102,3 @@ function User() {
 }
 
 export default User;
-
-// import React, { useState } from "react";
-// import BaseUrlAxios from "../../redux/AuthedAxios";
-// import { useParams } from "react-router";
-// import Posts, { endpoints } from "../PostComponent/Posts";
-
-// function User(props) {
-//   // get posts by user id
-//   // user info
-
-//   const { uid } = useParams();
-//   useState(() => {
-
-//   }, []);
-//   console.log("User: ", props.location.user);
-//   return (
-//     <div>
-//       <pre>{JSON.stringify(user, null, 2)}</pre>
-
-//       {user && (
-//         <div className="card">
-//           <div className="card-title">asd</div>
-//           <div className="card-body">{JSON.stringify(user, null, 2)}</div>
-//           {() => {
-//             return;
-//           }}
-//           <Posts endPoint={endpoints(user._id).USER} />
-//         </div>
-//       )}
-//     </div>
-//   );
-// }
-
-// export default User;
