@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button, Carousel } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { deletePost } from "../../redux/posts/postsActions";
 import CommentSection from "../commentComponent/CommentSection";
 // {
@@ -62,7 +63,14 @@ function Post({ post }) {
         <div className="card-body">
           <div className="d-flex">
             <div className="column">
-              <h4 className="card-title">{postOwner.nickname}</h4>
+              <Link
+                className="card-title"
+                style={{ textDecoration: "none", color: "inherit" }}
+                to={`/explore/users/${postOwner._id}`}
+              >
+                <h4>{postOwner.nickname}</h4>
+              </Link>
+              {/* <h4 className="card-title">{postOwner.nickname}</h4> */}
               <h6 className="card-subtitle mb-2 text-muted">
                 <b>{level}</b>, created <b>{date}</b>
               </h6>

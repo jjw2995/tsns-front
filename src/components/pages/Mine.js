@@ -55,7 +55,9 @@ function Mine() {
       ) : (
         <div />
       )}
-      <div>{/* <Posts endPoint={endpoints().MINE} /> */}</div>
+      <div>
+        <Posts endPoint={endpoints().MINE} />
+      </div>
     </div>
   );
 }

@@ -2,6 +2,7 @@ import React from "react";
 import { Col, Nav, Navbar, Row, Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { clearAuth } from "../redux/auth/AuthActions";
+import DismissedPending from "./follow/DismissedPending";
 import Pending from "./follow/Pending";
 
 function NavigationBar(props) {
@@ -80,6 +81,7 @@ function NavigationBar(props) {
           <div className="d-flex">
             <div>
               <Pending className="justify-self-end" />
+              {/* <DismissedPending /> */}
               <a
                 // href="/#"
                 href=""

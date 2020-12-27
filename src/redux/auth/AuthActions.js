@@ -53,35 +53,34 @@ export const login = (data) => (dispatch) => {
 
 // TODO: something wrong with refreshing the tokens
 export const keepTokensFresh = () => async (dispatch, getState) => {
-  // const tNow = Date.now() / 1000;
+  const tNow = Date.now() / 1000;
   const refTok = getState().auth.refreshToken;
-  // const accExpAt = jwtDecode(getState().auth.accessToken).exp;
-  // const refExpAt = jwtDecode(refTok).exp;
+  const accExpAt = jwtDecode(getState().auth.accessToken).exp;
+  const refExpAt = jwtDecode(refTok).exp;
 
-  // const didAccTokExp = accExpAt < tNow;
-  // const didRefTokExp = refExpAt < tNow;
-  // // console.log(refTok);
-  // console.log("\ndidAccTokExp? = ", didAccTokExp);
-  // console.log("\ndidRefTokExp? = ", didRefTokExp);
-  // console.log("keep tokens fresh");
-  // if (didRefTokExp) {
-  //   _alertAuthClear(dispatch);
-  //   return;
-  // }
-  // if (didAccTokExp) {
-  try {
-    let res = await BaseUrlAxios().post("/auth/token", {
-      refreshToken: refTok,
-    });
-    let data = res.data;
-
-    dispatch(setAuth(data));
-  } catch (error) {
-    console.log(error);
-    console.log(error.message);
+  const didAccTokExp = accExpAt < tNow;
+  const didRefTokExp = refExpAt < tNow;
+  // console.log(refTok);
+  console.log("\ndidAccTokExp? = ", didAccTokExp);
+  console.log("\ndidRefTokExp? = ", didRefTokExp);
+  console.log("keep tokens fresh");
+  if (didRefTokExp) {
     _alertAuthClear(dispatch);
+    return;
   }
-  // }
+  if (didAccTokExp) {
+    try {
+      let res = await BaseUrlAxios().post("/auth/token", {
+        refreshToken: refTok,
+      });
+
+      dispatch(setAuth(res.data));
+    } catch (error) {
+      console.log(error);
+      console.log(error.message);
+      _alertAuthClear(dispatch);
+    }
+  }
 };
 
 const _alertAuthClear = (dispatch) => {

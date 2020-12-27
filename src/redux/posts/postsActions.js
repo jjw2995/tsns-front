@@ -88,9 +88,9 @@ export const postPost = (postFormData) => (dispatch, getState) => {
 
 export const getPostEndpoints = (userID = "") => {
   return {
-    HOME: "/posts/",
-    EXPLORE: "/posts/explore/",
-    MINE: "/posts/mine/",
+    HOME: "/posts",
+    EXPLORE: "/posts/explore",
+    MINE: "/posts/mine",
     USER: `/posts/user/${userID}`,
   };
 };
@@ -102,11 +102,11 @@ export const getPostEndpoints = (userID = "") => {
 
 export const getPost = (path, lastCreated = null) => (dispatch, getState) => {
   console.log(" @ getPost: ");
+  if (lastCreated) {
+    path += `?last-created-at=${lastCreated}`;
+  }
   BaseUrlAxios()
-    .get(path, {
-      params: { "last-created-at": lastCreated },
-      createdAt: lastCreated,
-    })
+    .get(path)
     .then((r) => {
       console.log(r.data);
       if (r.data.length > 0) {
@@ -126,7 +126,7 @@ export const getPost = (path, lastCreated = null) => (dispatch, getState) => {
 
 export const deletePost = (postID) => (dispatch, getState) => {
   BaseUrlAxios()
-    .delete(`${getPostEndpoints().HOME}${postID}`)
+    .delete(`${getPostEndpoints().HOME}/${postID}`)
     .then((r) => {
       let updatedPosts = [...getState().post.posts];
       updatedPosts.forEach((val, idx) => {

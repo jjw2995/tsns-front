@@ -2,42 +2,29 @@ import { Button } from "react-bootstrap";
 import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 
-import PendingFollowees from "./PendingFollowees";
-import PendingFollowers from "./PendingFollowers";
-import {
-  getDismissedPendingFollowers,
-  getPendingFollowees,
-  getPendingFollowers,
-} from "../../redux/follows/followsActions";
-import { useDispatch, useSelector } from "react-redux";
-import DismissedPending from "./DismissedPending";
+import DismissedPendingFollowers from "./DismissedPendingFollowers";
+import { getDismissedPendingFollowers } from "../../redux/follows/followsActions";
+import { useDispatch } from "react-redux";
 // import { Button } from "bootstrap";
 
-function Pending() {
+function DismissedPending() {
   const [openModal, setOpenModal] = useState(false);
 
   const closeModal = () => {
     setOpenModal(false);
   };
   const dispatch = useDispatch();
-  const getNew = useSelector((state) => state.follows.new);
-
-  useEffect(() => {
-    dispatch(getPendingFollowers());
-    // dispatch(getPendingFollowees());
-    // dispatch(getDismissedPendingFollowers());
-  }, []);
 
   return (
     <div>
       <Button
-        size="lg"
-        variant={getNew ? "primary" : "muted"}
+        size="sm"
+        className="mt-2"
         onClick={() => {
           setOpenModal(true);
         }}
       >
-        pending
+        dismissed pending
       </Button>
       <Modal
         style={{
@@ -53,17 +40,16 @@ function Pending() {
           },
         }}
         isOpen={openModal}
+        // onAfterOpen={getData}
         onRequestClose={closeModal}
       >
         <Button className="mb-2" onClick={closeModal}>
           x
         </Button>
-        <PendingFollowers />
-        <PendingFollowees />
-        <DismissedPending />
+        <DismissedPendingFollowers />
       </Modal>
     </div>
   );
 }
 
-export default Pending;
+export default DismissedPending;

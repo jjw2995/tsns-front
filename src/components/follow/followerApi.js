@@ -21,9 +21,9 @@ export const getPendingFollowers = (lastDocID) => {
 };
 
 export const getDismissedPendingFollowers = (lastDocID) => {
-  let path = "/followers/pending?has-viewed=true";
+  let path = "/followers/pending/dismissed";
   if (lastDocID) {
-    path += `&last-doc-id=${lastDocID}`;
+    path += `?last-doc-id=${lastDocID}`;
   }
   return new Promise((resolve, reject) => {
     BaseUrlAxios()
