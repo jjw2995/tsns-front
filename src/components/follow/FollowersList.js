@@ -3,19 +3,23 @@ import React, { useState } from "react";
 import BaseUrlAxios from "../../rest/AuthedAxios";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import FollowLinkItem from "./FollowLinkItem";
+import { useSelector } from "react-redux";
 
-function FollowersList({ title, isShow }) {
+function FollowersList({ title, isShow, uid }) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [follows, setFollows] = useState();
+  const [followers, setFollowers] = useState([]);
+  const loggedID = useSelector((state) => state.auth.user._id);
+  console.log(loggedID);
 
   const openModal = () => setModalIsOpen(true);
   const closeModal = () => setModalIsOpen(false);
   const getFollows = () => {
     BaseUrlAxios()
-      .get(`/followers`)
+      .get(`/followers/${uid}`)
       .then((r) => {
         console.log(r.data);
-        setFollows(r.data);
+        setFollowers(r.data);
       })
       .catch((e) => {
         console.log(e);
@@ -23,21 +27,39 @@ function FollowersList({ title, isShow }) {
   };
 
   const getMoreFollows = () => {
-    if (follows && follows.length > 0) {
-      console.log(follows[follows.length - 1]._id);
-      BaseUrlAxios()
-        .get(`/followers?last-doc-id=${follows[follows.length - 1]._id}`)
-        .then((r) => {
-          console.log(r.data);
-          setFollows((pre) => {
-            console.log([...pre, ...r.data]);
-            return [...pre, ...r.data];
-          });
-        })
-        .catch((e) => {
-          console.log(e);
-        });
+    let path = `/followers/${uid}`;
+
+    if (followers && followers.length > 0) {
+      path += `?last-doc-id=${followers[followers.length - 1]._id}`;
     }
+    BaseUrlAxios()
+      .get(path)
+      .then((r) => {
+        console.log(r.data);
+        setFollowers((pre) => {
+          console.log([...pre, ...r.data]);
+          return [...pre, ...r.data];
+        });
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  const removeFollower = (followDoc, idx) => {
+    console.log(idx);
+    BaseUrlAxios()
+      .delete(`/followers/${followDoc.user._id}`, {
+        _id: followDoc.user._id,
+      })
+      .then((r) => {
+        console.log(r.data);
+        setFollowers((pre) => {
+          let newArr = [...pre];
+          newArr.splice(idx, 1);
+          return newArr;
+        });
+      });
   };
 
   return (
@@ -71,17 +93,26 @@ function FollowersList({ title, isShow }) {
         onRequestClose={closeModal}
       >
         <h3>Followers</h3>
-        {follows &&
-          follows.length > 0 &&
-          follows.map((r) => {
+        {followers &&
+          followers.length > 0 &&
+          followers.map((r, i) => {
             return (
-              <Link
-                key={r._id}
-                className="list-group-item list-group-item-action m-2"
-                to={`/explore/users/${r.user._id}`}
-              >
-                <h4>{r.user.nickname}</h4>
-              </Link>
+              <FollowLinkItem item={r} key={"followers" + r._id}>
+                {uid === loggedID ? (
+                  <Button className="m-2" onClick={() => removeFollower(r, i)}>
+                    remove
+                  </Button>
+                ) : (
+                  <div />
+                )}
+              </FollowLinkItem>
+              // <Link
+              //   key={r._id}
+              //   className="list-group-item list-group-item-action m-2"
+              //   to={`/explore/users/${r.user._id}`}
+              // >
+              //   <h4>{r.user.nickname}</h4>
+              // </Link>
             );
           })}
         <div className="justify-content-center d-flex">

@@ -88,7 +88,7 @@ function User() {
           </div>
           <div className="container">
             <FollowersFollowees
-              id={user._id}
+              uid={user._id}
               isShow={user.isFollowing && !user.isPending}
             />
           </div>

@@ -6,15 +6,16 @@ import { Link } from "react-router-dom";
 import FolloweesList from "./FolloweesList";
 import FollowersList from "./FollowersList";
 
-function FollowersFollowees({ id, isShow }) {
+function FollowersFollowees({ uid, isShow }) {
   const [followCounts, setFollowCounts] = useState({
     followeesCount: 0,
     followersCount: 0,
   });
 
   useEffect(() => {
+    console.log("FollowersFollowees: ", uid);
     BaseUrlAxios()
-      .get("/follows/count")
+      .get(`/follows/count/${uid}`)
       .then((r) => {
         console.log("HERE");
         console.log(r.data);
@@ -28,7 +29,7 @@ function FollowersFollowees({ id, isShow }) {
   }, []);
   return (
     <div className="container">
-      <div>{id}</div>
+      <div>{uid}</div>
 
       {/* <h4>followings followers list</h4> */}
       <div></div>
@@ -43,6 +44,7 @@ function FollowersFollowees({ id, isShow }) {
           <FollowersList
             title={`${followCounts.followersCount} - Followers`}
             isShow={isShow}
+            uid={uid}
           />
         </div>
         <div className="col">
@@ -52,6 +54,7 @@ function FollowersFollowees({ id, isShow }) {
           <FolloweesList
             title={`${followCounts.followeesCount} - Followees`}
             isShow={isShow}
+            uid={uid}
           />
         </div>
       </div>

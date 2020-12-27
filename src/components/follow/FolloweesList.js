@@ -3,19 +3,24 @@ import React, { useState } from "react";
 import BaseUrlAxios from "../../rest/AuthedAxios";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import FollowLinkItem from "./FollowLinkItem";
+import { useSelector } from "react-redux";
 
-function FolloweesList({ title, isShow }) {
+function FolloweesList({ title, isShow, uid }) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [follows, setFollows] = useState();
+  const [followees, setFollowees] = useState();
 
   const openModal = () => setModalIsOpen(true);
   const closeModal = () => setModalIsOpen(false);
+
+  const loggedID = useSelector((state) => state.auth.user._id);
+
   const getFollows = () => {
     BaseUrlAxios()
-      .get(`/followees`)
+      .get(`/followees/${uid}`)
       .then((r) => {
         console.log(r.data);
-        setFollows(r.data);
+        setFollowees(r.data);
       })
       .catch((e) => {
         console.log(e);
@@ -23,21 +28,38 @@ function FolloweesList({ title, isShow }) {
   };
 
   const getMoreFollows = () => {
-    if (follows && follows.length > 0) {
-      console.log(follows[follows.length - 1]._id);
-      BaseUrlAxios()
-        .get(`/followees?last-doc-id=${follows[follows.length - 1]._id}`)
-        .then((r) => {
-          console.log(r.data);
-          setFollows((pre) => {
-            console.log([...pre, ...r.data]);
-            return [...pre, ...r.data];
-          });
-        })
-        .catch((e) => {
-          console.log(e);
-        });
+    let path = `/followees/${uid}`;
+
+    if (followees && followees.length > 0) {
+      path += `?last-doc-id=${followees[followees.length - 1]._id}`;
     }
+    BaseUrlAxios()
+      .get(path)
+      .then((r) => {
+        console.log(r.data);
+        setFollowees((pre) => {
+          console.log([...pre, ...r.data]);
+          return [...pre, ...r.data];
+        });
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  const removeFollowee = (followDoc, idx) => {
+    BaseUrlAxios()
+      .delete(`/followees/${followDoc.user._id}`, {
+        _id: followDoc.user._id,
+      })
+      .then((r) => {
+        console.log(r.data);
+        setFollowees((pre) => {
+          let newArr = [...pre];
+          newArr.splice(idx, 1);
+          return newArr;
+        });
+      });
   };
 
   return (
@@ -71,17 +93,19 @@ function FolloweesList({ title, isShow }) {
         onRequestClose={closeModal}
       >
         <h3>Followees</h3>
-        {follows &&
-          follows.length > 0 &&
-          follows.map((r) => {
+        {followees &&
+          followees.length > 0 &&
+          followees.map((r, i) => {
             return (
-              <Link
-                key={r._id}
-                className="list-group-item list-group-item-action m-2"
-                to={`/explore/users/${r.user._id}`}
-              >
-                <h4>{r.user.nickname}</h4>
-              </Link>
+              <FollowLinkItem item={r} key={"followers" + r._id}>
+                {uid === loggedID ? (
+                  <Button className="m-2" onClick={() => removeFollowee(r, i)}>
+                    unfollow
+                  </Button>
+                ) : (
+                  <div />
+                )}
+              </FollowLinkItem>
             );
           })}
         <div className="justify-content-center d-flex">

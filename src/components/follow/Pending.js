@@ -5,13 +5,12 @@ import Modal from "react-modal";
 import PendingFollowees from "./PendingFollowees";
 import PendingFollowers from "./PendingFollowers";
 import {
-  getDismissedPendingFollowers,
-  getPendingFollowees,
+  // getDismissedPendingFollowers,
+  // getPendingFollowees,
   getPendingFollowers,
 } from "../../redux/follows/followsActions";
 import { useDispatch, useSelector } from "react-redux";
 import DismissedPending from "./DismissedPending";
-// import { Button } from "bootstrap";
 
 function Pending() {
   const [openModal, setOpenModal] = useState(false);

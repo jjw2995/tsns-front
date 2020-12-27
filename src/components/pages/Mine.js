@@ -20,8 +20,6 @@ function Mine() {
       });
   }, []);
 
-  // { isPrivate: body.isPrivate },
-
   return (
     <div>
       <h1>My info</h1>
@@ -50,7 +48,7 @@ function Mine() {
           >
             {myInfo.isPrivate ? <div>go Public</div> : <div>go Private</div>}
           </button>
-          <FollowersFollowees id={user._id} isShow={true} />
+          <FollowersFollowees uid={user._id} isShow={true} />
         </div>
       ) : (
         <div />
