@@ -4,16 +4,9 @@ const { useField } = require("formik");
 export const MyTextField = ({ placeholder, ...props }) => {
   const [field, meta] = useField(props);
   const errorText = meta.error && meta.touched ? meta.error : "";
-  // console.log(errorText);
   return (
     <div>
-      <TextField
-        placeholder={placeholder}
-        {...field}
-        // helperText={errorText}
-        // type={showPass ? "text" : "password"}
-        error={!!errorText}
-      />
+      <TextField placeholder={placeholder} {...field} error={!!errorText} />
       <div className="px-5 text-danger">
         <small>{errorText}</small>
       </div>

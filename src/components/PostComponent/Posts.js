@@ -42,7 +42,6 @@ function Posts({ endPoint }) {
                     onEnter={() => {
                       // fetch more
                       fetchMore();
-                      // console.log(i);
                     }}
                   />
                 )}
@@ -52,27 +51,13 @@ function Posts({ endPoint }) {
           })
         : renderMKP && (
             <div className="d-flex justify-content-center mt-5">
-              {
-                (endPoint === endpoints().HOME && <h4>Post a First Post</h4>) ||
-                  (endPoint === endpoints().MINE && (
-                    <h4>
-                      You don't seem to have any posts yet, post a first post @
-                      <b>Home</b>
-                    </h4>
-                  )) || <h4>no posts to show</h4>
-
-                // endPoint===endpoints().HOME
-                // endPoint===endpoints().HOME
-              }
-              {/* {isHomeOrMine() &&
-                (endPoint !== endpoints().HOME ? (
+              {(endPoint === endpoints().HOME && <h4>Post a First Post</h4>) ||
+                (endPoint === endpoints().MINE && (
                   <h4>
-                    You don't seem to have any posts yet, go to "Home" and post
-                    a first post
+                    You don't seem to have any posts yet, post a first post @
+                    <b>Home</b>
                   </h4>
-                ) : (
-                  <h4>Post a First Post</h4>
-                ))} */}
+                )) || <h4>no posts to show</h4>}
             </div>
           )}
       <div style={{ marginTop: "3rem" }}></div>

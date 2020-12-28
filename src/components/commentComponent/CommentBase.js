@@ -64,7 +64,6 @@ function CommentBase({ comment }) {
           {user._id === comment.user._id && (
             <button
               className="btn btn-outline m-0 p-0 px-1"
-              // style={{ marginLeft: "" }}
               onClick={() => {
                 deleteHandler();
               }}
@@ -74,8 +73,6 @@ function CommentBase({ comment }) {
           )}
         </div>
       </div>
-
-      {/* </div> */}
     </div>
   );
 }

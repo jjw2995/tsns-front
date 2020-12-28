@@ -12,7 +12,6 @@ function Mine() {
     BaseUrlAxios()
       .get(`/users/${user._id}`)
       .then((r) => {
-        console.log("get user/:uid : ", r.data);
         setMyInfo(r.data);
       })
       .catch((e) => {
@@ -36,7 +35,6 @@ function Mine() {
                   isPrivate: !myInfo.isPrivate,
                 })
                 .then((r) => {
-                  console.log("from api, setting isPrivate", r.data);
                   let newMyInfo = { ...user };
                   newMyInfo.isPrivate = r.data.isPrivate;
                   setMyInfo(newMyInfo);

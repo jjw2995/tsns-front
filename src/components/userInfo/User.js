@@ -12,27 +12,22 @@ function User() {
   // get posts by user id
   // user info
   const [user, setUser] = useState();
-
   const { uid } = useParams();
-  console.log(uid);
 
   useEffect(() => {
-    console.log("here", user);
     BaseUrlAxios()
       .get(`/users/${uid}`)
       .then((r) => {
-        console.log("get user/:uid : ", r.data);
         setUser(r.data);
       })
       .catch((e) => {
-        console.log(JSON.parse(JSON.stringify(e)));
+        logErr(e);
       });
   }, []);
 
   const onReqeust = (newState) => {
     setUser(() => {
       newState.isFollowing = !newState.isFollowing;
-      console.log("newState b4 setting: ", newState);
       return newState;
     });
   };
@@ -52,19 +47,15 @@ function User() {
             <div>this user is private</div>
           ) : (
             <br />
-            // <div></div>
           )}
-          {/* <div className="card-body">{JSON.stringify(user, null, 2)}</div> */}
           <div>
             <button
               onClick={() => {
-                // console.log(user);
                 let newState = { ...user };
                 !user.isFollowing
                   ? BaseUrlAxios()
                       .post("/followees", { _id: uid })
                       .then((r) => {
-                        console.log("follow request: ", r.data);
                         newState.isPending = r.data.isPending;
                         onReqeust(newState);
                       })
@@ -74,7 +65,6 @@ function User() {
                   : BaseUrlAxios()
                       .delete(`/followees/${uid}`)
                       .then((r) => {
-                        console.log("unfollow request: ", r.data);
                         newState.isPending = false;
                         onReqeust(newState);
                       })

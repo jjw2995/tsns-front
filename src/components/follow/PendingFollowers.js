@@ -14,10 +14,8 @@ function PendingFollowers() {
   const pendingFollowers = useSelector(
     (state) => state.follows.pendingFollowers
   );
-  //   console.log(pendingFollowers);
 
   const dispatch = useDispatch();
-  //   useEffect(() => {}, []);
 
   return (
     <React.Fragment>

@@ -26,7 +26,6 @@ export const clearAuth = () => {
 };
 
 export const errAuth = (e) => {
-  // msg(JSON.stringify(e));
   return {
     type: ERR_AUTH,
     payload: e,
@@ -37,16 +36,9 @@ export const login = (data) => (dispatch) => {
   BaseUrlAxios()
     .post("/auth/login", data)
     .then((r) => {
-      // console.log(r.data);
-      // sessionStorage.user = JSON.stringify({
-      //   _id: r._id,
-      //   nickname: r.nickname,
-      // });
-
       dispatch(setAuth(r.data));
     })
     .catch((e) => {
-      // console.log(e);
       dispatch(errAuth(e));
     });
 };
@@ -60,10 +52,6 @@ export const keepTokensFresh = () => async (dispatch, getState) => {
 
   const didAccTokExp = accExpAt < tNow;
   const didRefTokExp = refExpAt < tNow;
-  // console.log(refTok);
-  console.log("\ndidAccTokExp? = ", didAccTokExp);
-  console.log("\ndidRefTokExp? = ", didRefTokExp);
-  console.log("keep tokens fresh");
   if (didRefTokExp) {
     _alertAuthClear(dispatch);
     return;
@@ -76,7 +64,6 @@ export const keepTokensFresh = () => async (dispatch, getState) => {
 
       dispatch(setAuth(res.data));
     } catch (error) {
-      console.log(error);
       console.log(error.message);
       _alertAuthClear(dispatch);
     }

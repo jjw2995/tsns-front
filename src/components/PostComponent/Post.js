@@ -109,15 +109,9 @@ function Post({ post }) {
               ) : (
                 <Carousel interval={null} wrap={false}>
                   {media.map((r, index) => {
-                    // console.log(postID + index);
                     return (
                       <Carousel.Item key={postID + index}>
-                        <img
-                          src={r}
-                          // id={postID + toString(index)}
-                          className="card-img"
-                          alt="not available"
-                        />
+                        <img src={r} className="card-img" alt="not available" />
                       </Carousel.Item>
                     );
                   })}

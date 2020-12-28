@@ -14,11 +14,8 @@ const BaseUrlAxios = (isMuliPart = false) => {
   let instance = axios.create(defaultOptions);
   store.dispatch(keepTokensFresh);
 
-  // Set the AUTH token for any request
-  // instance.
+  // Set the AUTH token for any request instance.
   instance.interceptors.request.use(function (config) {
-    // const token = accessToken
-    // console.log(accessToken);
     config.headers.Authorization = `Bearer ${
       store.getState().auth.accessToken
     }`;

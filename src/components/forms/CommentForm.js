@@ -6,14 +6,12 @@ import { useDispatch } from "react-redux";
 import { postComment } from "../../redux/comments/commentsActions";
 
 function CommentForm({ postID, parentCommentID = null }, ...rest) {
-  // const ComInput = ({ postID, parentCommentID = null }) => {
   const dispatch = useDispatch();
-  //     // console.log(postID);
+
   return (
     <Formik
       initialValues={{ content: "" }}
       onSubmit={(values) => {
-        console.log(values);
         dispatch(postComment(postID, parentCommentID, values.content));
       }}
     >
@@ -46,9 +44,6 @@ function CommentForm({ postID, parentCommentID = null }, ...rest) {
                 size="sm"
                 // className="p-0 m-0 align-items-stretch"
                 type="submit"
-                onClick={() => {
-                  // console.log("asd");
-                }}
               >
                 post
               </Button>

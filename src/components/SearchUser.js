@@ -20,14 +20,10 @@ function SearchUser() {
             onChange={(e) => {
               let v = e.currentTarget.value;
 
-              console.log(v);
               if (v && v.length > 0 && v.length % 2 === 0) {
-                // call api
-                // console.log(v);
                 BaseUrlAxios()
                   .get(`/users/search?query=${v}`)
                   .then((r) => {
-                    console.log(r);
                     setResults(r.data);
                   })
                   .catch((e) => {

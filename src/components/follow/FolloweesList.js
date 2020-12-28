@@ -2,7 +2,6 @@ import Modal from "react-modal";
 import React, { useState } from "react";
 import BaseUrlAxios from "../../rest/AuthedAxios";
 import { Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import FollowLinkItem from "./FollowLinkItem";
 import { useSelector } from "react-redux";
 
@@ -19,7 +18,6 @@ function FolloweesList({ title, isShow, uid }) {
     BaseUrlAxios()
       .get(`/followees/${uid}`)
       .then((r) => {
-        console.log(r.data);
         setFollowees(r.data);
       })
       .catch((e) => {
@@ -36,9 +34,7 @@ function FolloweesList({ title, isShow, uid }) {
     BaseUrlAxios()
       .get(path)
       .then((r) => {
-        console.log(r.data);
         setFollowees((pre) => {
-          console.log([...pre, ...r.data]);
           return [...pre, ...r.data];
         });
       })
@@ -53,7 +49,6 @@ function FolloweesList({ title, isShow, uid }) {
         _id: followDoc.user._id,
       })
       .then((r) => {
-        console.log(r.data);
         setFollowees((pre) => {
           let newArr = [...pre];
           newArr.splice(idx, 1);

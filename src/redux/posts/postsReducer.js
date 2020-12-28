@@ -9,13 +9,8 @@ import {
 const initialState = { posts: [], isLoading: false };
 
 export const postsReducer = (state = initialState, { type, payload }) => {
-  // const { posts, isLoading } = payload;
-  // console.log("payload: ", payload);
-  // const { oldPosts, oldIsLoading } = state;
-  // console.log("postsReducer: ", payload);
   switch (type) {
     case SET_POST:
-      // console.log("SET_POST in postsReducer: ", payload);
       return { ...state, ...payload };
 
     case ADD_POSTS_TO_END:

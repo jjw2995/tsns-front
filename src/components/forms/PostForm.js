@@ -10,8 +10,6 @@ const MAX_NUM_IMAGES = 4;
 
 function PostForm(props) {
   const dispatch = useDispatch();
-  console.log("postForm props");
-  console.log(props);
 
   return (
     <Formik
@@ -22,7 +20,6 @@ function PostForm(props) {
       }}
       onSubmit={(values) => {
         //   api request
-        console.log(values);
         let formData = new FormData();
         formData.set("level", values.level);
         formData.set("description", values.description);
@@ -84,8 +81,6 @@ function PostForm(props) {
                       return elem;
                     }),
                   ]);
-
-                  console.log(values.images);
                 }
               }}
               maxFiles={MAX_NUM_IMAGES}

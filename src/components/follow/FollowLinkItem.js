@@ -13,7 +13,6 @@ function FollowLinkItem(props) {
       </Link>
       {props.children}
     </div>
-    // </div>
   );
 }
 

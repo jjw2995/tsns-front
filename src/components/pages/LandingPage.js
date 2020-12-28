@@ -3,11 +3,6 @@ import { Button } from "react-bootstrap";
 
 // TODO: error is from showing password, type set to bool
 function LandingPage(props) {
-  // setTimeout(() => {
-  //   console.log(props.history.push("/home"));
-  // }, 1500);
-  // console.log(props);
-
   return (
     <div>
       <div className="mb-5">
@@ -39,22 +34,5 @@ function LandingPage(props) {
     </div>
   );
 }
-
-// // ...
-// import { useHistory } from "react-router";
-// // ...
-
-// function ProfileForm(props) {
-//   const history = useHistory();
-//   const onSubmit = (data, e) => {
-//      e.target.reset();
-//      history.push({
-//         pathname:  "/OnSubmit",
-//         state: {
-//           response: messageFromServer
-//         }
-//      }
-//   }
-// }
 
 export default LandingPage;

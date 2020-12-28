@@ -17,7 +17,6 @@ function NavigationBar(props) {
   // const [search, setSearch] = useState(null);
   // const [results, setResults] = useState([]);
   const nickname = JSON.parse(localStorage.getItem("AUTH")).user.nickname;
-  // console.log(a);
 
   return (
     <Navbar

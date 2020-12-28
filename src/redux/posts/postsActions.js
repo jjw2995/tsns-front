@@ -74,14 +74,12 @@ export const clearPost = () => {
 // };
 
 export const postPost = (postFormData) => (dispatch, getState) => {
-  console.log(postFormData);
   BaseUrlAxios(true)
     .post("/posts", postFormData)
     .then((r) => {
       dispatch(appendPostFront(r.data));
     })
     .catch((e) => {
-      console.log(e);
       console.log(e.data);
     });
 };
@@ -101,25 +99,19 @@ export const getPostEndpoints = (userID = "") => {
 // GET/api/posts/user/{userID}
 
 export const getPost = (path, lastCreated = null) => (dispatch, getState) => {
-  console.log(" @ getPost: ");
   if (lastCreated) {
     path += `?last-created-at=${lastCreated}`;
   }
   BaseUrlAxios()
     .get(path)
     .then((r) => {
-      console.log(r.data);
       if (r.data.length > 0) {
-        // filter duplicate
-        // console.log("NEW DATA\n", r.data);
-
         dispatch(
           appendPostsEnd(filterExistingContents(getState().post.posts, r.data))
         );
       }
     })
     .catch((e) => {
-      console.log(e);
       console.log(e.response);
     });
 };

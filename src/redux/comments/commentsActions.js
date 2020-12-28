@@ -54,9 +54,6 @@ export const getInitialComments = (postID) => (dispatch, getState) => {
     });
 };
 const getIdxOfMatchingID = (arr = [], elem) => {
-  // console.log("@ getIdxOfMatchingID: ");
-  // console.log(arr);
-  // console.log(elem);
   let idx;
   arr.forEach((r, i) => {
     if (r._id === elem._id) {
@@ -88,7 +85,6 @@ export const deleteComment = (targetComment) => (dispatch, getState) => {
 
         // remove subcomment and set new subcomments array
         oldSubComs.splice(rmSubcomIdx, 1);
-        // console.log("deleteComment, subcom: ", oldSubComs);
         oldComments[comIdx].subComments = oldSubComs;
         toSetAs = oldComments;
       } else {
@@ -108,8 +104,12 @@ export const getMoreComments = (postID, lastComment) => (
   dispatch,
   getState
 ) => {
+  let path = `comments/${postID}`;
+  if (lastComment) {
+    path += `?last-created-at=${lastComment.createdAt}`;
+  }
   BaseUrlAxios()
-    .get(`comments/${postID}?last-created-at=${lastComment.createdAt}`)
+    .get(path)
     .then((r) => {
       dispatch(
         appendCommentsToEnd(filterExistingContents(getState().comments, r.data))
@@ -124,10 +124,12 @@ export const getMoreSubComments = (parentComID, lastComment) => (
   dispatch,
   getState
 ) => {
+  let path = `comments/${parentComID}/subcomments`;
+  if (lastComment) {
+    path += `?last-created-at=${lastComment.createdAt}`;
+  }
   BaseUrlAxios()
-    .get(
-      `comments/${parentComID}/subcomments?last-created-at=${lastComment.createdAt}`
-    )
+    .get(path)
     .then((r) => {
       let oldComments = [...getState().comments];
       let oldSubComs, idx;
@@ -137,8 +139,6 @@ export const getMoreSubComments = (parentComID, lastComment) => (
           idx = i;
         }
       });
-
-      // console.log("moreSubComments: ", r.data);
 
       let toAppend = filterExistingContents(oldSubComs, r.data);
 
@@ -162,7 +162,6 @@ export const postComment = (postID, parentCommentID = null, content) => (
   BaseUrlAxios()
     .post("comments", data)
     .then((r) => {
-      // console.log(r);
       if (parentCommentID) {
         let comments = [...getState().comments];
         let set = comments.map((comment) => {
@@ -182,6 +181,5 @@ export const postComment = (postID, parentCommentID = null, content) => (
     })
     .catch((e) => {
       console.log(e);
-      console.log(JSON.parse(JSON.stringify(e)));
     });
 };

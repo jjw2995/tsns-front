@@ -50,7 +50,6 @@ export const getPendingFollowers = (getMore = false) => (
   BaseUrlAxios()
     .get(path)
     .then((r) => {
-      console.log(r.data);
       dispatch(
         setFollows({
           pendingFollowers: getMore ? [...pending, ...r.data] : [...r.data],
@@ -72,7 +71,6 @@ export const getPendingFollowees = (getMore = false) => (
   BaseUrlAxios()
     .get(path)
     .then((r) => {
-      console.log(r.data);
       dispatch(
         setFollows({
           pendingFollowees: getMore
@@ -95,9 +93,6 @@ export const getDismissedPendingFollowers = (getMore = false) => (
 
   path = setParamIfLastDoc(path, dismissed, getMore);
 
-  // if (dismissed && dismissed.length > 0 && getMore) {
-  //   path += `?last-doc-id=${dismissed[dismissed.length - 1]._id}`;
-  // }
   BaseUrlAxios()
     .get(path)
     .then((r) => {
@@ -122,7 +117,6 @@ export const acceptPendingFollower = (followDoc) => (dispatch, getState) => {
       _id: followDoc.user._id,
     })
     .then((r) => {
-      console.log(r.data);
       pending = filterFollowsElem(followDoc, pending);
       dispatch(setFollows({ pendingFollowers: [...pending] }));
     })
@@ -139,7 +133,6 @@ export const dismissPendingFollower = (followDoc) => (dispatch, getState) => {
       _id: followDoc.user._id,
     })
     .then((r) => {
-      console.log(r.data);
       pending = filterFollowsElem(followDoc, pending);
       dispatch(setFollows({ pendingFollowers: [...pending] }));
     })
@@ -155,7 +148,6 @@ export const deletePendingFollower = (followDoc) => (dispatch, getState) => {
       _id: followDoc.user._id,
     })
     .then((r) => {
-      console.log(r.data);
       pending = filterFollowsElem(followDoc, pending);
       dispatch(setFollows({ pendingFollowers: [...pending] }));
     })
@@ -178,7 +170,6 @@ export const acceptDismissedPendingFollower = (followDoc) => (
       _id: followDoc.user._id,
     })
     .then((r) => {
-      console.log(r.data);
       pending = filterFollowsElem(followDoc, pending);
       dispatch(setFollows({ dismissedPendingFollowers: [...pending] }));
     })
@@ -198,7 +189,6 @@ export const deleteDismissedPendingFollower = (followDoc) => (
       _id: followDoc.user._id,
     })
     .then((r) => {
-      console.log(r.data);
       pending = filterFollowsElem(followDoc, pending);
       dispatch(setFollows({ dismissedPendingFollowers: [...pending] }));
     })
@@ -211,13 +201,11 @@ export const deleteDismissedPendingFollower = (followDoc) => (
 export const deletePendingFollowee = (followDoc) => (dispatch, getState) => {
   let pending = getState().follows.pendingFollowees;
 
-  console.log(followDoc);
   BaseUrlAxios()
     .delete(`/followees/${followDoc.user._id}`, {
       _id: followDoc.user._id,
     })
     .then((r) => {
-      console.log(r.data);
       pending = filterFollowsElem(followDoc, pending);
       dispatch(setFollows({ pendingFollowees: [...pending] }));
     })

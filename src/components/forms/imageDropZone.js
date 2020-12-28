@@ -3,7 +3,7 @@ import Dropzone from "react-dropzone";
 
 function imageDropZone() {
   return (
-    <Dropzone onDrop={(acceptedFiles) => console.log(acceptedFiles)}>
+    <Dropzone>
       {({ getRootProps, getInputProps }) => (
         <div {...getRootProps()}>
           <input {...getInputProps()} />

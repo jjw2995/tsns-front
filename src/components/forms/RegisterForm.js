@@ -45,13 +45,10 @@ function RegisterForm(props) {
         setSubmitting(true);
 
         try {
-          console.log("submit: ", data);
-
           let a = await axios.post(
             process.env.REACT_APP_API_ENDPOINT + "/auth/register",
             data
           );
-          console.log(a);
           alert(
             "validation email with a link has been sent, click link and login"
           );

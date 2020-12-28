@@ -10,7 +10,6 @@ function FollowersList({ title, isShow, uid }) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [followers, setFollowers] = useState([]);
   const loggedID = useSelector((state) => state.auth.user._id);
-  console.log(loggedID);
 
   const openModal = () => setModalIsOpen(true);
   const closeModal = () => setModalIsOpen(false);
@@ -18,7 +17,6 @@ function FollowersList({ title, isShow, uid }) {
     BaseUrlAxios()
       .get(`/followers/${uid}`)
       .then((r) => {
-        console.log(r.data);
         setFollowers(r.data);
       })
       .catch((e) => {
@@ -35,9 +33,7 @@ function FollowersList({ title, isShow, uid }) {
     BaseUrlAxios()
       .get(path)
       .then((r) => {
-        console.log(r.data);
         setFollowers((pre) => {
-          console.log([...pre, ...r.data]);
           return [...pre, ...r.data];
         });
       })
@@ -47,13 +43,11 @@ function FollowersList({ title, isShow, uid }) {
   };
 
   const removeFollower = (followDoc, idx) => {
-    console.log(idx);
     BaseUrlAxios()
       .delete(`/followers/${followDoc.user._id}`, {
         _id: followDoc.user._id,
       })
       .then((r) => {
-        console.log(r.data);
         setFollowers((pre) => {
           let newArr = [...pre];
           newArr.splice(idx, 1);

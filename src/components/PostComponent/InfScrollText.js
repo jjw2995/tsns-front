@@ -13,7 +13,6 @@ function InfScrollText() {
       });
     }, 1500);
   };
-  console.log(state.length);
 
   return (
     <div
