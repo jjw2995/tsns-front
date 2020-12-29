@@ -10,7 +10,7 @@ import {
   getPendingFollowers,
 } from "../../redux/follows/followsActions";
 import { useDispatch, useSelector } from "react-redux";
-import DismissedPending from "./DismissedPending";
+import DismissedPending from "./dismissed/DismissedPending";
 
 function Pending() {
   const [openModal, setOpenModal] = useState(false);
