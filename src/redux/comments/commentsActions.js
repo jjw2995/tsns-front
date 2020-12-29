@@ -183,3 +183,55 @@ export const postComment = (postID, parentCommentID = null, content) => (
       console.log(e);
     });
 };
+
+export const postCommentReaction = (commentID, idx, reaction) => (
+  dispatch,
+  getState
+) => {
+  BaseUrlAxios()
+    .post("/comments/react", { commentID: commentID, reaction: reaction })
+    .then((r) => {
+      let updatedComments = JSON.parse(JSON.stringify(getState().comments));
+      console.log(updatedComments);
+      if (idx.length > 1) {
+        updatedComments[idx[0]].subComments[idx[1]].reactions =
+          r.data.reactions;
+        updatedComments[idx[0]].subComments[idx[1]].userReaction =
+          r.data.userReaction;
+      } else {
+        updatedComments[idx[0]].reactions = r.data.reactions;
+        updatedComments[idx[0]].userReaction = r.data.userReaction;
+      }
+      dispatch(setComments(updatedComments));
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+};
+
+export const deleteCommentReaction = (commentID, idx) => (
+  dispatch,
+  getState
+) => {
+  // console.log(commentID);
+  // console.log(idx);
+  BaseUrlAxios()
+    .delete(`/comments/react/${commentID}`)
+    .then((r) => {
+      let updatedComments = JSON.parse(JSON.stringify(getState().comments));
+      console.log(updatedComments);
+      if (idx.length > 1) {
+        updatedComments[idx[0]].subComments[idx[1]].reactions =
+          r.data.reactions;
+        updatedComments[idx[0]].subComments[idx[1]].userReaction =
+          r.data.userReaction;
+      } else {
+        updatedComments[idx[0]].reactions = r.data.reactions;
+        updatedComments[idx[0]].userReaction = r.data.userReaction;
+      }
+      dispatch(setComments(updatedComments));
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+};

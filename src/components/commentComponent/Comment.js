@@ -4,16 +4,22 @@ import { getMoreSubComments } from "../../redux/comments/commentsActions";
 import CommentForm from "../forms/CommentForm";
 import CommentBase from "./CommentBase";
 
-function Comment({ comment }) {
+function Comment({ comment, idx }) {
   const dispatch = useDispatch();
 
   return (
     <div>
-      <CommentBase comment={comment} />
+      <CommentBase comment={comment} idx={idx} />
       <div className="pl-3">
         {comment.subComments &&
-          comment.subComments.map((subcom) => {
-            return <CommentBase comment={subcom} key={subcom._id} />;
+          comment.subComments.map((subcom, i) => {
+            return (
+              <CommentBase
+                comment={subcom}
+                idx={[...idx, i]}
+                key={subcom._id}
+              />
+            );
           })}
         <div
           className="d-flex justify-content-end"

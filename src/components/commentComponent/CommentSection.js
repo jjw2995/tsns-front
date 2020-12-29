@@ -42,7 +42,7 @@ function CommentSection({ postID }) {
       >
         <div className="d-flex flex-column" style={{ overflowY: "auto" }}>
           {comments.map((r, i) => {
-            return <Comment comment={r} key={r._id} />;
+            return <Comment comment={r} idx={[i]} key={r._id} />;
           })}
         </div>
 

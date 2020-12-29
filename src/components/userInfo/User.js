@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import BaseUrlAxios from "../../rest/AuthedAxios";
 import FollowersFollowees from "../follow/Follow";
-import Posts, { endpoints } from "../PostComponent/Posts";
+import Posts, { endpoints } from "../postComponent/Posts";
 
 const logErr = (e) => {
   console.log(JSON.parse(JSON.stringify(e)));
@@ -23,7 +23,7 @@ function User() {
       .catch((e) => {
         logErr(e);
       });
-  }, []);
+  }, [uid]);
 
   const onReqeust = (newState) => {
     setUser(() => {

@@ -2,7 +2,6 @@ import React from "react";
 import { Col, Nav, Navbar, Row, Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { clearAuth } from "../redux/auth/AuthActions";
-import DismissedPending from "./follow/DismissedPending";
 import Pending from "./follow/Pending";
 
 function NavigationBar(props) {
@@ -10,12 +9,6 @@ function NavigationBar(props) {
 
   const dispatch = useDispatch();
 
-  // const onClickHandler = (path) => {
-  //   props.history.push(path);
-  // };
-
-  // const [search, setSearch] = useState(null);
-  // const [results, setResults] = useState([]);
   const nickname = JSON.parse(localStorage.getItem("AUTH")).user.nickname;
 
   return (
@@ -80,10 +73,9 @@ function NavigationBar(props) {
           <div className="d-flex">
             <div>
               <Pending className="justify-self-end" />
-              {/* <DismissedPending /> */}
               <a
-                // href="/#"
                 href=""
+                // TODO: change to text with cursor on
                 onClick={() => {
                   dispatch(clearAuth());
                 }}

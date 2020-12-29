@@ -53,6 +53,7 @@ function RegisterForm(props) {
             "validation email with a link has been sent, click link and login"
           );
           setSubmitting(false);
+          console.log(a.data);
           props.history.push("/login");
         } catch (e) {
           setNotUnique(`this ${e.response.data.part} has already been taken`);
@@ -62,8 +63,6 @@ function RegisterForm(props) {
     >
       {({ values, errors }) => (
         <Form>
-          {/* <pre>{JSON.stringify(values, null, 2)}</pre>
-          <pre>{JSON.stringify(errors, null, 2)}</pre> */}
           <p className="text-muted">
             verification email will be sent, click the link within an hour to
             verify account.

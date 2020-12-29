@@ -24,11 +24,9 @@ const Main = withRouter((props) => {
   const refreshToken = useSelector((state) => state.auth.refreshToken);
   useEffect(() => {
     store.dispatch(hydrateAuth());
-    console.log("rerendering Main");
   });
 
   return (
-    // <Container className="fluid" style={{ marginBottom: "100px" }}>
     <React.Fragment>
       {refreshToken ? (
         <Route component={AuthRequired} />

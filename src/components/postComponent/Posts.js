@@ -45,7 +45,7 @@ function Posts({ endPoint }) {
                     }}
                   />
                 )}
-                <Post post={r} />
+                <Post post={r} idx={i} />
               </div>
             );
           })

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import BaseUrlAxios from "../../rest/AuthedAxios";
 import FollowersFollowees from "../follow/Follow";
-import Posts, { endpoints } from "../PostComponent/Posts";
+import Posts, { endpoints } from "../postComponent/Posts";
 
 function Mine() {
   const user = useSelector((state) => state.auth.user);
@@ -17,7 +17,7 @@ function Mine() {
       .catch((e) => {
         console.log(JSON.parse(JSON.stringify(e)));
       });
-  }, []);
+  }, [user._id]);
 
   return (
     <div>

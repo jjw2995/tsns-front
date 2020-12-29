@@ -1,19 +1,13 @@
-import { Button } from "react-bootstrap";
-import React, { useState } from "react";
+import React from "react";
 import Modal from "react-modal";
 import PostForm from "../forms/PostForm";
-import Posts, { endpoints } from "../PostComponent/Posts";
+import Posts, { endpoints } from "../postComponent/Posts";
 import MyModal from "../myComponents/MyModal";
 
 Modal.setAppElement("#root");
 
 function Home(props) {
   // TODO: fix after postForm
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-
-  const closeModal = () => {
-    setModalIsOpen(false);
-  };
   // useEffect(() => {}, [modalIsOpen]);
 
   return (

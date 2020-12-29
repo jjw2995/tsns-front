@@ -1,8 +1,5 @@
-import Modal from "react-modal";
 import React, { useEffect, useState } from "react";
 import BaseUrlAxios from "../../rest/AuthedAxios";
-import { Button, Card } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import FolloweesList from "./FolloweesList";
 import FollowersList from "./FollowersList";
 

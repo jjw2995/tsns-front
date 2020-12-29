@@ -1,11 +1,4 @@
-import {
-  SET_FOLLOWS,
-  CLEAR_FOLLOWS,
-  HYDRATE_FOLLOWS,
-  SET_PENDING_FOLLOWERS,
-  SET_FOLLOWEES,
-  SET_FOLLOWERS,
-} from "./followsTypes";
+import { SET_FOLLOWS, CLEAR_FOLLOWS } from "./followsTypes";
 
 const initialState = {
   followers: [],

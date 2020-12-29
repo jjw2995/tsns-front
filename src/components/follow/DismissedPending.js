@@ -1,10 +1,8 @@
 import { Button } from "react-bootstrap";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Modal from "react-modal";
 
 import DismissedPendingFollowers from "./DismissedPendingFollowers";
-import { getDismissedPendingFollowers } from "../../redux/follows/followsActions";
-import { useDispatch } from "react-redux";
 // import { Button } from "bootstrap";
 
 function DismissedPending() {
@@ -13,7 +11,6 @@ function DismissedPending() {
   const closeModal = () => {
     setOpenModal(false);
   };
-  const dispatch = useDispatch();
 
   return (
     <div>

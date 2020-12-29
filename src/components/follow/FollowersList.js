@@ -2,7 +2,6 @@ import Modal from "react-modal";
 import React, { useState } from "react";
 import BaseUrlAxios from "../../rest/AuthedAxios";
 import { Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import FollowLinkItem from "./FollowLinkItem";
 import { useSelector } from "react-redux";
 

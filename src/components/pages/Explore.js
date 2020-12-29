@@ -1,5 +1,5 @@
 import React from "react";
-import Posts, { endpoints } from "../PostComponent/Posts";
+import Posts, { endpoints } from "../postComponent/Posts";
 import SearchUser from "../SearchUser";
 
 function Explore() {

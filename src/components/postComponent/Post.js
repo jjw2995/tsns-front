@@ -2,32 +2,26 @@ import React, { useState } from "react";
 import { Button, Carousel } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { deletePost } from "../../redux/posts/postsActions";
+import {
+  deletePost,
+  deletePostReaction,
+  postPostReaction,
+} from "../../redux/posts/postsActions";
 import CommentSection from "../commentComponent/CommentSection";
-// {
-//     "reactions": {
-//       "love": 0,
-//       "haha": 0,
-//       "sad": 0,
-//       "angry": 0
-//     },
-//     "user": {
-//       "_id": "5faaacd0ec3c410589fef8c0",
-//       "nickname": "user1"
-//     },
-//     "createdAt": "2020-11-10T15:08:04.316Z",
-//     "updatedAt": "2020-11-10T15:08:04.316Z",
-//     "userReaction": null
-//   }
+import Reactions from "../Reactions";
 
-// const reactions = [
-//   { name: "LOVE", value: 1 },
-//   { name: "HAHA", value: 2 },
-//   { name: "SAD", value: 3 },
-//   { name: "ANGRY", value: 4 },
-// ];
+function Post({ post, idx }) {
+  const {
+    createdAt,
+    description,
+    level,
+    media,
+    reactions,
+    user: postOwner,
+    userReaction,
+    _id: postID,
+  } = post;
 
-function Post({ post }) {
   const [expandText, setExpandText] = useState(false);
 
   const user = useSelector((state) => state.auth.user);
@@ -39,16 +33,13 @@ function Post({ post }) {
     dispatch(deletePost(postID));
   };
 
-  const {
-    createdAt,
-    description,
-    level,
-    media,
-    // reactions,
-    user: postOwner,
-    // userReaction,
-    _id: postID,
-  } = post;
+  const postReact = (reaction) => {
+    dispatch(postPostReaction(postID, idx, reaction));
+  };
+
+  const deleteReact = () => {
+    dispatch(deletePostReaction(postID, idx));
+  };
 
   const date = new Date(createdAt)
     .toISOString()
@@ -70,7 +61,6 @@ function Post({ post }) {
               >
                 <h4>{postOwner.nickname}</h4>
               </Link>
-              {/* <h4 className="card-title">{postOwner.nickname}</h4> */}
               <h6 className="card-subtitle mb-2 text-muted">
                 <b>{level}</b>, created <b>{date}</b>
               </h6>
@@ -120,6 +110,13 @@ function Post({ post }) {
             </div>
           )}
           <div>
+            <Reactions
+              contentID={postID}
+              userReaction={userReaction}
+              reactions={reactions}
+              postReact={postReact}
+              deleteReact={deleteReact}
+            />
             <p
               onClick={() => {
                 setExpandText(!expandText);
@@ -129,7 +126,11 @@ function Post({ post }) {
                   ? "card-text show-white-space"
                   : "hidden-text card-text show-white-space"
               }
-              style={{ lineHeight: "normal", fontSize: "1.1em", margin: "2px" }}
+              style={{
+                lineHeight: "normal",
+                fontSize: "1.3rem",
+                // margin: "2px",
+              }}
             >
               {description}
             </p>

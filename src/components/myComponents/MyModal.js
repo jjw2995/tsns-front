@@ -27,19 +27,11 @@ function MyModal({ startOpen = false, buttonName, ...rest }) {
           },
         }}
         isOpen={open}
-        onRequestClose={() => {
-          setOpen(false);
-        }}
+        onRequestClose={closeModal}
       >
         {React.cloneElement(props.children, { closeModal })}
-        {/* {props.children} */}
       </Modal>
-      <Button
-        className="btn-secondary"
-        onClick={() => {
-          setOpen(true);
-        }}
-      >
+      <Button className="btn-secondary" onClick={openModal}>
         {buttonName}
       </Button>
     </div>

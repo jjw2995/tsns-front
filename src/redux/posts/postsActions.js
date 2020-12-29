@@ -55,24 +55,6 @@ export const clearPost = () => {
   };
 };
 
-// export const errPost = (e) => {
-//   // msg(JSON.stringify(e));
-//   return {
-//     type: ERR_POST,
-//     payload: e,
-//   };
-// };
-
-// export const appendPostFront = (post) => (dispatch, getState) => {
-//   const old = getState().post;
-//   if (old.isLoading) return;
-//   dispatch(setReq(true));
-
-//   dispatch(setPosts([post, ...old.posts]));
-
-//   dispatch(setReq(false));
-// };
-
 export const postPost = (postFormData) => (dispatch, getState) => {
   BaseUrlAxios(true)
     .post("/posts", postFormData)
@@ -128,3 +110,40 @@ export const deletePost = (postID) => (dispatch, getState) => {
       dispatch(setPosts(updatedPosts));
     });
 };
+
+export const postPostReaction = (postID, idx, reaction) => (
+  dispatch,
+  getState
+) => {
+  BaseUrlAxios()
+    .post("/posts/react", { postID: postID, reaction: reaction })
+    .then((r) => {
+      let updatedPosts = [...getState().post.posts];
+      updatedPosts[idx].reactions = r.data.reactions;
+      updatedPosts[idx].userReaction = r.data.userReaction;
+      dispatch(setPosts(updatedPosts));
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+};
+
+export const deletePostReaction = (postID, idx) => (dispatch, getState) => {
+  BaseUrlAxios()
+    .delete(`/posts/react/${postID}`)
+    .then((r) => {
+      let updatedPosts = [...getState().post.posts];
+      updatedPosts[idx].reactions = r.data.reactions;
+      updatedPosts[idx].userReaction = r.data.userReaction;
+      dispatch(setPosts(updatedPosts));
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+};
+
+// router.delete(
+//   "/react/:postID",
+//   validate(Segments.PARAMS, { postID }),
+//   postController.deleteReact
+// );
