@@ -5,7 +5,7 @@ import Explore from "./pages/Explore";
 import Home from "./pages/Home";
 import Mine from "./pages/Mine";
 import NavigationBar from "./NavigationBar";
-import User from "./userInfo/User";
+import User from "./pages/User";
 
 function AuthRequired(props) {
   return (

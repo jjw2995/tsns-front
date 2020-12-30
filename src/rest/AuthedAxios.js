@@ -1,4 +1,5 @@
 import axios from "axios";
+import jwtDecode from "jwt-decode";
 import { useDispatch } from "react-redux";
 import {
   addReqQueue,
@@ -6,6 +7,7 @@ import {
   keepTokensFresh,
   setAuth,
   setRefreshing,
+  alertAuthClear,
 } from "../redux/auth/AuthActions";
 import store from "../redux/store";
 
@@ -31,6 +33,31 @@ const BaseUrlAxios = (isMuliPart = false) => {
 
   instance.interceptors.response.use(
     (res) => {
+      const tNowInSec = Date.now() / 1000 + 300;
+      const accExpAt = jwtDecode(store.getState().auth.accessToken).exp;
+      // console.log(tNowInSec, " tNow + 5m");
+      // console.log(accExpAt, " accTok expires at");
+      // console.log(accExpAt < tNowInSec);
+
+      if (accExpAt < tNowInSec && !store.getState().auth.isRefreshing) {
+        store.dispatch(setRefreshing(true));
+        console.log("in refresh");
+        instance
+          .post("/auth/token", {
+            refreshToken: store.getState().auth.refreshToken,
+          })
+          .then((r) => {
+            store.dispatch(setAuth(r.data));
+          })
+          .catch((e) => {
+            console.error("refresh token expired, logging out =>", e);
+          })
+          .finally(() => {
+            store.dispatch(setRefreshing(false));
+          });
+
+        // refresh token and retry queued requests
+      }
       return res;
     },
     (error) => {
@@ -57,10 +84,12 @@ const BaseUrlAxios = (isMuliPart = false) => {
                   cb(accessToken);
                 }
               });
+              // throw Error();
               return instance(config);
             })
             .catch((e) => {
               console.error("refresh token expired, logging out =>", e);
+              store.dispatch(alertAuthClear());
             })
             .finally(() => {
               store.dispatch(setRefreshing(false));
