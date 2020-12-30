@@ -2,7 +2,7 @@ import { Button } from "react-bootstrap";
 import React, { useState } from "react";
 import Modal from "react-modal";
 
-import DismissedPendingFollowers from "../DismissedPendingFollowers";
+import DismissedPendingFollowers from "./DismissedPendingFollowers";
 // import { Button } from "bootstrap";
 
 function DismissedPending() {

@@ -99,13 +99,6 @@ function FollowersList({ title, isShow, uid }) {
                   <div />
                 )}
               </FollowLinkItem>
-              // <Link
-              //   key={r._id}
-              //   className="list-group-item list-group-item-action m-2"
-              //   to={`/explore/users/${r.user._id}`}
-              // >
-              //   <h4>{r.user.nickname}</h4>
-              // </Link>
             );
           })}
         <div className="justify-content-center d-flex">

@@ -3,8 +3,8 @@ import React from "react";
 import { Button, OverlayTrigger, Tooltip } from "react-bootstrap";
 
 const emotes = {
-  love: " ♥‿♥ ",
-  haha: "｡◕‿◕｡",
+  love: "♥ ‿ ♥",
+  haha: "≥ ∇ ≤",
   sad: "╯︵╰,",
   angry: "ಠ ∩ಠ",
 };
@@ -15,6 +15,7 @@ function Reactions({
   reactions,
   postReact,
   deleteReact,
+  style,
 }) {
   const onReactionClick = (e) => {
     let emote = e.target.value;
@@ -45,7 +46,7 @@ function Reactions({
               <Button
                 className="mx-1"
                 size="sm"
-                // style={{ fontSize: "12px" }}
+                style={style}
                 variant={userReaction === r ? "dark" : "outline-dark"}
                 key={contentID + r}
                 value={r}

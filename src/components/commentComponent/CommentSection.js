@@ -17,7 +17,7 @@ function CommentSection({ postID }) {
   const dispatch = useDispatch();
 
   return (
-    <div className="container">
+    <div>
       <Modal
         style={{
           overlay: {

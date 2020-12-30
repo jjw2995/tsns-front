@@ -1,4 +1,12 @@
-import { HYDRATE_AUTH, SET_AUTH, ERR_AUTH, CLEAR_AUTH } from "./AuthTypes";
+import {
+  HYDRATE_AUTH,
+  SET_AUTH,
+  ERR_AUTH,
+  CLEAR_AUTH,
+  ADD_REQ_QUEUE,
+  CLEAR_REQ_QUEUE,
+  SET_REFRESHING,
+} from "./AuthTypes";
 import jwtDecode from "jwt-decode";
 import BaseUrlAxios from "../../rest/AuthedAxios";
 
@@ -11,6 +19,28 @@ export const setAuth = ({ _id, nickname, accessToken, refreshToken }) => {
         : { accessToken, refreshToken },
   };
 };
+
+export const setRefreshing = (isRefreshing) => {
+  return {
+    // type: SET_REFRESHING,
+    type: SET_AUTH,
+    payload: { isRefreshing: isRefreshing },
+  };
+};
+
+export const addReqQueue = (item) => {
+  return {
+    type: ADD_REQ_QUEUE,
+    payload: item,
+  };
+};
+
+export const emptyReqQueue = () => {
+  return {
+    type: CLEAR_REQ_QUEUE,
+  };
+};
+
 export const hydrateAuth = () => {
   return {
     type: HYDRATE_AUTH,
@@ -45,29 +75,29 @@ export const login = (data) => (dispatch) => {
 
 // TODO: something wrong with refreshing the tokens
 export const keepTokensFresh = () => async (dispatch, getState) => {
-  const tNow = Date.now() / 1000;
+  // const tNow = Date.now() / 1000;
   const refTok = getState().auth.refreshToken;
-  const accExpAt = jwtDecode(getState().auth.accessToken).exp;
-  const refExpAt = jwtDecode(refTok).exp;
+  // const accExpAt = jwtDecode(getState().auth.accessToken).exp;
+  // const refExpAt = jwtDecode(refTok).exp;
 
-  const didAccTokExp = accExpAt < tNow;
-  const didRefTokExp = refExpAt < tNow;
-  if (didRefTokExp) {
+  // const didAccTokExp = accExpAt < tNow;
+  // const didRefTokExp = refExpAt < tNow;
+  // if (didRefTokExp) {
+  //   _alertAuthClear(dispatch);
+  //   return;
+  // }
+  // if (didAccTokExp) {
+  try {
+    let res = await BaseUrlAxios().post("/auth/token", {
+      refreshToken: refTok,
+    });
+
+    dispatch(setAuth(res.data));
+  } catch (error) {
+    console.log(error.message);
     _alertAuthClear(dispatch);
-    return;
   }
-  if (didAccTokExp) {
-    try {
-      let res = await BaseUrlAxios().post("/auth/token", {
-        refreshToken: refTok,
-      });
-
-      dispatch(setAuth(res.data));
-    } catch (error) {
-      console.log(error.message);
-      _alertAuthClear(dispatch);
-    }
-  }
+  // }
 };
 
 const _alertAuthClear = (dispatch) => {

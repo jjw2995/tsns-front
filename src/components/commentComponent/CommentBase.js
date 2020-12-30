@@ -9,6 +9,7 @@ import {
 } from "../../redux/comments/commentsActions";
 
 import Reactions from "../Reactions";
+import UserLink from "../UserLink";
 
 function CommentBase({ comment, idx }) {
   const {
@@ -47,15 +48,15 @@ function CommentBase({ comment, idx }) {
     >
       <div className="row justify-content-center">
         <div className="col-auto mr-auto ml-1">
-          <Link
+          <UserLink
             className="row"
             style={{ textDecoration: "none", color: "inherit" }}
-            to={`/explore/users/${commentOwner._id}`}
+            userID={commentOwner._id}
           >
             <b>{commentOwner.nickname}</b>
-          </Link>
+          </UserLink>
 
-          <small style={{ fontSize: "10px" }} className="row">
+          <small style={{ fontSize: "0.8em" }} className="row">
             {date}
           </small>
         </div>
@@ -83,6 +84,7 @@ function CommentBase({ comment, idx }) {
           reactions={reactions}
           postReact={postReact}
           deleteReact={deleteReact}
+          style={{ fontSize: "0.7em" }}
         />
         <div>
           {user._id === comment.user._id && (

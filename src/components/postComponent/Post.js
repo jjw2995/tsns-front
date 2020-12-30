@@ -9,6 +9,7 @@ import {
 } from "../../redux/posts/postsActions";
 import CommentSection from "../commentComponent/CommentSection";
 import Reactions from "../Reactions";
+import UserLink from "../UserLink";
 
 function Post({ post, idx }) {
   const {
@@ -54,13 +55,13 @@ function Post({ post, idx }) {
         <div className="card-body">
           <div className="d-flex">
             <div className="column">
-              <Link
+              <UserLink
                 className="card-title"
                 style={{ textDecoration: "none", color: "inherit" }}
-                to={`/explore/users/${postOwner._id}`}
+                userID={postOwner._id}
               >
                 <h4>{postOwner.nickname}</h4>
-              </Link>
+              </UserLink>
               <h6 className="card-subtitle mb-2 text-muted">
                 <b>{level}</b>, created <b>{date}</b>
               </h6>
@@ -94,29 +95,22 @@ function Post({ post, idx }) {
             />
           ) : (
             <div>
-              {media.length === 1 ? (
-                <img src={media[0]} className="card-img" alt="not available" />
-              ) : (
-                <Carousel interval={null} wrap={false}>
-                  {media.map((r, index) => {
-                    return (
-                      <Carousel.Item key={postID + index}>
-                        <img src={r} className="card-img" alt="not available" />
-                      </Carousel.Item>
-                    );
-                  })}
-                </Carousel>
-              )}
+              <Carousel
+                interval={null}
+                wrap={false}
+                indicators={media.length === 1 ? false : true}
+              >
+                {media.map((r, index) => {
+                  return (
+                    <Carousel.Item key={postID + index}>
+                      <img src={r} className="card-img" alt="not available" />
+                    </Carousel.Item>
+                  );
+                })}
+              </Carousel>
             </div>
           )}
           <div>
-            <Reactions
-              contentID={postID}
-              userReaction={userReaction}
-              reactions={reactions}
-              postReact={postReact}
-              deleteReact={deleteReact}
-            />
             <p
               onClick={() => {
                 setExpandText(!expandText);
@@ -136,8 +130,18 @@ function Post({ post, idx }) {
             </p>
           </div>
         </div>
-        <div className="m-2">
+        <div className="m-2 d-flex flex-row">
           <CommentSection postID={post._id} />
+          <div className="justify-content-end ml-auto">
+            <Reactions
+              contentID={postID}
+              userReaction={userReaction}
+              reactions={reactions}
+              postReact={postReact}
+              deleteReact={deleteReact}
+              style={{ fontSize: "1.2em" }}
+            />
+          </div>
         </div>
       </div>
     </div>

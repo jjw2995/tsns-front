@@ -1,16 +1,17 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import UserLink from "../UserLink";
 
 function FollowLinkItem(props) {
   let r = props.item;
   return (
     <div className="row">
-      <Link
+      <UserLink
         className="list-group-item list-group-item-action col m-2"
-        to={`/explore/users/${r.user._id}`}
+        userID={r.user._id}
       >
         {r.user.nickname}
-      </Link>
+      </UserLink>
       {props.children}
     </div>
   );

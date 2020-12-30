@@ -22,7 +22,6 @@ function Mine() {
   return (
     <div>
       <h1>My info</h1>
-      {/* <UserInfo /> */}
       {myInfo ? (
         <div>
           <div>{myInfo.nickname}</div>

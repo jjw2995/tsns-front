@@ -4,7 +4,6 @@ import { Button } from "react-bootstrap";
 import Dropzone from "react-dropzone";
 import { useDispatch } from "react-redux";
 import { postPost } from "../../redux/posts/postsActions";
-// import { keepTokensFresh } from "../../redux/auth/AuthActions";
 
 const MAX_NUM_IMAGES = 4;
 
@@ -26,7 +25,6 @@ function PostForm(props) {
         values.images.forEach((r, i) => {
           formData.set(`${i}`, r);
         });
-        // dispatch(keepTokensFresh());
         dispatch(postPost(formData));
         props.closeModal();
       }}
@@ -177,18 +175,9 @@ function PostForm(props) {
               }}
             />
 
-            <Button
-              type="submit"
-              className="m-5"
-              // onClick={() => {
-              //   closeForm();
-              // }}
-            >
+            <Button type="submit" className="m-5">
               POST
             </Button>
-            {/* <div>
-            <pre>{JSON.stringify(values, null, 2)}</pre>
-          </div> */}
           </Form>
         </div>
       )}

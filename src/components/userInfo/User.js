@@ -32,11 +32,35 @@ function User() {
     });
   };
 
+  const onClickRequest = () => {
+    let newState = { ...user };
+    !user.isFollowing
+      ? BaseUrlAxios()
+          .post("/followees", { _id: uid })
+          .then((r) => {
+            newState.isPending = r.data.isPending;
+            onReqeust(newState);
+          })
+          .catch((e) => {
+            logErr(e);
+          })
+      : BaseUrlAxios()
+          .delete(`/followees/${uid}`)
+          .then((r) => {
+            newState.isPending = false;
+            onReqeust(newState);
+          })
+          .catch((e) => {
+            logErr(e);
+          });
+  };
+
   return (
-    <div>
-      {user ? (
-        <div className="card d-flex flex-col">
-          <div>{user.nickname}</div>
+    <div className="justify-content-center">
+      {user && (
+        <div className="card">
+          <h4 className="card-title">{user.nickname}</h4>
+
           {user.isFollowing ? (
             user.isPending ? (
               <div>pending</div>
@@ -48,43 +72,17 @@ function User() {
           ) : (
             <br />
           )}
+
           <div>
-            <button
-              onClick={() => {
-                let newState = { ...user };
-                !user.isFollowing
-                  ? BaseUrlAxios()
-                      .post("/followees", { _id: uid })
-                      .then((r) => {
-                        newState.isPending = r.data.isPending;
-                        onReqeust(newState);
-                      })
-                      .catch((e) => {
-                        logErr(e);
-                      })
-                  : BaseUrlAxios()
-                      .delete(`/followees/${uid}`)
-                      .then((r) => {
-                        newState.isPending = false;
-                        onReqeust(newState);
-                      })
-                      .catch((e) => {
-                        logErr(e);
-                      });
-              }}
-            >
+            <button onClick={onClickRequest}>
               {user.isFollowing ? <div>unfollow</div> : <div>follow</div>}
             </button>
           </div>
-          <div className="container">
-            <FollowersFollowees
-              uid={user._id}
-              isShow={user.isFollowing && !user.isPending}
-            />
-          </div>
+          <FollowersFollowees
+            uid={user._id}
+            isShow={user.isFollowing && !user.isPending}
+          />
         </div>
-      ) : (
-        <div />
       )}
       <Posts endPoint={endpoints(uid).USER} />
     </div>

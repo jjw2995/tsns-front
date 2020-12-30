@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import BaseUrlAxios from "../rest/AuthedAxios";
-import { Link } from "react-router-dom";
+import UserLink from "./UserLink";
 
 function SearchUser() {
   const [results, setResults] = useState([]);
-  const [expUserID, setExpUserID] = useState();
-  useEffect(() => {}, [expUserID]);
   return (
     <div>
       <div className="row justify-content-center">
@@ -36,18 +34,13 @@ function SearchUser() {
             <div style={{ float: "left" }} className="list-group">
               {results.map((r) => {
                 return (
-                  <Link
+                  <UserLink
                     key={r._id}
                     className="list-group-item list-group-item-action"
-                    onClick={() => {
-                      setExpUserID(r._id);
-                      setResults([]);
-                      document.getElementById("searchField").value = "";
-                    }}
-                    to={`/explore/users/${r._id}`}
+                    userID={r._id}
                   >
                     {r.nickname}
-                  </Link>
+                  </UserLink>
                 );
               })}
             </div>

@@ -4,14 +4,15 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   deletePendingFollowee,
   getPendingFollowees,
-} from "../../redux/follows/followsActions";
-import FollowLinkItem from "./FollowLinkItem";
+} from "../../../redux/follows/followsActions";
+import FollowLinkItem from "../FollowLinkItem";
 
 function PendingFollowees() {
   const pendingFollowees = useSelector(
     (state) => state.follows.pendingFollowees
   );
   const dispatch = useDispatch();
+  console.log(pendingFollowees);
 
   useEffect(() => {
     dispatch(getPendingFollowees());

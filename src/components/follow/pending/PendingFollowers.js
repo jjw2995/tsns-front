@@ -7,8 +7,8 @@ import {
   deletePendingFollower,
   dismissPendingFollower,
   getPendingFollowers,
-} from "../../redux/follows/followsActions";
-import FollowLinkItem from "./FollowLinkItem";
+} from "../../../redux/follows/followsActions";
+import FollowLinkItem from "../FollowLinkItem";
 
 function PendingFollowers() {
   const pendingFollowers = useSelector(

@@ -11,9 +11,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { login } from "../../redux/auth/AuthActions";
 
 function LoginForm(props) {
+  const [showPass, setShowPass] = useState(false);
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
-  const [showPass, setShowPass] = useState(false);
 
   const showPassFn = () => {
     return showPass ? "text" : "password";
@@ -36,7 +36,7 @@ function LoginForm(props) {
             props.history.push("/home");
           } catch (e) {
             // TODO: if email or nickname already exists - handle
-            console.log(e);
+            // console.log(e);
           }
         }}
         validationSchema={yup.object({

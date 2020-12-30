@@ -2,7 +2,7 @@ import React from "react";
 import { Col, Nav, Navbar, Row, Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { clearAuth } from "../redux/auth/AuthActions";
-import Pending from "./follow/Pending";
+import Pending from "./follow/pending/Pending";
 
 function NavigationBar(props) {
   const path = props.location.pathname;
