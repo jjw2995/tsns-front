@@ -2,7 +2,13 @@ import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import Modal from "react-modal";
 
-function MyModal({ startOpen = false, buttonName, PassedButton, ...rest }) {
+function MyModal({
+  startOpen = false,
+  buttonName,
+  style,
+  PassedButton,
+  ...rest
+}) {
   const props = { ...rest };
   const [open, setOpen] = useState(startOpen);
   const closeModal = () => {
@@ -44,7 +50,12 @@ function MyModal({ startOpen = false, buttonName, PassedButton, ...rest }) {
           x
         </Button>
       </Modal>
-      <Button className="btn-secondary" onClick={openModal}>
+      <Button
+        className="btn-secondary"
+        size="lg"
+        style={style}
+        onClick={openModal}
+      >
         {buttonName}
       </Button>
     </div>

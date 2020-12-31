@@ -30,7 +30,7 @@ function Pending() {
   return (
     <div>
       <Button
-        size="lg"
+        // size="sm"
         variant={getNew ? "dark" : "outline-dark"}
         onClick={() => {
           setOpenModal(true);

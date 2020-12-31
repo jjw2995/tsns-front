@@ -141,7 +141,7 @@ function Post({ post, idx }) {
               reactions={reactions}
               postReact={postReact}
               deleteReact={deleteReact}
-              style={{ fontSize: "1.5vw" }}
+              style={{ fontSize: "1rem" }}
             />
           </div>
           <CommentSection postID={post._id} />

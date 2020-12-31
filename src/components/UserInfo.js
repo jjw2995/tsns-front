@@ -1,5 +1,4 @@
 import React from "react";
-import { Card } from "react-bootstrap";
 
 function UserInfo({ user, followOrSetPriv, children }) {
   console.log(user);
@@ -7,17 +6,17 @@ function UserInfo({ user, followOrSetPriv, children }) {
     <React.Fragment>
       <div className="d-flex" style={{ justifyContent: "center" }}>
         <div
-          style={{ width: "50%", justifyContent: "center" }}
+          style={{ width: "50rem", justifyContent: "center" }}
           // style={{ maxWidth: "50rem", minWidth: "50rem" }}
         >
           {user && (
             <div className="d-flex">
-              <div>
+              <div className="mx-auto">
                 <h3>{user.nickname}</h3>
                 <div>{user.isPrivate ? "private user" : "public user"}</div>
-                <div className="mt-2">{followOrSetPriv}</div>
               </div>
-              <div className="ml-auto">{children}</div>
+              <div className="mx-auto">{followOrSetPriv}</div>
+              <div className="mx-auto">{children}</div>
             </div>
           )}
         </div>

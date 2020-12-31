@@ -5,7 +5,7 @@ import { Button } from "react-bootstrap";
 import FollowLinkItem from "./FollowLinkItem";
 import { useSelector } from "react-redux";
 
-function FollowersList({ title, isShow, uid }) {
+function FollowList({ title, isShow, uid, style, className, item }) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [followers, setFollowers] = useState([]);
   const loggedID = useSelector((state) => state.auth.user._id);
@@ -14,7 +14,7 @@ function FollowersList({ title, isShow, uid }) {
   const closeModal = () => setModalIsOpen(false);
   const getFollows = () => {
     BaseUrlAxios()
-      .get(`/followers/${uid}`)
+      .get(`/${item}/${uid}`)
       .then((r) => {
         setFollowers(r.data);
       })
@@ -24,7 +24,7 @@ function FollowersList({ title, isShow, uid }) {
   };
 
   const getMoreFollows = () => {
-    let path = `/followers/${uid}`;
+    let path = `${item}/${uid}`;
 
     if (followers && followers.length > 0) {
       path += `?last-doc-id=${followers[followers.length - 1]._id}`;
@@ -56,23 +56,24 @@ function FollowersList({ title, isShow, uid }) {
   };
 
   return (
-    <div className="d-flex justify-content-center">
+    <div style={style} className={className}>
       <Button
         disabled={!isShow}
-        className="m-2"
+        // className="m-2"
         variant="outline-dark"
+        // size="sm"
         onClick={() => {
           if (isShow) {
             openModal();
           }
         }}
       >
-        <h4>{title}</h4>
+        <b>{title}</b>
       </Button>
       <Modal
         style={{
           overlay: {
-            // zIndex: "1000",
+            zIndex: "2",
           },
           content: {
             top: "13%",
@@ -86,7 +87,7 @@ function FollowersList({ title, isShow, uid }) {
         onAfterOpen={getFollows}
         onRequestClose={closeModal}
       >
-        <h3>Followers</h3>
+        <h3>{item}</h3>
         {followers &&
           followers.length > 0 &&
           followers.map((r, i) => {
@@ -125,4 +126,4 @@ function FollowersList({ title, isShow, uid }) {
   );
 }
 
-export default FollowersList;
+export default FollowList;

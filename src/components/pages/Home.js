@@ -3,13 +3,11 @@ import Modal from "react-modal";
 import PostForm from "../forms/PostForm";
 import Posts, { endpoints } from "../postComponent/Posts";
 import MyModal from "../myComponents/MyModal";
+import { isSmallWindow } from "../../utils";
 
 Modal.setAppElement("#root");
 
 function Home(props) {
-  // TODO: fix after postForm
-  // useEffect(() => {}, [modalIsOpen]);
-
   return (
     <div>
       <Posts endPoint={endpoints().HOME} />
@@ -19,10 +17,8 @@ function Home(props) {
       >
         <div
           style={{
-            paddingRight: "2rem",
-            paddingBottom: "2rem",
-            left: "100px",
-            top: "150px",
+            paddingRight: isSmallWindow ? "5rem" : "2rem",
+            paddingBottom: isSmallWindow ? "" : "2rem",
             pointerEvents: "initial",
           }}
         >

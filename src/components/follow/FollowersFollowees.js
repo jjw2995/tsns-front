@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import BaseUrlAxios from "../../rest/AuthedAxios";
-import FolloweesList from "./FolloweesList";
-import FollowersList from "./FollowersList";
+import FollowList from "./FollowList";
 
 function FollowersFollowees({ uid, isShow }) {
   const [followCounts, setFollowCounts] = useState({
@@ -23,15 +22,19 @@ function FollowersFollowees({ uid, isShow }) {
   }, []);
   return (
     <div className="row">
-      <FollowersList
-        title={`${followCounts.followersCount} - Followers`}
+      <FollowList
+        title={`${followCounts.followersCount}  Followers`}
         isShow={isShow}
         uid={uid}
+        className="m-1"
+        item={"followers"}
       />
-      <FolloweesList
-        title={`${followCounts.followeesCount} - Followees`}
+      <FollowList
+        title={`${followCounts.followeesCount}  Followees`}
         isShow={isShow}
         uid={uid}
+        className="m-1"
+        item={"followees"}
       />
     </div>
   );

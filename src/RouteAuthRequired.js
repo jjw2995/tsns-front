@@ -6,6 +6,8 @@ import Home from "./components/pages/Home";
 import Mine from "./components/pages/Mine";
 import NavigationBar from "./components/NavigationBar";
 import User from "./components/pages/User";
+import { Button } from "react-bootstrap";
+import { isSmallWindow } from "./utils";
 
 function AuthRequired(props) {
   return (
@@ -19,6 +21,30 @@ function AuthRequired(props) {
         <Route exact path="/about" component={About} />
         <Route path="/" component={Home} />
       </Switch>
+
+      <div
+        className="d-flex justify-content-end fixed-bottom"
+        style={{ pointerEvents: "none" }}
+      >
+        {isSmallWindow && (
+          <div
+            style={{
+              left: "100px",
+              top: "150px",
+              pointerEvents: "initial",
+            }}
+          >
+            <Button
+              variant="secondary"
+              onClick={() => {
+                window.scroll({ top: 0, behavior: "smooth" });
+              }}
+            >
+              <b>^^^</b>
+            </Button>
+          </div>
+        )}
+      </div>
     </React.Fragment>
   );
 }

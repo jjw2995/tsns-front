@@ -1,12 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Col, Nav, Navbar, Row, Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { clearAuth } from "../redux/auth/AuthActions";
+import { isSmallWindow } from "../utils";
 import Pending from "./follow/pending/Pending";
 
 function NavigationBar(props) {
   const path = props.location.pathname;
-
   const dispatch = useDispatch();
 
   const nickname = JSON.parse(localStorage.getItem("AUTH")).user.nickname;
@@ -15,10 +15,9 @@ function NavigationBar(props) {
     <Navbar
       expand="lg"
       bg="white"
-      sticky="top"
-      // className="row mb-2"
+      sticky={!isSmallWindow ? "top" : null}
+      style={{ zIndex: "1" }}
       expanded={true}
-      style={{ width: "100%" }}
     >
       <div className="col d-flex justify-content-end">
         <div>
@@ -65,6 +64,24 @@ function NavigationBar(props) {
         </Row>
       </Col>
 
+      {/* <div className="flex-column justify-content-end">
+          <a href="/about" className="h4 text-dark">
+            about <b>tSNS</b> & <b>ME</b>
+          </a>
+          <div className="d-flex">
+            <Pending className="justify-self-end" />
+
+            <Button
+              variant="dark"
+              className="ml-2"
+              onClick={() => {
+                dispatch(clearAuth());
+              }}
+            >
+              logout
+            </Button>
+          </div>
+        </div> */}
       <div className="col">
         <div className="d-flex flex-column justify-content-end">
           <a href="/about" className="h3 text-dark">
@@ -73,16 +90,15 @@ function NavigationBar(props) {
           <div className="d-flex">
             <div>
               <Pending className="justify-self-end" />
-              <a
-                href=""
-                // TODO: change to text with cursor on
+              <Button
+                variant="dark"
+                className="ml-2"
                 onClick={() => {
                   dispatch(clearAuth());
                 }}
-                className="text-dark text-size-12"
               >
                 logout
-              </a>
+              </Button>
             </div>
           </div>
         </div>

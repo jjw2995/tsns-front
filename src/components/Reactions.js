@@ -28,10 +28,10 @@ function Reactions({
   };
 
   return (
-    <div className="my-2 d-flex">
+    <div className="my-2 d-flex flex-wrap">
       {Object.keys(reactions).map((r) => {
         return (
-          <div key={contentID + r} className="mx-1">
+          <div key={contentID + r} className="m-1">
             {reactions[r]}
             <OverlayTrigger
               // placement="right"
