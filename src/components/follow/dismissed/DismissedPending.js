@@ -40,7 +40,18 @@ function DismissedPending() {
         // onAfterOpen={getData}
         onRequestClose={closeModal}
       >
-        <Button className="mb-2" onClick={closeModal}>
+        <Button
+          variant="dark"
+          style={{
+            position: "absolute",
+            right: "0",
+            top: "0",
+            zIndex: "1",
+          }}
+          type="button"
+          size="lg"
+          onClick={closeModal}
+        >
           x
         </Button>
         <DismissedPendingFollowers />

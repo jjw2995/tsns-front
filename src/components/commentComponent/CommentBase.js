@@ -84,7 +84,7 @@ function CommentBase({ comment, idx }) {
           reactions={reactions}
           postReact={postReact}
           deleteReact={deleteReact}
-          style={{ fontSize: "0.7em" }}
+          style={{ fontSize: "0.7rem" }}
         />
         <div>
           {user._id === comment.user._id && (

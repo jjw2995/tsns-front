@@ -22,25 +22,17 @@ function FollowersFollowees({ uid, isShow }) {
       });
   }, []);
   return (
-    <div className="container">
-      <div>{uid}</div>
-
-      <div className="row">
-        <div className="col">
-          <FollowersList
-            title={`${followCounts.followersCount} - Followers`}
-            isShow={isShow}
-            uid={uid}
-          />
-        </div>
-        <div className="col">
-          <FolloweesList
-            title={`${followCounts.followeesCount} - Followees`}
-            isShow={isShow}
-            uid={uid}
-          />
-        </div>
-      </div>
+    <div className="row">
+      <FollowersList
+        title={`${followCounts.followersCount} - Followers`}
+        isShow={isShow}
+        uid={uid}
+      />
+      <FolloweesList
+        title={`${followCounts.followeesCount} - Followees`}
+        isShow={isShow}
+        uid={uid}
+      />
     </div>
   );
 }

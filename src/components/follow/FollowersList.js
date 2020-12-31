@@ -56,10 +56,11 @@ function FollowersList({ title, isShow, uid }) {
   };
 
   return (
-    <div>
+    <div className="d-flex justify-content-center">
       <Button
         disabled={!isShow}
         className="m-2"
+        variant="outline-dark"
         onClick={() => {
           if (isShow) {
             openModal();

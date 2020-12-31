@@ -15,6 +15,7 @@ function PendingFollowees() {
   console.log(pendingFollowees);
 
   useEffect(() => {
+    console.log(pendingFollowees);
     dispatch(getPendingFollowees());
   }, []);
 

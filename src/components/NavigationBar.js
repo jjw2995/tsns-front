@@ -16,7 +16,7 @@ function NavigationBar(props) {
       expand="lg"
       bg="white"
       sticky="top"
-      className="row mb-2"
+      // className="row mb-2"
       expanded={true}
       style={{ width: "100%" }}
     >

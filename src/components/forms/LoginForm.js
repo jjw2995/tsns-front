@@ -28,6 +28,7 @@ function LoginForm(props) {
         onSubmit={async (data, { setSubmitting }) => {
           setSubmitting(true);
           try {
+            console.log(data);
             dispatch(login(data));
 
             setSubmitting(false);

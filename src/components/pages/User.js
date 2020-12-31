@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
+import { Button } from "react-bootstrap";
 import { useParams } from "react-router";
 import BaseUrlAxios from "../../rest/AuthedAxios";
-import FollowersFollowees from "../follow/Follow";
+import FollowersFollowees from "../follow/FollowersFollowees";
 import Posts, { endpoints } from "../postComponent/Posts";
+import UserInfo from "../UserInfo";
 
 const logErr = (e) => {
   console.log(JSON.parse(JSON.stringify(e)));
@@ -58,31 +60,41 @@ function User() {
   return (
     <div className="justify-content-center">
       {user && (
-        <div className="card">
-          <h4 className="card-title">{user.nickname}</h4>
+        <React.Fragment>
+          <UserInfo
+            user={user}
+            followOrSetPriv={
+              <React.Fragment>
+                {user.isFollowing ? (
+                  user.isPending ? (
+                    <div>pending</div>
+                  ) : (
+                    <div>following</div>
+                  )
+                ) : user.private ? (
+                  <div>this user is private</div>
+                ) : (
+                  <br />
+                )}
 
-          {user.isFollowing ? (
-            user.isPending ? (
-              <div>pending</div>
-            ) : (
-              <div>following</div>
-            )
-          ) : user.private ? (
-            <div>this user is private</div>
-          ) : (
-            <br />
-          )}
-
-          <div>
-            <button onClick={onClickRequest}>
-              {user.isFollowing ? <div>unfollow</div> : <div>follow</div>}
-            </button>
-          </div>
-          <FollowersFollowees
-            uid={user._id}
-            isShow={user.isFollowing && !user.isPending}
-          />
-        </div>
+                <div>
+                  <Button
+                    variant="outline-dark"
+                    className="mt-2"
+                    onClick={onClickRequest}
+                  >
+                    {user.isFollowing ? <div>unfollow</div> : <div>follow</div>}
+                  </Button>
+                </div>
+              </React.Fragment>
+            }
+          >
+            <FollowersFollowees
+              uid={user._id}
+              isShow={user.isFollowing && !user.isPending}
+            />
+          </UserInfo>
+        </React.Fragment>
       )}
       <Posts endPoint={endpoints(uid).USER} />
     </div>

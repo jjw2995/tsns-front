@@ -71,6 +71,7 @@ export const getPendingFollowees = (getMore = false) => (
   BaseUrlAxios()
     .get(path)
     .then((r) => {
+      console.log(r.data);
       dispatch(
         setFollows({
           pendingFollowees: getMore

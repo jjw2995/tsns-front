@@ -1,11 +1,11 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
-import About from "./pages/About";
-import Explore from "./pages/Explore";
-import Home from "./pages/Home";
-import Mine from "./pages/Mine";
-import NavigationBar from "./NavigationBar";
-import User from "./pages/User";
+import About from "./components/pages/About";
+import Explore from "./components/pages/Explore";
+import Home from "./components/pages/Home";
+import Mine from "./components/pages/Mine";
+import NavigationBar from "./components/NavigationBar";
+import User from "./components/pages/User";
 
 function AuthRequired(props) {
   return (

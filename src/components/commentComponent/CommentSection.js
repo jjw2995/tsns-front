@@ -62,7 +62,8 @@ function CommentSection({ postID }) {
 
       <Button
         type="button"
-        className="btn-secondary"
+        className="btn-secondary my-2"
+        style={{ fontSize: "1.3vw" }}
         onClick={() => {
           setIsOpen(true);
         }}

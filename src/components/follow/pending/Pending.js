@@ -31,7 +31,7 @@ function Pending() {
     <div>
       <Button
         size="lg"
-        variant={getNew ? "primary" : "muted"}
+        variant={getNew ? "dark" : "outline-dark"}
         onClick={() => {
           setOpenModal(true);
         }}
@@ -54,7 +54,21 @@ function Pending() {
         isOpen={openModal}
         onRequestClose={closeModal}
       >
-        <Button className="mb-2" onClick={closeModal}>
+        {/* <Button className="mb-2" onClick={closeModal}>
+          x
+        </Button> */}
+        <Button
+          variant="dark"
+          style={{
+            position: "absolute",
+            right: "0",
+            top: "0",
+            zIndex: "1",
+          }}
+          type="button"
+          size="lg"
+          onClick={closeModal}
+        >
           x
         </Button>
         <PendingFollowers />

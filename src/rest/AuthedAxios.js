@@ -33,31 +33,39 @@ const BaseUrlAxios = (isMuliPart = false) => {
 
   instance.interceptors.response.use(
     (res) => {
-      const tNowInSec = Date.now() / 1000 + 300;
-      const accExpAt = jwtDecode(store.getState().auth.accessToken).exp;
-      // console.log(tNowInSec, " tNow + 5m");
-      // console.log(accExpAt, " accTok expires at");
-      // console.log(accExpAt < tNowInSec);
+      if (store.getState().auth && store.getState().auth.accessToken) {
+        const tNowInSec = Date.now() / 1000 + 300;
+        const accExpAt = jwtDecode(store.getState().auth.accessToken).exp;
+        // console.log(tNowInSec, " tNow + 5m");
+        // console.log(accExpAt, " accTok expires at");
+        console.log(accExpAt < tNowInSec);
+        console.log(store.getState().auth.isRefreshing);
+        console.log(
+          accExpAt < tNowInSec && !store.getState().auth.isRefreshing
+        );
 
-      if (accExpAt < tNowInSec && !store.getState().auth.isRefreshing) {
-        store.dispatch(setRefreshing(true));
-        console.log("in refresh");
-        instance
-          .post("/auth/token", {
-            refreshToken: store.getState().auth.refreshToken,
-          })
-          .then((r) => {
-            store.dispatch(setAuth(r.data));
-          })
-          .catch((e) => {
-            console.error("refresh token expired, logging out =>", e);
-          })
-          .finally(() => {
-            store.dispatch(setRefreshing(false));
-          });
+        if (accExpAt < tNowInSec && !store.getState().auth.isRefreshing) {
+          store.dispatch(setRefreshing(true));
+          console.log("in refresh");
+          instance
+            .post("/auth/token", {
+              refreshToken: store.getState().auth.refreshToken,
+            })
+            .then((r) => {
+              store.dispatch(setAuth(r.data));
+              store.dispatch(setRefreshing(false));
+            })
+            .catch((e) => {
+              console.error("refresh token expired, logging out =>", e);
+            })
+            .finally(() => {
+              store.dispatch(setRefreshing(false));
+            });
 
-        // refresh token and retry queued requests
+          // refresh token and retry queued requests
+        }
       }
+
       return res;
     },
     (error) => {

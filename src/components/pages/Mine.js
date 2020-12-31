@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { Button } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import BaseUrlAxios from "../../rest/AuthedAxios";
-import FollowersFollowees from "../follow/Follow";
+import FollowersFollowees from "../follow/FollowersFollowees";
 import Posts, { endpoints } from "../postComponent/Posts";
+import UserInfo from "../UserInfo";
 
 function Mine() {
   const user = useSelector((state) => state.auth.user);
@@ -20,40 +22,40 @@ function Mine() {
   }, [user._id]);
 
   return (
-    <div>
-      <h1>My info</h1>
-      {myInfo ? (
-        <div>
-          <div>{myInfo.nickname}</div>
-          <div>{myInfo.isPrivate ? <div>private</div> : <div>public</div>}</div>
-          <button
-            type="button"
-            onClick={() => {
-              BaseUrlAxios()
-                .post("users/private", {
-                  isPrivate: !myInfo.isPrivate,
-                })
-                .then((r) => {
-                  let newMyInfo = { ...user };
-                  newMyInfo.isPrivate = r.data.isPrivate;
-                  setMyInfo(newMyInfo);
-                })
-                .catch((e) => {
-                  console.log(JSON.parse(JSON.stringify(e)));
-                });
-            }}
-          >
-            {myInfo.isPrivate ? <div>go Public</div> : <div>go Private</div>}
-          </button>
+    <React.Fragment>
+      {myInfo && (
+        <UserInfo
+          user={myInfo}
+          followOrSetPriv={
+            <Button
+              type="button"
+              variant="outline-dark"
+              onClick={() => {
+                BaseUrlAxios()
+                  .post("users/private", {
+                    isPrivate: !myInfo.isPrivate,
+                  })
+                  .then((r) => {
+                    let newMyInfo = { ...user };
+                    newMyInfo.isPrivate = r.data.isPrivate;
+                    setMyInfo(newMyInfo);
+                  })
+                  .catch((e) => {
+                    console.log(JSON.parse(JSON.stringify(e)));
+                  });
+              }}
+            >
+              {myInfo.isPrivate ? <div>go Public</div> : <div>go Private</div>}
+            </Button>
+          }
+        >
           <FollowersFollowees uid={user._id} isShow={true} />
-        </div>
-      ) : (
-        <div />
+        </UserInfo>
       )}
       <div>
         <Posts endPoint={endpoints().MINE} />
       </div>
-    </div>
+    </React.Fragment>
   );
 }
 export default Mine;

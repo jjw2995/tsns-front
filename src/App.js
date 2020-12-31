@@ -6,8 +6,8 @@ import { BrowserRouter as Router, Route, withRouter } from "react-router-dom";
 import { Provider, useSelector } from "react-redux";
 import store from "./redux/store";
 import { hydrateAuth } from "./redux/auth/AuthActions";
-import AuthRequired from "./components/RouteAuthRequired";
-import LogoutRequired from "./components/RouteLogoutRequired";
+import AuthRequired from "./RouteAuthRequired";
+import LogoutRequired from "./RouteLogoutRequired";
 
 function App() {
   return (
@@ -24,7 +24,7 @@ const Main = withRouter((props) => {
   const refreshToken = useSelector((state) => state.auth.refreshToken);
   useEffect(() => {
     store.dispatch(hydrateAuth());
-  });
+  }, [refreshToken]);
 
   return (
     <React.Fragment>

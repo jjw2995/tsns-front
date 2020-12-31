@@ -50,7 +50,11 @@ function Post({ post, idx }) {
     <div className="d-flex justify-content-center flex-wrap">
       <div
         className="card m-2"
-        style={{ maxWidth: "50rem", minWidth: "50rem" }}
+        // style={{ width: "50%", justifyContent: "center" }}
+
+        // style={{ maxWidth: "50rem", minWidth: "50rem" }}
+        style={{ maxWidth: "50rem", width: "50rem" }}
+        // style={{ maxWidth: "50rem", width: "50%" }}
       >
         <div className="card-body">
           <div className="d-flex">
@@ -89,7 +93,6 @@ function Post({ post, idx }) {
               style={{
                 margin: "0px",
                 height: "1px",
-                // backgroundColor: "black",
                 borderTop: "1px dashed grey",
               }}
             />
@@ -130,18 +133,18 @@ function Post({ post, idx }) {
             </p>
           </div>
         </div>
-        <div className="m-2 d-flex flex-row">
-          <CommentSection postID={post._id} />
-          <div className="justify-content-end ml-auto">
+        <div className="mx-2 d-flex flex-row">
+          <div className="justify-content-end mr-auto">
             <Reactions
               contentID={postID}
               userReaction={userReaction}
               reactions={reactions}
               postReact={postReact}
               deleteReact={deleteReact}
-              style={{ fontSize: "1.2em" }}
+              style={{ fontSize: "1.5vw" }}
             />
           </div>
+          <CommentSection postID={post._id} />
         </div>
       </div>
     </div>

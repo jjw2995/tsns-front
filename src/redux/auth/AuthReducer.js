@@ -18,6 +18,7 @@ export const authReducer = (
       return toStore;
 
     case SET_REFRESHING:
+      localStorage.setItem("AUTH", JSON.stringify({ ...state, ...payload }));
       return { ...state, ...payload };
 
     case ADD_REQ_QUEUE:

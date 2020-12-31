@@ -7,7 +7,6 @@ import {
   CLEAR_REQ_QUEUE,
   SET_REFRESHING,
 } from "./AuthTypes";
-import jwtDecode from "jwt-decode";
 import BaseUrlAxios from "../../rest/AuthedAxios";
 
 export const setAuth = ({ _id, nickname, accessToken, refreshToken }) => {
@@ -22,8 +21,8 @@ export const setAuth = ({ _id, nickname, accessToken, refreshToken }) => {
 
 export const setRefreshing = (isRefreshing) => {
   return {
-    // type: SET_REFRESHING,
-    type: SET_AUTH,
+    type: SET_REFRESHING,
+    // type: SET_AUTH,
     payload: { isRefreshing: isRefreshing },
   };
 };
@@ -66,9 +65,11 @@ export const login = (data) => (dispatch) => {
   BaseUrlAxios()
     .post("/auth/login", data)
     .then((r) => {
+      console.log(r.data);
       dispatch(setAuth(r.data));
     })
     .catch((e) => {
+      console.log(e);
       dispatch(errAuth(e));
     });
 };
