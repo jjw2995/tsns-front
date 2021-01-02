@@ -26,24 +26,22 @@ function AuthRequired(props) {
         className="d-flex justify-content-end fixed-bottom"
         style={{ pointerEvents: "none" }}
       >
-        {isSmallWindow && (
-          <div
-            style={{
-              left: "100px",
-              top: "150px",
-              pointerEvents: "initial",
+        <div
+          style={{
+            left: "100px",
+            top: "150px",
+            pointerEvents: "initial",
+          }}
+        >
+          <Button
+            variant="secondary"
+            onClick={() => {
+              window.scroll({ top: 0, behavior: "smooth" });
             }}
           >
-            <Button
-              variant="secondary"
-              onClick={() => {
-                window.scroll({ top: 0, behavior: "smooth" });
-              }}
-            >
-              <b>^^^</b>
-            </Button>
-          </div>
-        )}
+            ^
+          </Button>
+        </div>
       </div>
     </React.Fragment>
   );

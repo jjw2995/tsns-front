@@ -34,17 +34,10 @@ const BaseUrlAxios = (isMuliPart = false) => {
   instance.interceptors.response.use(
     (res) => {
       if (store.getState().auth && store.getState().auth.accessToken) {
-        const tNowInSec = Date.now() / 1000 + 300;
+        const tRefresh = Date.now() / 1000 + 300;
         const accExpAt = jwtDecode(store.getState().auth.accessToken).exp;
-        // console.log(tNowInSec, " tNow + 5m");
-        // console.log(accExpAt, " accTok expires at");
-        console.log(accExpAt < tNowInSec);
-        console.log(store.getState().auth.isRefreshing);
-        console.log(
-          accExpAt < tNowInSec && !store.getState().auth.isRefreshing
-        );
 
-        if (accExpAt < tNowInSec && !store.getState().auth.isRefreshing) {
+        if (accExpAt < tRefresh && !store.getState().auth.isRefreshing) {
           store.dispatch(setRefreshing(true));
           console.log("in refresh");
           instance
@@ -92,7 +85,6 @@ const BaseUrlAxios = (isMuliPart = false) => {
                   cb(accessToken);
                 }
               });
-              // throw Error();
               return instance(config);
             })
             .catch((e) => {

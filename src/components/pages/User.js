@@ -80,7 +80,8 @@ function User() {
                 <div>
                   <Button
                     variant="outline-dark"
-                    className="mt-2"
+                    size="sm"
+                    // className="mt-2"
                     onClick={onClickRequest}
                   >
                     {user.isFollowing ? <div>unfollow</div> : <div>follow</div>}

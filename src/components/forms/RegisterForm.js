@@ -3,7 +3,8 @@ import { Button } from "react-bootstrap";
 import axios from "axios";
 import { Formik, Form } from "formik";
 import { Checkbox, FormControlLabel } from "@material-ui/core";
-import { MyTextField, MyPasswordField } from "../myFields";
+import { MyTextField, MyPasswordField } from "../myComponents/myFields";
+
 import * as yup from "yup";
 
 const validationSchema = yup.object({

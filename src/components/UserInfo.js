@@ -4,21 +4,26 @@ function UserInfo({ user, followOrSetPriv, children }) {
   console.log(user);
   return (
     <React.Fragment>
-      <div className="d-flex" style={{ justifyContent: "center" }}>
-        <div
-          style={{ width: "50rem", justifyContent: "center" }}
-          // style={{ maxWidth: "50rem", minWidth: "50rem" }}
-        >
-          {user && (
-            <div className="d-flex">
-              <div className="mx-auto">
-                <h3>{user.nickname}</h3>
-                <div>{user.isPrivate ? "private user" : "public user"}</div>
+      <div className="px-2">
+        <div className="d-flex" style={{ justifyContent: "center" }}>
+          <div
+            style={{ width: "30rem", justifyContent: "center" }}
+            // style={{ maxWidth: "50rem", minWidth: "50rem" }}
+          >
+            {user && (
+              <div className="d-flex">
+                <div className="mr-auto">
+                  <h3>{user.nickname}</h3>
+                  <div>
+                    {user.isPrivate ? "private user" : "public user"}
+                    {/* {followOrSetPriv} */}
+                    <div>{followOrSetPriv}</div>
+                  </div>
+                </div>
+                <div className="ml-auto">{children}</div>
               </div>
-              <div className="mx-auto">{followOrSetPriv}</div>
-              <div className="mx-auto">{children}</div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
       <hr

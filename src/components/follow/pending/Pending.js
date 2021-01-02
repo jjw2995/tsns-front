@@ -23,15 +23,14 @@ function Pending() {
 
   useEffect(() => {
     dispatch(getPendingFollowers());
-    // dispatch(getPendingFollowees());
-    // dispatch(getDismissedPendingFollowers());
   }, []);
 
   return (
     <div>
       <Button
         // size="sm"
-        variant={getNew ? "dark" : "outline-dark"}
+        variant="outline-dark"
+        active={getNew ? true : false}
         onClick={() => {
           setOpenModal(true);
         }}

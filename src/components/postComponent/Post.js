@@ -51,10 +51,11 @@ function Post({ post, idx }) {
       <div
         className="card m-2"
         // style={{ width: "50%", justifyContent: "center" }}
-
         // style={{ maxWidth: "50rem", minWidth: "50rem" }}
-        style={{ maxWidth: "50rem", width: "50rem" }}
         // style={{ maxWidth: "50rem", width: "50%" }}
+
+        style={{ maxWidth: "50rem", width: "50rem" }}
+        // style={{ maxWidth: "50rem", width: "50rem" }}
       >
         <div className="card-body">
           <div className="d-flex">

@@ -10,11 +10,20 @@ import {
 } from "../../redux/comments/commentsActions";
 import CommentForm from "../forms/CommentForm";
 import Comment from "./Comment";
+import CloseButton from "../myComponents/CloseButton";
 
 function CommentSection({ postID }) {
   const comments = useSelector((state) => state.comments);
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
+
+  // useState(() => {
+  //   document.getElementById("root").style.overflow = isOpen
+  //     ? "hidden"
+  //     : "scroll";
+
+  //   // document.body.style.overflow = isOpen ? "hidden" : "scroll";
+  // }, [isOpen]);
 
   return (
     <div>
@@ -40,6 +49,7 @@ function CommentSection({ postID }) {
           setIsOpen(false);
         }}
       >
+        <CloseButton onCloseHandler={() => setIsOpen(false)} />
         <div className="d-flex flex-column" style={{ overflowY: "auto" }}>
           {comments.map((r, i) => {
             return <Comment comment={r} idx={[i]} key={r._id} />;

@@ -16,7 +16,7 @@ function NavigationBar(props) {
       expand="lg"
       bg="white"
       sticky={!isSmallWindow ? "top" : null}
-      style={{ zIndex: "1" }}
+      style={{ zIndex: "5" }}
       expanded={true}
     >
       <div className="col d-flex justify-content-end">
@@ -64,15 +64,15 @@ function NavigationBar(props) {
         </Row>
       </Col>
 
-      {/* <div className="flex-column justify-content-end">
-          <a href="/about" className="h4 text-dark">
+      <div className="col">
+        <div className="d-flex flex-column justify-content-end">
+          <a href="/about" className="h3 text-dark">
             about <b>tSNS</b> & <b>ME</b>
           </a>
           <div className="d-flex">
             <Pending className="justify-self-end" />
-
             <Button
-              variant="dark"
+              variant="outline-dark"
               className="ml-2"
               onClick={() => {
                 dispatch(clearAuth());
@@ -80,26 +80,6 @@ function NavigationBar(props) {
             >
               logout
             </Button>
-          </div>
-        </div> */}
-      <div className="col">
-        <div className="d-flex flex-column justify-content-end">
-          <a href="/about" className="h3 text-dark">
-            about <b>tSNS</b> & <b>ME</b>
-          </a>
-          <div className="d-flex">
-            <div>
-              <Pending className="justify-self-end" />
-              <Button
-                variant="dark"
-                className="ml-2"
-                onClick={() => {
-                  dispatch(clearAuth());
-                }}
-              >
-                logout
-              </Button>
-            </div>
           </div>
         </div>
       </div>

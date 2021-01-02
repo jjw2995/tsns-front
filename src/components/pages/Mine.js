@@ -30,6 +30,8 @@ function Mine() {
             <Button
               type="button"
               variant="outline-dark"
+              size="sm"
+              // style={{ padding: "0.2rem", marginTop: "0.5rem" }}
               onClick={() => {
                 BaseUrlAxios()
                   .post("users/private", {

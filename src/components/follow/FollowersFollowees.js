@@ -21,7 +21,8 @@ function FollowersFollowees({ uid, isShow }) {
       });
   }, []);
   return (
-    <div className="row">
+    <div>
+      {/* <div className="row"> */}
       <FollowList
         title={`${followCounts.followersCount}  Followers`}
         isShow={isShow}

@@ -4,7 +4,7 @@ import { Button } from "react-bootstrap";
 import { Formik, Form } from "formik";
 import { Checkbox, FormControlLabel } from "@material-ui/core";
 import * as yup from "yup";
-import { MyTextField, MyPasswordField } from "../myFields";
+import { MyTextField, MyPasswordField } from "../myComponents/myFields";
 
 import { useSelector, useDispatch } from "react-redux";
 
@@ -95,17 +95,5 @@ function LoginForm(props) {
     </div>
   );
 }
-
-// const mapStateToProps = (state) => {
-//   return {
-//     refreshToken: state.refreshToken,
-//   };
-// };
-
-// const mapDispatchToProps = (dispatch) => {
-//   return {
-//     setRefToken: () => dispatch(setRefToken()),
-//   };
-// };
 
 export default LoginForm;
