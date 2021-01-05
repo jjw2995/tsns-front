@@ -64,6 +64,13 @@ function RegisterForm(props) {
     >
       {({ values, errors }) => (
         <Form>
+          <div className="text-danger">
+            <h1>DO NOT USE PASSWORD USED ON OTHER SITES</h1>
+            <p style={{ fontSize: "1rem" }}>
+              passwords are handled on my backend and while they are hashed and
+              salted, assume it is not secure
+            </p>
+          </div>
           <p className="text-muted">
             verification email will be sent, click the link within an hour to
             verify account.

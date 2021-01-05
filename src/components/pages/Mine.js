@@ -3,7 +3,7 @@ import { Button } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import BaseUrlAxios from "../../rest/AuthedAxios";
 import FollowersFollowees from "../follow/FollowersFollowees";
-import Posts, { endpoints } from "../postComponent/Posts";
+import Posts, { endpoints } from "../post/Posts";
 import UserInfo from "../UserInfo";
 
 function Mine() {
@@ -23,6 +23,10 @@ function Mine() {
 
   return (
     <React.Fragment>
+      <div style={{ textAlign: "center" }}>
+        <h6>see user info and get all user's posts ordered by date</h6>
+        <br />
+      </div>
       {myInfo && (
         <UserInfo
           user={myInfo}
@@ -52,6 +56,7 @@ function Mine() {
           }
         >
           <FollowersFollowees uid={user._id} isShow={true} />
+          <button>d</button>
         </UserInfo>
       )}
       <div>

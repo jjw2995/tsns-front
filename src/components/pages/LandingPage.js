@@ -22,13 +22,13 @@ function LandingPage(props) {
     return activeTab === 3;
   };
   const setLoginActive = () => {
-    setActiveTab(1);
+    setOnOff(1);
   };
   const setRegisterActive = () => {
-    setActiveTab(2);
+    setOnOff(2);
   };
   const setAboutActive = () => {
-    setActiveTab(3);
+    setOnOff(3);
   };
   return (
     <div
@@ -40,12 +40,10 @@ function LandingPage(props) {
       }}
       className="d-flex flex-column justify-content-center"
     >
-      <div className="mb-5">
-        <h1>TSNS, tiny SNS platform for the heck of it</h1>
-        <small>
-          <small className="text-muted">
-            who am I kidding it's for my resume'
-          </small>
+      <div className="mb-5 mt-5">
+        <h1>tSNS, a tiny SNS platform</h1>
+        <small style={{ fontSize: ".9rem" }} className="text-muted">
+          for my resume'
         </small>
       </div>
       <div className="mb-4">

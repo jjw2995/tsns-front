@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Col, Nav, Navbar, Row, Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { clearAuth } from "../redux/auth/AuthActions";
 import { isSmallWindow } from "../utils";
 import Pending from "./follow/pending/Pending";
+import SearchUser from "./SearchUser";
 
 function NavigationBar(props) {
   const path = props.location.pathname;
@@ -16,7 +17,7 @@ function NavigationBar(props) {
       expand="lg"
       bg="white"
       sticky={!isSmallWindow ? "top" : null}
-      style={{ zIndex: "5" }}
+      style={{ zIndex: "3" }}
       expanded={true}
     >
       <div className="col d-flex justify-content-end">
@@ -46,7 +47,7 @@ function NavigationBar(props) {
               // href="/#"
               href="/explore"
               eventKey="explore"
-              active={path === "/explore" ? true : false}
+              active={path.split("/")[1] === "explore" ? true : false}
             >
               Explore
             </Nav.Link>
@@ -62,14 +63,16 @@ function NavigationBar(props) {
             </Nav.Link>
           </Nav>
         </Row>
+        <div style={{ height: "2.1rem" }}>
+          {path.split("/")[1] === "explore" && <SearchUser />}
+        </div>
       </Col>
-
       <div className="col">
-        <div className="d-flex flex-column justify-content-end">
+        <div className="d-flex flex-wrap flex-column justify-content-end">
           <a href="/about" className="h3 text-dark">
             about <b>tSNS</b> & <b>ME</b>
           </a>
-          <div className="d-flex">
+          <div className="d-flex flex-wrap">
             <Pending className="justify-self-end" />
             <Button
               variant="outline-dark"

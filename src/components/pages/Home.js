@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
 import PostForm from "../forms/PostForm";
-import Posts, { endpoints } from "../postComponent/Posts";
+import Posts, { endpoints } from "../post/Posts";
 import { isSmallWindow } from "../../utils";
 import { Button } from "react-bootstrap";
 import CloseButton from "../myComponents/CloseButton";
@@ -19,6 +19,12 @@ function Home(props) {
 
   return (
     <div>
+      <div style={{ textAlign: "center" }}>
+        <h6>
+          get all user's posts and user's followers' (public and followers)
+          posts ordered by date
+        </h6>
+      </div>
       <Posts endPoint={endpoints().HOME} />
       <div
         className="d-flex justify-content-end fixed-bottom"
@@ -48,7 +54,7 @@ function Home(props) {
             onRequestClose={closeModal}
           >
             <CloseButton onClickHandler={closeModal} />
-            <PostForm />
+            <PostForm closeModal={closeModal} />
           </Modal>
           {isSmallWindow ? (
             <Button

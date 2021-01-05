@@ -1,21 +1,20 @@
 import { Button } from "react-bootstrap";
 import React, { useEffect, useState } from "react";
-import Modal from "react-modal";
 
 import PendingFollowees from "./PendingFollowees";
 import PendingFollowers from "./PendingFollowers";
-import {
-  // getDismissedPendingFollowers,
-  // getPendingFollowees,
-  getPendingFollowers,
-} from "../../../redux/follows/followsActions";
+import { getPendingFollowers } from "../../../redux/follows/followsActions";
 import { useDispatch, useSelector } from "react-redux";
-import DismissedPending from "../dismissed/DismissedPending";
+import CloseButton from "../../myComponents/CloseButton";
+import MyModal from "../../myComponents/MyModal";
+import DismissedPendingFollowers from "../dismissed/DismissedPendingFollowers";
 
 function Pending() {
   const [openModal, setOpenModal] = useState(false);
+  const [isPendingOpen, setIsPendingOpen] = useState(true);
 
   const closeModal = () => {
+    setIsPendingOpen(true);
     setOpenModal(false);
   };
   const dispatch = useDispatch();
@@ -32,48 +31,34 @@ function Pending() {
         variant="outline-dark"
         active={getNew ? true : false}
         onClick={() => {
+          dispatch(getPendingFollowers());
+
           setOpenModal(true);
         }}
       >
         pending
       </Button>
-      <Modal
-        style={{
-          overlay: {
-            // zIndex: "1000",
-          },
-          content: {
-            top: "13%",
-            bottom: "13%",
-            left: "25%",
-            right: "25%",
-            fontFamily: "sans-serif",
-          },
-        }}
-        isOpen={openModal}
-        onRequestClose={closeModal}
-      >
-        {/* <Button className="mb-2" onClick={closeModal}>
-          x
-        </Button> */}
+      <MyModal isOpen={openModal} onRequestClose={closeModal}>
+        <CloseButton onCloseHandler={closeModal} />
         <Button
-          variant="dark"
-          style={{
-            position: "absolute",
-            right: "0",
-            top: "0",
-            zIndex: "1",
-          }}
-          type="button"
-          size="lg"
-          onClick={closeModal}
+          variant="outline-dark"
+          className="mb-1"
+          onClick={() => setIsPendingOpen(!isPendingOpen)}
         >
-          x
+          {!isPendingOpen ? "View Pending" : "View Dismissed"}
         </Button>
-        <PendingFollowers />
-        <PendingFollowees />
-        <DismissedPending />
-      </Modal>
+        <h3 className="my-3">
+          <b>{isPendingOpen ? "Pending" : "Dismissed"}</b>
+        </h3>
+        {isPendingOpen ? (
+          <React.Fragment>
+            <PendingFollowers userLinkOnClick={closeModal} />
+            <PendingFollowees userLinkOnClick={closeModal} />
+          </React.Fragment>
+        ) : (
+          <DismissedPendingFollowers userLinkOnClick={closeModal} />
+        )}
+      </MyModal>
     </div>
   );
 }

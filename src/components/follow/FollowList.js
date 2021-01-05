@@ -1,13 +1,22 @@
-import Modal from "react-modal";
 import React, { useState } from "react";
 import BaseUrlAxios from "../../rest/AuthedAxios";
 import { Button } from "react-bootstrap";
 import FollowLinkItem from "./FollowLinkItem";
 import { useSelector } from "react-redux";
+import CloseButton from "../myComponents/CloseButton";
+import MyModal from "../myComponents/MyModal";
 
-function FollowList({ title, isShow, uid, style, className, item }) {
+function FollowList({
+  userLinkOnClick,
+  title,
+  isShow,
+  uid,
+  style,
+  className,
+  item,
+}) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [followers, setFollowers] = useState([]);
+  const [follows, setFollows] = useState([]);
   const loggedID = useSelector((state) => state.auth.user._id);
 
   const openModal = () => setModalIsOpen(true);
@@ -16,7 +25,7 @@ function FollowList({ title, isShow, uid, style, className, item }) {
     BaseUrlAxios()
       .get(`/${item}/${uid}`)
       .then((r) => {
-        setFollowers(r.data);
+        setFollows(r.data);
       })
       .catch((e) => {
         console.log(e);
@@ -24,15 +33,15 @@ function FollowList({ title, isShow, uid, style, className, item }) {
   };
 
   const getMoreFollows = () => {
-    let path = `${item}/${uid}`;
+    let path = `/${item}/${uid}`;
 
-    if (followers && followers.length > 0) {
-      path += `?last-doc-id=${followers[followers.length - 1]._id}`;
+    if (follows && follows.length > 0) {
+      path += `?last-doc-id=${follows[follows.length - 1]._id}`;
     }
     BaseUrlAxios()
       .get(path)
       .then((r) => {
-        setFollowers((pre) => {
+        setFollows((pre) => {
           return [...pre, ...r.data];
         });
       })
@@ -41,13 +50,13 @@ function FollowList({ title, isShow, uid, style, className, item }) {
       });
   };
 
-  const removeFollower = (followDoc, idx) => {
+  const removeFollow = (followDoc, idx) => {
     BaseUrlAxios()
-      .delete(`/followers/${followDoc.user._id}`, {
+      .delete(`/${item}/${followDoc.user._id}`, {
         _id: followDoc.user._id,
       })
       .then((r) => {
-        setFollowers((pre) => {
+        setFollows((pre) => {
           let newArr = [...pre];
           newArr.splice(idx, 1);
           return newArr;
@@ -70,31 +79,27 @@ function FollowList({ title, isShow, uid, style, className, item }) {
       >
         <b>{title}</b>
       </Button>
-      <Modal
-        style={{
-          overlay: {
-            zIndex: "2",
-          },
-          content: {
-            top: "13%",
-            bottom: "13%",
-            left: "25%",
-            right: "25%",
-            fontFamily: "sans-serif",
-          },
-        }}
+      <MyModal
         isOpen={modalIsOpen}
         onAfterOpen={getFollows}
         onRequestClose={closeModal}
       >
         <h3>{item}</h3>
-        {followers &&
-          followers.length > 0 &&
-          followers.map((r, i) => {
+        {follows &&
+          follows.length > 0 &&
+          follows.map((r, i) => {
             return (
-              <FollowLinkItem item={r} key={"followers" + r._id}>
+              <FollowLinkItem
+                onClick={userLinkOnClick}
+                item={r}
+                key={"followers" + r._id}
+              >
                 {uid === loggedID ? (
-                  <Button className="m-2" onClick={() => removeFollower(r, i)}>
+                  <Button
+                    className="m-2"
+                    variant="danger"
+                    onClick={() => removeFollow(r, i)}
+                  >
                     remove
                   </Button>
                 ) : (
@@ -104,24 +109,10 @@ function FollowList({ title, isShow, uid, style, className, item }) {
             );
           })}
         <div className="justify-content-center d-flex">
-          <button className="btn btn-secondary " onClick={getMoreFollows}>
-            get more
-          </button>
+          <Button onClick={getMoreFollows}>get more</Button>
         </div>
-        <Button
-          variant="dark"
-          style={{
-            position: "absolute",
-            right: "0",
-            top: "0",
-            zIndex: "1",
-          }}
-          type="button"
-          onClick={closeModal}
-        >
-          x
-        </Button>
-      </Modal>
+        <CloseButton onCloseHandler={closeModal} />
+      </MyModal>
     </div>
   );
 }

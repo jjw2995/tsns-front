@@ -1,5 +1,4 @@
 export const SET_POST = "SET_POST";
-export const ADD_POSTS_TO_END = "ADD_POSTS_TO_END";
-export const ADD_POSTS_TO_FRONT = "ADD_POSTS_TO_FRONT";
-export const CLEAR_POST = "CLEAR_POST";
-export const SET_REQ = "SET_REQ";
+export const ADD_NEW_POST = "ADD_NEW_POST";
+export const GET_MORE_POSTS = "GET_MORE_POSTS";
+export const GET_INITIAL_POSTS = "GET_INITIAL_POSTS";

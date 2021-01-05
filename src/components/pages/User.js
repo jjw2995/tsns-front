@@ -3,7 +3,7 @@ import { Button } from "react-bootstrap";
 import { useParams } from "react-router";
 import BaseUrlAxios from "../../rest/AuthedAxios";
 import FollowersFollowees from "../follow/FollowersFollowees";
-import Posts, { endpoints } from "../postComponent/Posts";
+import Posts, { endpoints } from "../post/Posts";
 import UserInfo from "../UserInfo";
 
 const logErr = (e) => {
@@ -81,7 +81,6 @@ function User() {
                   <Button
                     variant="outline-dark"
                     size="sm"
-                    // className="mt-2"
                     onClick={onClickRequest}
                   >
                     {user.isFollowing ? <div>unfollow</div> : <div>follow</div>}
@@ -92,7 +91,7 @@ function User() {
           >
             <FollowersFollowees
               uid={user._id}
-              isShow={user.isFollowing && !user.isPending}
+              isShow={!user.isPrivate || (user.isFollowing && !user.isPending)}
             />
           </UserInfo>
         </React.Fragment>

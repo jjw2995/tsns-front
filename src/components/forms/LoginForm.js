@@ -6,13 +6,12 @@ import { Checkbox, FormControlLabel } from "@material-ui/core";
 import * as yup from "yup";
 import { MyTextField, MyPasswordField } from "../myComponents/myFields";
 
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { login } from "../../redux/auth/AuthActions";
 
 function LoginForm(props) {
   const [showPass, setShowPass] = useState(false);
-  const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
   const showPassFn = () => {

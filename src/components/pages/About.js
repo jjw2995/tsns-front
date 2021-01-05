@@ -2,25 +2,7 @@ import React from "react";
 import reduxLogo from "../../static/logo-redux.png";
 import reactLogo from "../../static/logo-react.png";
 
-const HeaderWithAnchor = ({ title, anchorName, link }) => {
-  return (
-    <React.Fragment>
-      <h1 className="p-0 m-0">{title}</h1>
-      <div>
-        <div className="">
-          <a href={link}>{anchorName}</a>
-        </div>
-      </div>
-    </React.Fragment>
-  );
-};
-
 const ContainDiv = ({ title, children, anchorName, anchorLink }) => {
-  const containerStyle = {
-    margin: "2rem",
-    width: "18rem",
-    height: "20rem",
-  };
   return (
     <div
       style={{
@@ -30,8 +12,10 @@ const ContainDiv = ({ title, children, anchorName, anchorLink }) => {
       }}
       className="d-flex flex-column justify-content-center"
     >
-      <div className="pb-3">
-        <h1>{title}</h1>
+      <div className="mb-3">
+        <h1>
+          <b>{title}</b>
+        </h1>
         {anchorName && <a href={anchorLink}>{anchorName}</a>}
       </div>
       {children}
@@ -39,13 +23,30 @@ const ContainDiv = ({ title, children, anchorName, anchorLink }) => {
   );
 };
 
-function About() {
-  const containerStyle = {
-    margin: "2rem",
-    width: "18rem",
-    height: "20rem",
-  };
+const FeatureDesc = ({ title, subtitle, children }) => {
+  return (
+    <div style={{ margin: "4rem" }}>
+      <h4>
+        <b>{title}</b>
+        {/* <li>{title}</li> */}
+      </h4>
+      <h6 style={{ color: "grey" }}>{subtitle}</h6>
+      <br />
+      {children}
+    </div>
+  );
+};
 
+const TwoBr = () => {
+  return (
+    <React.Fragment>
+      <br />
+      <br />
+    </React.Fragment>
+  );
+};
+
+function About() {
   const logoStyle = {
     justifyContent: "center",
     paddingLeft: "1.5rem",
@@ -53,8 +54,12 @@ function About() {
     alignItems: "center",
     margin: "1rem",
   };
-  const containerDiv = "py-5";
-  const textStyle = { maxWidth: "70rem", margin: "0 auto" };
+  // const textStyle = { maxWidth: "70rem", margin: "0 auto", paddingTop: "2rem" };
+  const textStyle = {
+    maxWidth: "70rem",
+    margin: "auto",
+    paddingTop: "2rem",
+  };
   return (
     <React.Fragment>
       <ContainDiv
@@ -64,28 +69,62 @@ function About() {
       >
         <div>
           <p style={textStyle}>
-            UBC grad with B.Sc. Major in Computer Science and Minor in
-            Statistics, <br />
+            UBC grad with B.Sc. in Computer Science and Minor in Statistics,{" "}
+            <br />
             I'm a potential candadite for your next hire
           </p>
         </div>
       </ContainDiv>
-
       <ContainDiv title="What is this?">
         <div>
           <p style={textStyle}>
-            Not having built anything substantial in my university years, I was
-            having imposter syndrome and afraid to apply.
-            <br />I wanted to build something real that is actually deployed to
-            prove myself wrong.
-            <br />
-            <br />
+            Not having built anything substantial in my university years,
+            <br />I was having imposter syndrome and afraid to apply.
+            <TwoBr />
+            I wanted to build something real that is actually deployed to prove
+            myself wrong.
+            <TwoBr />
             <b>tSNS</b> (tiny SNS) project is a result of that with simple
             ReactJS frontend and NodeJS backend.
           </p>
         </div>
       </ContainDiv>
-
+      <ContainDiv title="Its features?">
+        <div style={textStyle}>
+          Basically a watered down "instagram" where users can also make{" "}
+          <b>Private</b> and <b>Public</b> posts.
+          <FeatureDesc
+            title="3 levels to a post"
+            subtitle="private, followers, public"
+          >
+            <b>public posts</b> are viewable to all people and featured on{" "}
+            <b>Explore</b>
+            <br />
+            <b>followers posts</b> are viewable to followers and viewable @
+            <b>Home</b> OR via user search @<b>Explore</b>
+            <br />
+            <b>private posts</b> are viewable only to the user @<b>Home</b> OR @
+            <b>Mine</b>
+          </FeatureDesc>
+          <FeatureDesc title="2 types of users" subtitle="private, public">
+            following...
+            <br />
+            <b>public user</b> requires no approval of the followee <br />
+            <b>private user</b> requires approval of the followee
+            <TwoBr />
+            follow other users by - clicking "follow" on user's profile...
+            <br />
+            get to user's profile by clicking on <b>nickname</b> OR search user
+            @<b>Explore</b>
+          </FeatureDesc>
+          {/* <FeatureDesc title="follow other users by">
+            clicking "follow" on user's profile...
+            <br />
+            get to user's profile by clicking on nickname OR search user @
+            <b>Explore</b>
+          </FeatureDesc> */}
+        </div>
+      </ContainDiv>
       <ContainDiv
         title="Backend"
         anchorLink="https://github.com/jjw2995/tsns"
@@ -116,7 +155,7 @@ function About() {
               <img
                 src="https://webassets.mongodb.com/_com_assets/cms/MongoDB_Logo_FullColorBlack_RGB-4td3yuxzjs.png"
                 // width="250"
-                height="70"
+                height="60"
                 alt=""
               />
             </div>
@@ -138,7 +177,6 @@ function About() {
           </p>
         </div>
       </ContainDiv>
-
       <ContainDiv
         title="Frontend"
         anchorLink="https://github.com/jjw2995/tsns-front"
@@ -158,12 +196,12 @@ function About() {
           </div>
         </div>
         <p style={textStyle}>
-          probably could have done away with redux, but I wanted to see what it
-          was about
+          First time ever touching React and Redux.
+          <br />
+          Redux probably wasn't necessary, but I wanted to experience it
         </p>
       </ContainDiv>
-
-      <ContainDiv title="other">
+      <ContainDiv title="Other">
         <div className="d-flex flex-wrap justify-content-center">
           <div style={logoStyle}>
             <img

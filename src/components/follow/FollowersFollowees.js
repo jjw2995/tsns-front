@@ -19,7 +19,7 @@ function FollowersFollowees({ uid, isShow }) {
       .catch((e) => {
         console.log(e);
       });
-  }, []);
+  }, [uid]);
   return (
     <div>
       {/* <div className="row"> */}

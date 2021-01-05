@@ -1,6 +1,4 @@
-// import { Field, Formik, Form } from "formik";
 import React, { useState } from "react";
-import Modal from "react-modal";
 import { Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -11,45 +9,31 @@ import {
 import CommentForm from "../forms/CommentForm";
 import Comment from "./Comment";
 import CloseButton from "../myComponents/CloseButton";
+import MyModal from "../myComponents/MyModal";
 
 function CommentSection({ postID }) {
   const comments = useSelector((state) => state.comments);
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
 
-  // useState(() => {
-  //   document.getElementById("root").style.overflow = isOpen
-  //     ? "hidden"
-  //     : "scroll";
+  const openComments = () => {
+    setIsOpen(true);
+    dispatch(getInitialComments(postID));
+  };
 
-  //   // document.body.style.overflow = isOpen ? "hidden" : "scroll";
-  // }, [isOpen]);
+  const closeComments = () => {
+    setIsOpen(false);
+    dispatch(clearComments());
+  };
 
   return (
     <div>
-      <Modal
-        style={{
-          overlay: {
-            zIndex: "1000",
-          },
-          content: {
-            top: "13%",
-            bottom: "13%",
-            left: "20%",
-            right: "20%",
-            fontFamily: "sans-serif",
-          },
-        }}
+      <MyModal
         isOpen={isOpen}
-        onAfterOpen={() => {
-          dispatch(getInitialComments(postID));
-        }}
-        onRequestClose={() => {
-          dispatch(clearComments());
-          setIsOpen(false);
-        }}
+        onAfterOpen={openComments}
+        onRequestClose={closeComments}
       >
-        <CloseButton onCloseHandler={() => setIsOpen(false)} />
+        <CloseButton onCloseHandler={closeComments} />
         <div className="d-flex flex-column" style={{ overflowY: "auto" }}>
           {comments.map((r, i) => {
             return <Comment comment={r} idx={[i]} key={r._id} />;
@@ -68,15 +52,12 @@ function CommentSection({ postID }) {
           </button>
           <CommentForm postID={postID} />
         </div>
-      </Modal>
-
+      </MyModal>
       <Button
         type="button"
         className="btn-secondary my-2"
         style={{ fontSize: "1.3rem" }}
-        onClick={() => {
-          setIsOpen(true);
-        }}
+        onClick={openComments}
       >
         comments
       </Button>

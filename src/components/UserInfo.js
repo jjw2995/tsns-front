@@ -1,7 +1,6 @@
 import React from "react";
 
 function UserInfo({ user, followOrSetPriv, children }) {
-  console.log(user);
   return (
     <React.Fragment>
       <div className="px-2">

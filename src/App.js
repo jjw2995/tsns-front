@@ -1,5 +1,5 @@
 import "./css/App.css";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import { BrowserRouter as Router, Route, withRouter } from "react-router-dom";
 
@@ -22,16 +22,27 @@ function App() {
 const Main = withRouter((props) => {
   // TODO: Error: cannot update state while rendering other comp, fix
   const refreshToken = useSelector((state) => state.auth.refreshToken);
+  const auth = useSelector((state) => state.auth);
+  const [loggedIn, setLoggedIn] = useState(false);
+  // mayby fetch from store directly instead of redux store???
+  //
   useEffect(() => {
-    store.dispatch(hydrateAuth());
-  }, [refreshToken]);
+    store.dispatch(
+      hydrateAuth(() => {
+        // setLoggedIn(true)
+      })
+    );
+    console.log("???");
+  }, []);
 
   return (
     <React.Fragment>
       {refreshToken ? (
+        // hasFetched && <Route component={AuthRequired} />
         <Route component={AuthRequired} />
       ) : (
-        <Route component={LogoutRequired} />
+        // <Route component={LogoutRequired} />
+        !auth && <Route component={LogoutRequired} />
       )}
     </React.Fragment>
   );

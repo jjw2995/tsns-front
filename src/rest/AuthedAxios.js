@@ -1,12 +1,10 @@
 import axios from "axios";
 import jwtDecode from "jwt-decode";
-import { useDispatch } from "react-redux";
 import {
   addReqQueue,
   emptyReqQueue,
-  keepTokensFresh,
   setAuth,
-  setRefreshing,
+  refreshToken,
   alertAuthClear,
 } from "../redux/auth/AuthActions";
 import store from "../redux/store";
@@ -33,27 +31,28 @@ const BaseUrlAxios = (isMuliPart = false) => {
 
   instance.interceptors.response.use(
     (res) => {
+      // if (accessToken expired && !isRefreshing), refresh token
       if (store.getState().auth && store.getState().auth.accessToken) {
         const tRefresh = Date.now() / 1000 + 300;
         const accExpAt = jwtDecode(store.getState().auth.accessToken).exp;
 
         if (accExpAt < tRefresh && !store.getState().auth.isRefreshing) {
-          store.dispatch(setRefreshing(true));
-          console.log("in refresh");
-          instance
-            .post("/auth/token", {
-              refreshToken: store.getState().auth.refreshToken,
-            })
-            .then((r) => {
-              store.dispatch(setAuth(r.data));
-              store.dispatch(setRefreshing(false));
-            })
-            .catch((e) => {
-              console.error("refresh token expired, logging out =>", e);
-            })
-            .finally(() => {
-              store.dispatch(setRefreshing(false));
-            });
+          store.dispatch(refreshToken());
+          // instance
+          //   .post("/auth/token", {
+          //     refreshToken: store.getState().auth.refreshToken,
+          //   })
+          //   .then((r) => {
+          //     store.dispatch(setAuth(r.data));
+          //     store.dispatch(refreshToken(false));
+          //   })
+          //   .catch((e) => {
+          //     console.log(e);
+          //     console.error("refresh token expired, logging out =>", e);
+          //   })
+          //   .finally(() => {
+          //     store.dispatch(refreshToken(false));
+          //   });
 
           // refresh token and retry queued requests
         }
@@ -63,10 +62,13 @@ const BaseUrlAxios = (isMuliPart = false) => {
     },
     (error) => {
       const { config, response } = error;
-
+      console.log(store.getState().auth);
       if (response.status === 401) {
+        console.log("begining of in error interceptor");
         if (!store.getState().auth.isRefreshing) {
-          store.dispatch(setRefreshing(true));
+          store.dispatch(refreshToken(true));
+          console.log("!isRefreshing");
+
           instance
             .post("/auth/token", {
               refreshToken: store.getState().auth.refreshToken,
@@ -88,11 +90,13 @@ const BaseUrlAxios = (isMuliPart = false) => {
               return instance(config);
             })
             .catch((e) => {
+              console.log("in error of api/token");
+              console.log(e);
               console.error("refresh token expired, logging out =>", e);
               store.dispatch(alertAuthClear());
             })
             .finally(() => {
-              store.dispatch(setRefreshing(false));
+              store.dispatch(refreshToken(false));
               store.dispatch(emptyReqQueue());
             });
 

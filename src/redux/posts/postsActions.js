@@ -1,17 +1,11 @@
 import BaseUrlAxios from "../../rest/AuthedAxios";
 import { filterExistingContents } from "../utils";
 import {
-  ADD_POSTS_TO_END,
-  ADD_POSTS_TO_FRONT,
+  ADD_NEW_POST,
   SET_POST,
-  SET_REQ,
-  CLEAR_POST,
-  // CLEAR_POSTS,
+  GET_MORE_POSTS,
+  GET_INITIAL_POSTS,
 } from "./postsTypes";
-// postPost
-// firstFetchPosts
-// continueFetchPosts
-//
 
 const genPayload = (newPosts = [], newIsLoading = null) => {
   let rv = {};
@@ -20,38 +14,31 @@ const genPayload = (newPosts = [], newIsLoading = null) => {
   return rv;
 };
 
-export const appendPostsEnd = (posts) => {
+const getMorePosts = (posts) => {
   return {
-    type: ADD_POSTS_TO_END,
+    type: GET_MORE_POSTS,
     payload: genPayload(posts),
   };
 };
 
-export const appendPostFront = (post) => {
+const getInitialPosts = (posts) => {
   return {
-    type: ADD_POSTS_TO_FRONT,
+    type: GET_INITIAL_POSTS,
+    payload: genPayload(posts),
+  };
+};
+
+const addNewPost = (post) => {
+  return {
+    type: ADD_NEW_POST,
     payload: genPayload([post]),
   };
 };
 
-export const setPosts = (posts) => {
+const setPosts = (posts) => {
   return {
     type: SET_POST,
     payload: { posts: posts },
-  };
-};
-
-export const setReq = (isLoading) => {
-  return {
-    type: SET_REQ,
-    payload: { isLoading: isLoading },
-  };
-};
-
-export const clearPost = () => {
-  return {
-    type: CLEAR_POST,
-    payload: {},
   };
 };
 
@@ -59,7 +46,7 @@ export const postPost = (postFormData) => (dispatch, getState) => {
   BaseUrlAxios(true)
     .post("/posts", postFormData)
     .then((r) => {
-      dispatch(appendPostFront(r.data));
+      dispatch(addNewPost(r.data));
     })
     .catch((e) => {
       console.log(e.data);
@@ -79,19 +66,48 @@ export const getPostEndpoints = (userID = "") => {
 // GET/api/posts/mine
 // GET/api/posts/explore
 // GET/api/posts/user/{userID}
+export const pathEqlExplore = (path) => {
+  return path.includes("explore");
+};
 
-export const getPost = (path, lastCreated = null) => (dispatch, getState) => {
-  if (lastCreated) {
-    path += `?last-created-at=${lastCreated}`;
+export const getSetInitialPosts = (path, pageSize) => (dispatch, getState) => {
+  console.log(path);
+  if (pageSize) {
+    path += `?num=${pageSize}`;
   }
   BaseUrlAxios()
     .get(path)
     .then((r) => {
-      if (r.data.length > 0) {
-        dispatch(
-          appendPostsEnd(filterExistingContents(getState().post.posts, r.data))
-        );
-      }
+      console.log("getPost r.data", r.data);
+      dispatch(
+        getInitialPosts(filterExistingContents(getState().post.posts, r.data))
+      );
+    })
+    .catch((e) => {
+      console.log(e.response);
+    });
+};
+
+export const getSetMorePosts = (
+  path,
+  last_Created_OR_ReactionsCount,
+  pageSize
+) => (dispatch, getState) => {
+  path += "?";
+  path +=
+    (pathEqlExplore(path) ? `last-reactions-count=` : `last-created-at=`) +
+    `${last_Created_OR_ReactionsCount}`;
+  path += pageSize ? `&num=${pageSize}` : "";
+
+  console.log(path);
+
+  BaseUrlAxios()
+    .get(path)
+    .then((r) => {
+      console.log("getSetMorePosts r.data", r.data);
+      dispatch(
+        getMorePosts(filterExistingContents(getState().post.posts, r.data))
+      );
     })
     .catch((e) => {
       console.log(e.response);
@@ -118,6 +134,7 @@ export const postPostReaction = (postID, idx, reaction) => (
   BaseUrlAxios()
     .post("/posts/react", { postID: postID, reaction: reaction })
     .then((r) => {
+      console.log(r.data);
       let updatedPosts = [...getState().post.posts];
       updatedPosts[idx].reactions = r.data.reactions;
       updatedPosts[idx].userReaction = r.data.userReaction;
@@ -141,9 +158,3 @@ export const deletePostReaction = (postID, idx) => (dispatch, getState) => {
       console.log(e);
     });
 };
-
-// router.delete(
-//   "/react/:postID",
-//   validate(Segments.PARAMS, { postID }),
-//   postController.deleteReact
-// );

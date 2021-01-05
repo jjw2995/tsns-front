@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import { Button, Carousel } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 import {
   deletePost,
   deletePostReaction,
   postPostReaction,
 } from "../../redux/posts/postsActions";
-import CommentSection from "../commentComponent/CommentSection";
+import CommentSection from "../comment/CommentSection";
 import Reactions from "../Reactions";
 import UserLink from "../UserLink";
 
@@ -26,7 +25,6 @@ function Post({ post, idx }) {
   const [expandText, setExpandText] = useState(false);
 
   const user = useSelector((state) => state.auth.user);
-  // const user = useSelector((state) => state.auth.user);
 
   const dispatch = useDispatch();
 

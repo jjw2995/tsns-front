@@ -8,7 +8,7 @@ import {
 } from "../../../redux/follows/followsActions";
 import FollowLinkItem from "../FollowLinkItem";
 
-function DismissedPendingFollowers() {
+function DismissedPendingFollowers({ userLinkOnClick }) {
   const dismissedPendingFollowers = useSelector(
     (state) => state.follows.dismissedPendingFollowers
   );
@@ -20,35 +20,48 @@ function DismissedPendingFollowers() {
 
   return (
     <React.Fragment>
-      {dismissedPendingFollowers.length > 0 && (
-        <div>
-          <h4 className="m-2">Dismissed Followers</h4>
-          {dismissedPendingFollowers.map((r) => {
-            return (
-              <FollowLinkItem item={r} key={"pendingDismissed" + r._id}>
-                <Button
-                  className="m-2"
-                  onClick={() => dispatch(acceptDismissedPendingFollower(r))}
+      <div>
+        <h5 className="m-2">
+          Pending Followers{" "}
+          {dismissedPendingFollowers.length === 0 && <b>N/A</b>}
+        </h5>
+        {dismissedPendingFollowers.length > 0 && (
+          <React.Fragment>
+            {dismissedPendingFollowers.map((r) => {
+              return (
+                <FollowLinkItem
+                  onClick={userLinkOnClick}
+                  item={r}
+                  key={"pendingDismissed" + r._id}
                 >
-                  accept
-                </Button>
-                <Button
-                  className="m-2"
-                  onClick={() => dispatch(deleteDismissedPendingFollower(r))}
-                >
-                  remove
-                </Button>
-              </FollowLinkItem>
-            );
-          })}
-          <Button
-            className="justify-content-center"
-            onClick={() => dispatch(getDismissedPendingFollowers(true))}
-          >
-            get more
-          </Button>
-        </div>
-      )}
+                  <Button
+                    className="m-2"
+                    onClick={() => dispatch(acceptDismissedPendingFollower(r))}
+                  >
+                    accept
+                  </Button>
+                  <Button
+                    className="m-2"
+                    variant="danger"
+                    onClick={() => dispatch(deleteDismissedPendingFollower(r))}
+                  >
+                    remove
+                  </Button>
+                </FollowLinkItem>
+              );
+            })}
+
+            <div className="justify-content-center d-flex">
+              <Button
+                className="justify-content-center"
+                onClick={() => dispatch(getDismissedPendingFollowers(true))}
+              >
+                get more
+              </Button>
+            </div>
+          </React.Fragment>
+        )}
+      </div>
     </React.Fragment>
   );
 }

@@ -7,7 +7,6 @@ import Mine from "./components/pages/Mine";
 import NavigationBar from "./components/NavigationBar";
 import User from "./components/pages/User";
 import { Button } from "react-bootstrap";
-import { isSmallWindow } from "./utils";
 
 function AuthRequired(props) {
   return (

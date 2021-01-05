@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 import {
   acceptPendingFollower,
   deletePendingFollower,
@@ -10,7 +9,7 @@ import {
 } from "../../../redux/follows/followsActions";
 import FollowLinkItem from "../FollowLinkItem";
 
-function PendingFollowers() {
+function PendingFollowers({ userLinkOnClick }) {
   const pendingFollowers = useSelector(
     (state) => state.follows.pendingFollowers
   );
@@ -19,12 +18,18 @@ function PendingFollowers() {
 
   return (
     <React.Fragment>
+      <h5 className="m-2">
+        Followers {pendingFollowers.length === 0 && <b>N/A</b>}
+      </h5>
       {pendingFollowers.length > 0 && (
-        <div>
-          <h4 className="m-2">Followers Pending</h4>
+        <React.Fragment>
           {pendingFollowers.map((r) => {
             return (
-              <FollowLinkItem item={r} key={"pendingFollowers" + r._id}>
+              <FollowLinkItem
+                onClick={userLinkOnClick}
+                item={r}
+                key={"pendingFollowers" + r._id}
+              >
                 <Button
                   className="m-2"
                   onClick={() => dispatch(acceptPendingFollower(r))}
@@ -33,11 +38,13 @@ function PendingFollowers() {
                 </Button>
                 <Button
                   className="m-2"
+                  variant="secondary"
                   onClick={() => dispatch(dismissPendingFollower(r))}
                 >
                   dismiss
                 </Button>
                 <Button
+                  variant="danger"
                   className="m-2"
                   onClick={() => dispatch(deletePendingFollower(r))}
                 >
@@ -46,13 +53,12 @@ function PendingFollowers() {
               </FollowLinkItem>
             );
           })}
-          <Button
-            className="justify-content-center"
-            onClick={() => dispatch(getPendingFollowers(true))}
-          >
-            get more
-          </Button>
-        </div>
+          <div className="justify-content-center d-flex">
+            <Button onClick={() => dispatch(getPendingFollowers(true))}>
+              get more
+            </Button>
+          </div>
+        </React.Fragment>
       )}
     </React.Fragment>
   );

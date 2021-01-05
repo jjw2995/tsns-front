@@ -1,18 +1,17 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import UserLink from "../UserLink";
 
-function FollowLinkItem(props) {
-  let r = props.item;
+function FollowLinkItem({ onClick, item, children }) {
   return (
     <div className="row">
       <UserLink
         className="list-group-item list-group-item-action col m-2"
-        userID={r.user._id}
+        userID={item.user._id}
+        onClick={onClick}
       >
-        {r.user.nickname}
+        {item.user.nickname}
       </UserLink>
-      {props.children}
+      {children}
     </div>
   );
 }

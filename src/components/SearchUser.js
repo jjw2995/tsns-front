@@ -4,15 +4,12 @@ import UserLink from "./UserLink";
 
 function SearchUser() {
   const [results, setResults] = useState([]);
-  const [blur, setBlur] = useState(true);
-
-  const focusSearch = () => {
-    setBlur(false);
-  };
+  const [search, setSearch] = useState("");
 
   const blurSearch = () => {
+    setSearch("");
+    setResults([]);
     document.getElementById("searchField").blur();
-    setBlur(true);
   };
 
   useEffect(() => {
@@ -27,6 +24,21 @@ function SearchUser() {
     };
   }, []);
 
+  useEffect(() => {
+    if (search && search.length > 0) {
+      BaseUrlAxios()
+        .get(`/users/search?query=${search}`)
+        .then((r) => {
+          setResults(r.data);
+        })
+        .catch((e) => {
+          console.log(e.response);
+        });
+    } else {
+      setResults([]);
+    }
+  }, [search]);
+
   return (
     <div>
       <div className="d-flex justify-content-center mb-5 mt-1">
@@ -38,26 +50,18 @@ function SearchUser() {
               autoComplete="off"
               placeholder="...search user"
               id="searchField"
-              onFocus={focusSearch}
-              onBlur={blurSearch}
+              // onFocus={focusSearch}
+              onBlur={() => {
+                setTimeout(() => {
+                  blurSearch();
+                }, 400);
+              }}
               onChange={(e) => {
-                let v = e.currentTarget.value;
-
-                if (v && v.length > 0) {
-                  BaseUrlAxios()
-                    .get(`/users/search?query=${v}`)
-                    .then((r) => {
-                      setResults(r.data);
-                    })
-                    .catch((e) => {
-                      console.log(e.response);
-                    });
-                }
-                if (v.length === 0) setResults([]);
+                setSearch(e.currentTarget.value);
               }}
             />
           </div>
-          {!blur && results.length > 0 && (
+          {results.length > 0 && (
             <div
               style={{
                 float: "left",
@@ -72,6 +76,10 @@ function SearchUser() {
                     className="list-group-item list-group-item-action"
                     style={{ zIndex: "1" }}
                     userID={r._id}
+                    onClick={() => {
+                      blurSearch();
+                      console.log("clicked");
+                    }}
                   >
                     {r.nickname}
                   </UserLink>

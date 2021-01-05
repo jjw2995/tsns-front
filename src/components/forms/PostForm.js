@@ -7,7 +7,7 @@ import { postPost } from "../../redux/posts/postsActions";
 
 const MAX_NUM_IMAGES = 4;
 
-function PostForm(props) {
+function PostForm({ closeModal }) {
   const dispatch = useDispatch();
 
   return (
@@ -26,7 +26,7 @@ function PostForm(props) {
           formData.set(`${i}`, r);
         });
         dispatch(postPost(formData));
-        props.closeModal();
+        closeModal();
       }}
     >
       {({ values, setFieldValue }) => (
