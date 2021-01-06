@@ -8,6 +8,7 @@ import {
   REFRESH_TOKEN,
 } from "./AuthTypes";
 import BaseUrlAxios from "../../rest/AuthedAxios";
+import Axios from "axios";
 
 const filterFieldsLoginOrRefreshToken = ({
   _id,
@@ -37,10 +38,17 @@ export const setAuth = (auth) => {
   };
 };
 
-export const setRefreshing = (auth) => {
+export const setTokens = (auth) => {
   return {
     type: REFRESH_TOKEN,
     payload: filterFieldsLoginOrRefreshToken(auth),
+  };
+};
+
+export const setIsRefreshing = (isRefreshing) => {
+  return {
+    type: REFRESH_TOKEN,
+    payload: isRefreshing,
   };
 };
 
@@ -84,8 +92,7 @@ export const errAuth = (e) => {
 
 // Save auth info, filter out isRefreshing
 export const login = (data) => (dispatch) => {
-  BaseUrlAxios()
-    .post("/auth/login", data)
+  Axios.post(`${process.env.REACT_APP_API_ENDPOINT}/auth/login`, data)
     .then((r) => {
       console.log(r.data);
       dispatch(setAuth(r.data));
@@ -96,37 +103,37 @@ export const login = (data) => (dispatch) => {
     });
 };
 
-// Save auth info, filter out isRefreshing +
-// Set isRefreshing true, save auth info, set isRefreshing false
-export const refreshToken = () => (dispatch, getState) => {
-  dispatch(setRefreshing(true));
-  let refreshToken = getState().auth.refreshToken;
-  if (refreshToken) {
-    BaseUrlAxios()
-      .post("/auth/token", { refreshToken })
-      .then((r) => {
-        console.log(r.data);
-        dispatch(setAuth(r.data));
-      })
-      .catch((e) => {
-        console.log(e);
-        dispatch(errAuth(e));
-      })
-      .finally(() => {
-        dispatch(setRefreshing(false));
-      });
-  } else {
-    // clearAuth and to landingPage
-    // maybe I need to setRefreshing to false as well ???
-    console.log("refreshToken @AuthActions, no refreshToken, logout");
-  }
-};
+// // Save auth info, filter out isRefreshing +
+// // Set isRefreshing true, save auth info, set isRefreshing false
+// export const refreshTokens = () => (dispatch, getState) => {
+//   dispatch(setRefreshing(true));
+//   let refreshToken = getState().auth.refreshToken;
+//   if (refreshToken) {
+//     Axios.post(`${process.env.REACT_APP_API_ENDPOINT}/auth/token`, {
+//       refreshToken,
+//     })
+//       .then((r) => {
+//         console.log(r.data);
+//         dispatch(setAuth(r.data));
+//         return Promise.resolve(r.data);
+//       })
+//       .catch((e) => {
+//         console.log(e);
+//         dispatch(errAuth(e));
+//         return Promise.reject(e);
+//       });
+//   } else {
+//     // clearAuth and to landingPage
+//     // maybe I need to setRefreshing to false as well ???
+//     console.log("refreshToken @AuthActions, no refreshToken, logout");
+//   }
+// };
 
-export const queueWhileRefreshing = (req) => (dispatch, getState) => {};
+// export const queueWhileRefreshing = (req) => (dispatch, getState) => {};
 
 export const alertAuthClear = () => {
   alert("your auth has expired, please login again");
-  return clearAuth();
+  clearAuth();
 };
 
 // export const refreshToken = (data) => (dispatch,getState) => {

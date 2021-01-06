@@ -1,6 +1,6 @@
 import React from "react";
 import { Col, Nav, Navbar, Row, Button } from "react-bootstrap";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { clearAuth } from "../redux/auth/AuthActions";
 import { isSmallWindow } from "../utils";
 import Pending from "./follow/pending/Pending";
@@ -9,9 +9,9 @@ import SearchUser from "./SearchUser";
 function NavigationBar(props) {
   const path = props.location.pathname;
   const dispatch = useDispatch();
+  let nickname;
 
-  const nickname = JSON.parse(localStorage.getItem("AUTH")).user.nickname;
-
+  // nickname = useSelector((state) => state.auth.user.nickname);
   return (
     <Navbar
       expand="lg"
@@ -78,6 +78,9 @@ function NavigationBar(props) {
               variant="outline-dark"
               className="ml-2"
               onClick={() => {
+                console.log(props);
+                props.history.push("");
+
                 dispatch(clearAuth());
               }}
             >

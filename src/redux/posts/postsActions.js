@@ -75,6 +75,7 @@ export const getSetInitialPosts = (path, pageSize) => (dispatch, getState) => {
   if (pageSize) {
     path += `?num=${pageSize}`;
   }
+
   BaseUrlAxios()
     .get(path)
     .then((r) => {

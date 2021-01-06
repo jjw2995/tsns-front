@@ -22,6 +22,7 @@ function Posts({ endPoint }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log("component load, post fetch fired");
     dispatch(getSetInitialPosts(endPoint, PAGE_SIZE));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

@@ -7,14 +7,15 @@ import {
   refreshTokens,
   alertAuthClear,
   setTokens,
-  setIsRefreshing,
 } from "../redux/auth/AuthActions";
 import store from "../redux/store";
 
+// let reqQueue = [];
+// let isRefreshing = false;
 // const NUM_REQUEST = 1;
 
 let isRefreshing = false;
-let reqQueue = [];
+
 const BaseUrlAxios = (isMuliPart = false) => {
   const defaultOptions = {
     baseURL: process.env.REACT_APP_API_ENDPOINT,
@@ -37,12 +38,10 @@ const BaseUrlAxios = (isMuliPart = false) => {
 
   // for multiple requests
 
+  // let isRefreshing = false;
+  // let failedQueue = [];
   const processQueue = (error, token = null) => {
-    console.log("in processQueue");
-    console.log(reqQueue);
-    // store.getState().auth.reqQueue.forEach((prom) => {
-    reqQueue.forEach((prom) => {
-      // console.log(prom);
+    store.getState().auth.reqQueue.forEach((prom) => {
       if (error) {
         prom.reject(error);
       } else {
@@ -50,8 +49,7 @@ const BaseUrlAxios = (isMuliPart = false) => {
       }
     });
 
-    // store.dispatch(emptyReqQueue());
-    reqQueue = [];
+    store.dispatch(emptyReqQueue());
   };
 
   instance.interceptors.response.use(
@@ -60,33 +58,26 @@ const BaseUrlAxios = (isMuliPart = false) => {
     },
     function (error) {
       const originalRequest = error.config;
+      console.log("failed queue");
 
       // queue faled requests
       if (error.response.status === 401 && !originalRequest._retry) {
-        //
         if (isRefreshing) {
-          // if (store.getState().auth.isRefreshing) {
           return new Promise(function (resolve, reject) {
-            //
-            reqQueue.push({ resolve, reject });
-            // store.dispatch(addReqQueue({ resolve, reject }));
+            store.dispatch(addReqQueue({ resolve, reject }));
           })
             .then((token) => {
-              console.log("resolving queued requests");
-
               originalRequest.headers["Authorization"] = "Bearer " + token;
-              // console.log(token);
-              return instance(originalRequest);
+              console.log(token);
+              return axios(originalRequest);
             })
             .catch((err) => {
               return Promise.reject(err);
             });
         }
 
-        //
-        isRefreshing = true;
-        // store.dispatch(setIsRefreshing(true));
         originalRequest._retry = true;
+        isRefreshing = true;
 
         const refreshToken = store.getState().auth.refreshToken;
 
@@ -96,25 +87,26 @@ const BaseUrlAxios = (isMuliPart = false) => {
               refreshToken,
             })
             .then(({ data }) => {
+              console.log(data);
               store.dispatch(setTokens(data));
-              console.log("refreshing Token");
+              axios.defaults.headers.common["Authorization"] =
+                "Bearer " + data.token;
               originalRequest.headers["Authorization"] = "Bearer " + data.token;
               processQueue(null, data.token);
-              resolve(instance(originalRequest));
+              resolve(axios(originalRequest));
             })
             .catch((err) => {
               processQueue(err, null);
               reject(err);
             })
             .finally(() => {
-              //
-              // store.dispatch(setIsRefreshing(false));
               isRefreshing = false;
             });
         });
       }
 
       if (error.response.status === 400) {
+        console.log("here ?????????????????");
         console.log(error.response.data);
       }
 

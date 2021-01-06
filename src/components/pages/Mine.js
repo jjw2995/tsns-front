@@ -8,6 +8,7 @@ import UserInfo from "../UserInfo";
 
 function Mine() {
   const user = useSelector((state) => state.auth.user);
+  console.log(user);
   const [myInfo, setMyInfo] = useState();
 
   useEffect(() => {
