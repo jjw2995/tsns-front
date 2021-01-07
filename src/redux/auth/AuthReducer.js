@@ -8,10 +8,12 @@ import {
 
 const initialState = {
   // reqQueue: [],
-  hasFetched: false,
   // isRefreshing: false,
+  hasFetched: false,
   loggedIn: false,
-  user: { _id: "", nickname: "" },
+  accessToken: null,
+  refreshToken: null,
+  user: { _id: null, nickname: null },
 };
 
 export const authReducer = (
@@ -26,25 +28,23 @@ export const authReducer = (
     return toStore;
   }
   let toStore = { ...state, ...payload };
-  console.log("in authReducer: state");
-  console.log(state);
-  // console.log("in authReducer: payload");
-  // console.log(payload);
+  console.log("@ authReducer, state: ", state);
+  console.log("@ authReducer, payload: ", payload);
   if (message) {
-    console.log(message);
+    console.log("@ authReducer, message: ", message);
   }
   switch (type) {
     case SET_AUTH:
-      return storeAndReturn({ ...state, ...payload });
-    // localStorage.setItem("AUTH", JSON.stringify({ ...state, ...payload }));
-    // return { ...state, ...payload };
+      localStorage.setItem("AUTH", JSON.stringify({ ...state, ...payload }));
+      return { ...state, ...payload };
 
     case HYDRATE_AUTH:
       // Get from local storage
-      return { hasFetched: true, ...JSON.parse(localStorage.getItem("AUTH")) };
+      return { ...initialState, ...JSON.parse(localStorage.getItem("AUTH")) };
 
     case CLEAR_AUTH:
-      return storeAndReturn({});
+      localStorage.removeItem("AUTH");
+      return initialState;
 
     default:
       return state;

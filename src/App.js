@@ -32,11 +32,11 @@ function App() {
 }
 
 const Main = withRouter((props) => {
-  const isFetched = useSelector((state) => {
-    if (state.auth) {
-      return state.auth.hasFetched;
-    }
-  });
+  const hasFetched = useSelector((state) => state.auth.refreshToken);
+  console.log("Selector hasFetched", hasFetched);
+
+  // const isFetched = localStorage.getItem("AUTH");
+  // console.log("in Main, AUTH: ", isFetched);
 
   useEffect(() => {
     store.dispatch(hydrateAuth());
@@ -44,16 +44,19 @@ const Main = withRouter((props) => {
 
   return (
     <React.Fragment>
-      {isFetched && (
+      {hasFetched ? (
         <Switch>
-          <PublicOnlyRoute exact path="/" component={LandingPage} />
+          {/* <PublicOnlyRoute exact path="/" component={LandingPage} /> */}
           {/* <Route exact path="/" component={LandingPage} /> */}
           <ProtectedRoute exact path="/home" component={Home} />
           <ProtectedRoute exact path="/explore" component={Explore} />
           <ProtectedRoute exact path="/explore/users/:uid" component={User} />
           <ProtectedRoute exact path="/mine" component={Mine} />
           <ProtectedRoute exact path="/about" component={About} />
+          <ProtectedRoute path="" component={Home} />
         </Switch>
+      ) : (
+        <PublicOnlyRoute exact path="/" component={LandingPage} />
       )}
     </React.Fragment>
   );

@@ -7,6 +7,7 @@ export function ProtectedRoute({ component: Component, ...rest }) {
   // const loggedIn = useSelector((state) => state.auth);
   // const loggedIn = JSON.parse(localStorage.getItem("AUTH")).refreshToken;
   const loggedIn = JSON.parse(localStorage.getItem("AUTH"));
+  console.log("in Protected Route");
 
   console.log("@ ProtectedRoute, loggedIn: ", loggedIn);
   return (
@@ -26,7 +27,7 @@ export function ProtectedRoute({ component: Component, ...rest }) {
     <Route
       {...rest}
       render={(props) =>
-        loggedIn === true ? (
+        loggedIn ? (
           <React.Fragment>
             <NavigationBar {...props} />
             <Component {...props} />
@@ -43,13 +44,14 @@ export function PublicOnlyRoute({ component: Component, ...rest }) {
   // const loggedIn = useSelector((state) => state.auth);
   // const loggedIn = JSON.parse(localStorage.getItem("AUTH")).refreshToken;
   const loggedIn = JSON.parse(localStorage.getItem("AUTH"));
+  console.log("in Public Only route");
   // console.log({ ...rest }.location);
 
   return (
     <Route
       {...rest}
       render={(props) =>
-        !loggedIn === true ? (
+        !loggedIn ? (
           <Component {...props} />
         ) : (
           <div></div>
