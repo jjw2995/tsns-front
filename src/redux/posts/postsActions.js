@@ -80,9 +80,7 @@ export const getSetInitialPosts = (path, pageSize) => (dispatch, getState) => {
     .get(path)
     .then((r) => {
       console.log("getPost r.data", r.data);
-      dispatch(
-        getInitialPosts(filterExistingContents(getState().post.posts, r.data))
-      );
+      dispatch(getInitialPosts(r.data));
     })
     .catch((e) => {
       console.log(e.response);

@@ -6,6 +6,7 @@ import RegisterForm from "../forms/RegisterForm";
 // TODO: error is from showing password, type set to bool
 function LandingPage(props) {
   const [activeTab, setActiveTab] = useState(1);
+  console.log(props);
 
   const setOnOff = (val) => {
     setActiveTab((pre) => {
@@ -76,7 +77,7 @@ function LandingPage(props) {
           About Me and tSNS
         </Button>
       </div>
-      {isLoginActive() && <LoginForm />}
+      {isLoginActive() && <LoginForm props={props} />}
       {isRegisterActive() && <RegisterForm />}
       {isAboutActive() && <About />}
     </div>

@@ -1,13 +1,25 @@
 import "./css/App.css";
 import React, { useEffect, useState } from "react";
 
-import { BrowserRouter as Router, Route, withRouter } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  withRouter,
+} from "react-router-dom";
 
 import { Provider, useSelector } from "react-redux";
 import store from "./redux/store";
 import { hydrateAuth } from "./redux/auth/AuthActions";
 import AuthRequired from "./RouteAuthRequired";
 import LogoutRequired from "./RouteLogoutRequired";
+import { ProtectedRoute, PublicOnlyRoute } from "./components/ProtectedRoute";
+import Home from "./components/pages/Home";
+import Explore from "./components/pages/Explore";
+import User from "./components/pages/User";
+import Mine from "./components/pages/Mine";
+import About from "./components/pages/About";
+import LandingPage from "./components/pages/LandingPage";
 
 function App() {
   return (
@@ -20,26 +32,28 @@ function App() {
 }
 
 const Main = withRouter((props) => {
-  // TODO: Error: cannot update state while rendering other comp, fix
-  // const refreshToken = useSelector((state) => state.auth);
-  const auth = useSelector((state) => state.auth.refreshToken);
-  // const [loggedIn, setLoggedIn] = useState(false);
-  // mayby fetch from store directly instead of redux store???
-  //
+  const isFetched = useSelector((state) => {
+    if (state.auth) {
+      return state.auth.hasFetched;
+    }
+  });
+
   useEffect(() => {
     store.dispatch(hydrateAuth());
-    console.log(auth);
-    console.log("???");
   }, []);
 
   return (
     <React.Fragment>
-      {auth ? (
-        // hasFetched && <Route component={AuthRequired} />
-        <Route component={AuthRequired} />
-      ) : (
-        // <Route component={LogoutRequired} />
-        <Route component={LogoutRequired} />
+      {isFetched && (
+        <Switch>
+          <PublicOnlyRoute exact path="/" component={LandingPage} />
+          {/* <Route exact path="/" component={LandingPage} /> */}
+          <ProtectedRoute exact path="/home" component={Home} />
+          <ProtectedRoute exact path="/explore" component={Explore} />
+          <ProtectedRoute exact path="/explore/users/:uid" component={User} />
+          <ProtectedRoute exact path="/mine" component={Mine} />
+          <ProtectedRoute exact path="/about" component={About} />
+        </Switch>
       )}
     </React.Fragment>
   );

@@ -5,7 +5,6 @@ import {
   CLEAR_AUTH,
   ADD_REQ_QUEUE,
   CLEAR_REQ_QUEUE,
-  REFRESH_TOKEN,
 } from "./AuthTypes";
 import BaseUrlAxios from "../../rest/AuthedAxios";
 import Axios from "axios";
@@ -15,9 +14,10 @@ const filterFieldsLoginOrRefreshToken = ({
   nickname,
   accessToken,
   refreshToken,
+  loggedIn,
 }) => {
   return _id && nickname
-    ? { user: { _id, nickname }, accessToken, refreshToken }
+    ? { user: { _id, nickname }, accessToken, refreshToken, loggedIn }
     : { accessToken, refreshToken };
 };
 
@@ -31,24 +31,33 @@ const filterFieldsLoginOrRefreshToken = ({
 //   };
 // };
 
-export const setAuth = (auth) => {
+export const setOnUserLogin = ({
+  _id,
+  nickname,
+  accessToken,
+  refreshToken,
+  loggedIn,
+}) => {
   return {
     type: SET_AUTH,
-    payload: filterFieldsLoginOrRefreshToken(auth),
+    payload: { user: { _id, nickname }, accessToken, refreshToken, loggedIn },
+    message: "login",
   };
 };
 
-export const setTokens = (auth) => {
+export const setOnTokenRefresh = ({ refreshToken, accessToken }) => {
   return {
-    type: REFRESH_TOKEN,
-    payload: filterFieldsLoginOrRefreshToken(auth),
+    type: SET_AUTH,
+    payload: { refreshToken, accessToken },
+    message: "refresh tokens",
   };
 };
 
 export const setIsRefreshing = (isRefreshing) => {
   return {
-    type: REFRESH_TOKEN,
+    type: SET_AUTH,
     payload: isRefreshing,
+    message: `setting isRefreshing === ${isRefreshing}`,
   };
 };
 
@@ -77,9 +86,11 @@ export const hydrateAuth = (cb) => {
 
 // clearAuth
 export const clearAuth = () => {
+  console.log("CLEAR UATH");
   return {
     type: CLEAR_AUTH,
     payload: {},
+    massage: "AUTH CLEAR",
   };
 };
 
@@ -95,7 +106,7 @@ export const login = (data) => (dispatch) => {
   Axios.post(`${process.env.REACT_APP_API_ENDPOINT}/auth/login`, data)
     .then((r) => {
       console.log(r.data);
-      dispatch(setAuth(r.data));
+      dispatch(setOnUserLogin({ ...r.data, loggedIn: true }));
     })
     .catch((e) => {
       console.log(e);
@@ -103,64 +114,7 @@ export const login = (data) => (dispatch) => {
     });
 };
 
-// // Save auth info, filter out isRefreshing +
-// // Set isRefreshing true, save auth info, set isRefreshing false
-// export const refreshTokens = () => (dispatch, getState) => {
-//   dispatch(setRefreshing(true));
-//   let refreshToken = getState().auth.refreshToken;
-//   if (refreshToken) {
-//     Axios.post(`${process.env.REACT_APP_API_ENDPOINT}/auth/token`, {
-//       refreshToken,
-//     })
-//       .then((r) => {
-//         console.log(r.data);
-//         dispatch(setAuth(r.data));
-//         return Promise.resolve(r.data);
-//       })
-//       .catch((e) => {
-//         console.log(e);
-//         dispatch(errAuth(e));
-//         return Promise.reject(e);
-//       });
-//   } else {
-//     // clearAuth and to landingPage
-//     // maybe I need to setRefreshing to false as well ???
-//     console.log("refreshToken @AuthActions, no refreshToken, logout");
-//   }
-// };
-
-// export const queueWhileRefreshing = (req) => (dispatch, getState) => {};
-
 export const alertAuthClear = () => {
   alert("your auth has expired, please login again");
-  clearAuth();
+  return clearAuth();
 };
-
-// export const refreshToken = (data) => (dispatch,getState) => {
-
-// // TODO: something wrong with refreshing the tokens
-// export const keepTokensFresh = () => async (dispatch, getState) => {
-//   // const tNow = Date.now() / 1000;
-//   const refTok = getState().auth.refreshToken;
-//   // const accExpAt = jwtDecode(getState().auth.accessToken).exp;
-//   // const refExpAt = jwtDecode(refTok).exp;
-
-//   // const didAccTokExp = accExpAt < tNow;
-//   // const didRefTokExp = refExpAt < tNow;
-//   // if (didRefTokExp) {
-//   //   _alertAuthClear(dispatch);
-//   //   return;
-//   // }
-//   // if (didAccTokExp) {
-//   try {
-//     let res = await BaseUrlAxios().post("/auth/token", {
-//       refreshToken: refTok,
-//     });
-
-//     dispatch(setAuth(res.data));
-//   } catch (error) {
-//     console.log(error.message);
-//     _alertAuthClear(dispatch);
-//   }
-//   // }
-// };

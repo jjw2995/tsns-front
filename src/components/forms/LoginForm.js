@@ -9,30 +9,26 @@ import { MyTextField, MyPasswordField } from "../myComponents/myFields";
 import { useDispatch } from "react-redux";
 
 import { login } from "../../redux/auth/AuthActions";
+import { withRouter } from "react-router";
 
 function LoginForm(props) {
   const [showPass, setShowPass] = useState(false);
   const dispatch = useDispatch();
 
+  console.log("in loginForm", props);
   const showPassFn = () => {
     return showPass ? "text" : "password";
   };
 
   return (
     <div>
-      {/* <pre>{JSON.stringify(state, null, 2)}</pre> */}
-
       <Formik
         initialValues={{ email: "", password: "" }}
         onSubmit={async (data, { setSubmitting }) => {
           setSubmitting(true);
           try {
-            console.log(data);
             dispatch(login(data));
-
             setSubmitting(false);
-
-            // props.toLoginPage();
             props.history.push("/home");
           } catch (e) {
             // TODO: if email or nickname already exists - handle
@@ -54,8 +50,6 @@ function LoginForm(props) {
             <p className="text-muted">
               if you just registered, check your email for varification
             </p>
-            {/* <pre>{JSON.stringify(values, null, 2)}</pre>
-          <pre>{JSON.stringify(errors, null, 2)}</pre> */}
             <div>
               <MyTextField
                 name="email"
@@ -94,5 +88,4 @@ function LoginForm(props) {
     </div>
   );
 }
-
-export default LoginForm;
+export default withRouter(LoginForm);

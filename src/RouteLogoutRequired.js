@@ -7,9 +7,9 @@ import RegisterForm from "./components/forms/RegisterForm";
 function LogoutRequired(props) {
   return (
     <Switch>
-      <Route exact path="/" component={LandingPage} />
+      {/* <Route exact path="/" component={LandingPage} />
       <Route exact path="/login" component={LoginForm} />
-      <Route exact path="/register" component={RegisterForm} />
+      <Route exact path="/register" component={RegisterForm} /> */}
       <Route path="/" component={LandingPage} />
     </Switch>
   );

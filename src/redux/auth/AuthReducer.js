@@ -4,59 +4,62 @@ import {
   CLEAR_AUTH,
   ADD_REQ_QUEUE,
   CLEAR_REQ_QUEUE,
-  REFRESH_TOKEN,
 } from "./AuthTypes";
 
 const initialState = {
-  reqQueue: [],
+  // reqQueue: [],
   hasFetched: false,
-  isRefreshing: false,
+  // isRefreshing: false,
+  loggedIn: false,
   user: { _id: "", nickname: "" },
 };
 
-export const authReducer = (state = initialState, { type, payload }) => {
-  // function storeAndReturn(params) {
-  //   localStorage.setItem("AUTH", JSON.stringify(toStore));
-  //     return toStore;
-  // }
+export const authReducer = (
+  state = initialState,
+  { type, payload, message }
+) => {
+  function storeAndReturn(toStore) {
+    localStorage.setItem(
+      "AUTH",
+      JSON.stringify({ ...toStore, hasFetched: true })
+    );
+    return toStore;
+  }
   let toStore = { ...state, ...payload };
-  // console.log("in authReducer: state");
-  // console.log(state);
+  console.log("in authReducer: state");
+  console.log(state);
   // console.log("in authReducer: payload");
   // console.log(payload);
+  if (message) {
+    console.log(message);
+  }
   switch (type) {
     case SET_AUTH:
-      localStorage.setItem("AUTH", JSON.stringify({ ...state, ...payload }));
-      return { ...state, ...payload };
-
-    case REFRESH_TOKEN:
-      localStorage.setItem("AUTH", JSON.stringify({ ...state, ...payload }));
-      return { ...state, ...payload };
+      return storeAndReturn({ ...state, ...payload });
+    // localStorage.setItem("AUTH", JSON.stringify({ ...state, ...payload }));
+    // return { ...state, ...payload };
 
     case HYDRATE_AUTH:
       // Get from local storage
-      const data = { ...state, ...JSON.parse(localStorage.getItem("AUTH")) };
-      return data;
-
-    case ADD_REQ_QUEUE:
-      localStorage.setItem(
-        "AUTH",
-        JSON.stringify({ ...state, reqQueue: [...state.reqQueue, payload] })
-      );
-      return { ...state, reqQueue: [...state.reqQueue, payload] };
-
-    case CLEAR_REQ_QUEUE:
-      localStorage.setItem("AUTH", JSON.stringify({ ...state, reqQueue: [] }));
-      return { ...state, reqQueue: [] };
+      return { hasFetched: true, ...JSON.parse(localStorage.getItem("AUTH")) };
 
     case CLEAR_AUTH:
-      localStorage.removeItem("AUTH");
-      return {};
+      return storeAndReturn({});
 
     default:
       return state;
   }
 };
+// case ADD_REQ_QUEUE:
+//   localStorage.setItem(
+//     "AUTH",
+//     JSON.stringify({ ...state, reqQueue: [...state.reqQueue, payload] })
+//   );
+//   return { ...state, reqQueue: [...state.reqQueue, payload] };
+
+// case CLEAR_REQ_QUEUE:
+//   localStorage.setItem("AUTH", JSON.stringify({ ...state, reqQueue: [] }));
+//   return { ...state, reqQueue: [] };
 // Save auth info, filter out isRefreshing
 // Set isRefreshing true, save auth info, set isRefreshing false
 // Get from local storage

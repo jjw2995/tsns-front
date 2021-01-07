@@ -1,13 +1,15 @@
 import axios from "axios";
 import jwtDecode from "jwt-decode";
 import {
-  addReqQueue,
-  emptyReqQueue,
-  setAuth,
-  refreshTokens,
+  // addReqQueue,
+  // emptyReqQueue,
+  // setAuth,
+  // refreshTokens,
   alertAuthClear,
-  setTokens,
-  setIsRefreshing,
+  clearAuth,
+  setOnTokenRefresh,
+  // setIsRefreshing,
+  // clearAuth,
 } from "../redux/auth/AuthActions";
 import store from "../redux/store";
 
@@ -16,6 +18,8 @@ import store from "../redux/store";
 let isRefreshing = false;
 let reqQueue = [];
 const BaseUrlAxios = (isMuliPart = false) => {
+  console.log(store.getState().auth.accessToken);
+  console.log(JSON.parse(localStorage.getItem("AUTH")).accessToken);
   const defaultOptions = {
     baseURL: process.env.REACT_APP_API_ENDPOINT,
     headers: {
@@ -30,7 +34,8 @@ const BaseUrlAxios = (isMuliPart = false) => {
   // // Set the AUTH token for any request instance.
   instance.interceptors.request.use(function (config) {
     config.headers.Authorization = `Bearer ${
-      store.getState().auth.accessToken
+      // store.getState().auth.accessToken
+      JSON.parse(localStorage.getItem("AUTH")).accessToken
     }`;
     return config;
   });
@@ -44,6 +49,8 @@ const BaseUrlAxios = (isMuliPart = false) => {
     reqQueue.forEach((prom) => {
       // console.log(prom);
       if (error) {
+        // window.alert("login again");
+        store.dispatch(alertAuthClear());
         prom.reject(error);
       } else {
         prom.resolve(token);
@@ -79,6 +86,7 @@ const BaseUrlAxios = (isMuliPart = false) => {
               return instance(originalRequest);
             })
             .catch((err) => {
+              store.dispatch(alertAuthClear());
               return Promise.reject(err);
             });
         }
@@ -96,7 +104,7 @@ const BaseUrlAxios = (isMuliPart = false) => {
               refreshToken,
             })
             .then(({ data }) => {
-              store.dispatch(setTokens(data));
+              store.dispatch(setOnTokenRefresh(data));
               console.log("refreshing Token");
               originalRequest.headers["Authorization"] = "Bearer " + data.token;
               processQueue(null, data.token);
@@ -112,10 +120,6 @@ const BaseUrlAxios = (isMuliPart = false) => {
               isRefreshing = false;
             });
         });
-      }
-
-      if (error.response.status === 400) {
-        console.log(error.response.data);
       }
 
       return Promise.reject(error);
