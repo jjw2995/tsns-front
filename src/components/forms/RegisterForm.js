@@ -6,6 +6,7 @@ import { Checkbox, FormControlLabel } from "@material-ui/core";
 import { MyTextField, MyPasswordField } from "../myComponents/myFields";
 
 import * as yup from "yup";
+import Swal from "sweetalert2";
 
 const validationSchema = yup.object({
   nickname: yup
@@ -50,9 +51,11 @@ function RegisterForm(props) {
             process.env.REACT_APP_API_ENDPOINT + "/auth/register",
             data
           );
-          alert(
-            "validation email with a link has been sent, click link and login"
-          );
+          Swal.fire({
+            icon: "success",
+            title: "Validation Email Sent",
+            text: "click the link and login",
+          });
           setSubmitting(false);
           console.log(a.data);
           props.history.push("/login");

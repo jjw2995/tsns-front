@@ -16,7 +16,11 @@ const ContainDiv = ({ title, children, anchorName, anchorLink }) => {
         <h1>
           <b>{title}</b>
         </h1>
-        {anchorName && <a href={anchorLink}>{anchorName}</a>}
+        {anchorName && (
+          <a target="blank" rel="noopener noreferrer" href={anchorLink}>
+            {anchorName}
+          </a>
+        )}
       </div>
       {children}
     </div>

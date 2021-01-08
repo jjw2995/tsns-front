@@ -15,20 +15,21 @@ export const endpoints = (userID = null) => {
 
 const PAGE_SIZE = 8;
 function Posts({ endPoint }) {
+  console.log(endPoint);
   const posts = useSelector((state) => state.post.posts);
   const hasFetched = useSelector((state) => state.post.hasFetched);
   const hasMore = useSelector((state) => state.post.hasMore);
 
-  const dispatch = useDispatch();
+  const refreshToken = useSelector((state) => state.auth.refreshToken);
 
+  const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getSetInitialPosts(endPoint, PAGE_SIZE));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchMore = () => {
-    console.log(posts[posts.length - 1].reactionsCount);
-    // console.log("firing fetchMore");
+    // console.log(posts[posts.length - 1].reactionsCount);
     dispatch(
       getSetMorePosts(
         endPoint,

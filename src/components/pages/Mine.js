@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { useSelector } from "react-redux";
+import Swal from "sweetalert2";
 import BaseUrlAxios from "../../rest/AuthedAxios";
 import FollowersFollowees from "../follow/FollowersFollowees";
 import Posts, { endpoints } from "../post/Posts";
@@ -8,7 +9,6 @@ import UserInfo from "../UserInfo";
 
 function Mine() {
   const user = useSelector((state) => state.auth.user);
-  console.log(user);
   const [myInfo, setMyInfo] = useState();
 
   useEffect(() => {
@@ -57,7 +57,35 @@ function Mine() {
           }
         >
           <FollowersFollowees uid={user._id} isShow={true} />
-          <button>d</button>
+          <Button
+            variant="outline-danger"
+            size="sm"
+            className="m-1"
+            onClick={() => {
+              Swal.fire({
+                icon: "warning",
+                title: "Remove Account?",
+                text:
+                  "all information linked to your account will be deleted soon after",
+                showConfirmButton: true,
+                showDenyButton: true,
+                confirmButtonText: "Yes",
+                denyButtonText: "No",
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  Swal.fire(
+                    "Confirmed!",
+                    "you will be logged out now",
+                    "success"
+                  ).then(() => {
+                    console.log("removed");
+                  });
+                }
+              });
+            }}
+          >
+            remove Account
+          </Button>
         </UserInfo>
       )}
       <div>

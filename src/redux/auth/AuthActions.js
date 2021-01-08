@@ -1,35 +1,6 @@
-import {
-  HYDRATE_AUTH,
-  SET_AUTH,
-  ERR_AUTH,
-  CLEAR_AUTH,
-  ADD_REQ_QUEUE,
-  CLEAR_REQ_QUEUE,
-} from "./AuthTypes";
-import BaseUrlAxios from "../../rest/AuthedAxios";
+import { HYDRATE_AUTH, SET_AUTH, ERR_AUTH, CLEAR_AUTH } from "./AuthTypes";
 import Axios from "axios";
-
-const filterFieldsLoginOrRefreshToken = ({
-  _id,
-  nickname,
-  accessToken,
-  refreshToken,
-  loggedIn,
-}) => {
-  return _id && nickname
-    ? { user: { _id, nickname }, accessToken, refreshToken, loggedIn }
-    : { accessToken, refreshToken };
-};
-
-// export const setAuth = ({ _id, nickname, accessToken, refreshToken }) => {
-//   return {
-//     type: SET_AUTH,
-//     payload:
-//       _id && nickname
-//         ? { user: { _id, nickname }, accessToken, refreshToken }
-//         : { accessToken, refreshToken },
-//   };
-// };
+import Swal from "sweetalert2";
 
 export const setOnUserLogin = ({
   _id,
@@ -50,28 +21,6 @@ export const setOnTokenRefresh = ({ refreshToken, accessToken }) => {
     type: SET_AUTH,
     payload: { refreshToken, accessToken },
     message: "refresh tokens",
-  };
-};
-
-export const setIsRefreshing = (isRefreshing) => {
-  return {
-    type: SET_AUTH,
-    payload: isRefreshing,
-    message: `setting isRefreshing === ${isRefreshing}`,
-  };
-};
-
-export const addReqQueue = (item) => {
-  return {
-    type: ADD_REQ_QUEUE,
-    payload: item,
-  };
-};
-
-// clearReqQueue
-export const emptyReqQueue = () => {
-  return {
-    type: CLEAR_REQ_QUEUE,
   };
 };
 
@@ -115,6 +64,10 @@ export const login = (data) => (dispatch) => {
 };
 
 export const alertAuthClear = () => {
-  alert("your auth has expired, please login again");
+  Swal.fire({
+    icon: "error",
+    title: "Session Expired",
+    text: "please login again",
+  });
   return clearAuth();
 };

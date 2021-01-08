@@ -8,10 +8,13 @@ import { useDispatch, useSelector } from "react-redux";
 import CloseButton from "../../myComponents/CloseButton";
 import MyModal from "../../myComponents/MyModal";
 import DismissedPendingFollowers from "../dismissed/DismissedPendingFollowers";
+import { useLocation } from "react-router";
 
 function Pending() {
   const [openModal, setOpenModal] = useState(false);
   const [isPendingOpen, setIsPendingOpen] = useState(true);
+  const dfff = useSelector((state) => state.post);
+  const { pathname } = useLocation();
 
   const closeModal = () => {
     setIsPendingOpen(true);
@@ -22,7 +25,7 @@ function Pending() {
 
   useEffect(() => {
     dispatch(getPendingFollowers());
-  }, []);
+  }, [dfff]);
 
   return (
     <div>

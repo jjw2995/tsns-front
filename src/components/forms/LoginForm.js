@@ -15,7 +15,7 @@ function LoginForm(props) {
   const [showPass, setShowPass] = useState(false);
   const dispatch = useDispatch();
 
-  console.log("in loginForm", props);
+  // console.log("in loginForm", props);
   const showPassFn = () => {
     return showPass ? "text" : "password";
   };

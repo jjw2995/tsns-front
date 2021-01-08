@@ -1,15 +1,7 @@
-import {
-  SET_AUTH,
-  HYDRATE_AUTH,
-  CLEAR_AUTH,
-  ADD_REQ_QUEUE,
-  CLEAR_REQ_QUEUE,
-} from "./AuthTypes";
+import { SET_AUTH, HYDRATE_AUTH, CLEAR_AUTH } from "./AuthTypes";
 
 const initialState = {
-  // reqQueue: [],
-  // isRefreshing: false,
-  hasFetched: false,
+  // hasFetched: false,
   loggedIn: false,
   accessToken: null,
   refreshToken: null,
@@ -20,16 +12,8 @@ export const authReducer = (
   state = initialState,
   { type, payload, message }
 ) => {
-  function storeAndReturn(toStore) {
-    localStorage.setItem(
-      "AUTH",
-      JSON.stringify({ ...toStore, hasFetched: true })
-    );
-    return toStore;
-  }
-  let toStore = { ...state, ...payload };
-  console.log("@ authReducer, state: ", state);
-  console.log("@ authReducer, payload: ", payload);
+  // console.log("@ authReducer, state: ", state);
+  // console.log("@ authReducer, payload: ", payload);
   if (message) {
     console.log("@ authReducer, message: ", message);
   }
@@ -50,16 +34,3 @@ export const authReducer = (
       return state;
   }
 };
-// case ADD_REQ_QUEUE:
-//   localStorage.setItem(
-//     "AUTH",
-//     JSON.stringify({ ...state, reqQueue: [...state.reqQueue, payload] })
-//   );
-//   return { ...state, reqQueue: [...state.reqQueue, payload] };
-
-// case CLEAR_REQ_QUEUE:
-//   localStorage.setItem("AUTH", JSON.stringify({ ...state, reqQueue: [] }));
-//   return { ...state, reqQueue: [] };
-// Save auth info, filter out isRefreshing
-// Set isRefreshing true, save auth info, set isRefreshing false
-// Get from local storage

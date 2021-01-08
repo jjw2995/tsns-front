@@ -17,6 +17,8 @@ function Home(props) {
     setOpen(true);
   };
 
+  // console.log("in Home");
+
   return (
     <div>
       <div style={{ textAlign: "center" }}>
@@ -34,7 +36,7 @@ function Home(props) {
           style={{
             paddingRight: isSmallWindow ? "2.5rem" : "3rem",
             paddingBottom: isSmallWindow ? "" : "2rem",
-            pointerEvents: "initial",
+            pointerEvents: "none",
           }}
         >
           <Modal
@@ -57,19 +59,14 @@ function Home(props) {
             <PostForm closeModal={closeModal} />
           </Modal>
           {isSmallWindow ? (
-            <Button
-              className="btn-secondary"
-              // size="lg"
-              // style={style}
-              onClick={openModal}
-            >
+            <Button className="btn-secondary" onClick={openModal}>
               <b>+</b>
             </Button>
           ) : (
             <Button
               className="btn-secondary"
               size="lg"
-              // style={style}
+              style={{ pointerEvents: "initial" }}
               onClick={openModal}
             >
               new Post

@@ -1,7 +1,8 @@
 import React from "react";
 import { Col, Nav, Navbar, Row, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { alertAuthClear, clearAuth } from "../redux/auth/AuthActions";
+import { Link } from "react-router-dom";
+import { clearAuth } from "../redux/auth/AuthActions";
 import { isSmallWindow } from "../utils";
 import Pending from "./follow/pending/Pending";
 import SearchUser from "./SearchUser";
@@ -11,7 +12,10 @@ function NavigationBar(props) {
   const dispatch = useDispatch();
 
   const nickname = useSelector((state) => state.auth.user.nickname || "");
-  // nickname = useSelector((state) => state.auth.user.nickname);
+
+  const activeRetColor = (target) => {
+    return path.split("/")[1] === target.split("/")[1] ? "black" : "grey";
+  };
   return (
     <Navbar
       expand="lg"
@@ -32,35 +36,38 @@ function NavigationBar(props) {
       <Col xs={6}>
         <Row className="justify-content-center">
           <Nav className="d-flex justify-content-center">
-            <Nav.Link
+            <Link
               className="navElem"
-              // href="/#"
-              href="/home"
-              eventKey="/home"
-              active={path === "/home" ? true : false}
+              style={{
+                textDecoration: "none",
+                color: activeRetColor("/home"),
+              }}
+              to="/home"
             >
               Home
-            </Nav.Link>
+            </Link>
 
-            <Nav.Link
+            <Link
               className="navElem"
-              // href="/#"
-              href="/explore"
-              eventKey="explore"
-              active={path.split("/")[1] === "explore" ? true : false}
+              style={{
+                textDecoration: "none",
+                color: activeRetColor("/explore"),
+              }}
+              to="/explore"
             >
               Explore
-            </Nav.Link>
+            </Link>
 
-            <Nav.Link
+            <Link
               className="navElem"
-              // href="/#"
-              href="/mine"
-              eventKey="mine"
-              active={path === "/mine" ? true : false}
+              style={{
+                textDecoration: "none",
+                color: activeRetColor("/mine"),
+              }}
+              to="/mine"
             >
               Mine
-            </Nav.Link>
+            </Link>
           </Nav>
         </Row>
         <div style={{ height: "2.1rem" }}>
@@ -69,23 +76,22 @@ function NavigationBar(props) {
       </Col>
       <div className="col">
         <div className="d-flex flex-wrap flex-column justify-content-end">
-          <a href="/about" className="h3 text-dark">
-            about <b>tSNS</b> & <b>ME</b>
-          </a>
+          <Link style={{ textDecorationColor: "black" }} to="/about">
+            <h3 className="text-dark">
+              about <b>tSNS</b> & <b>ME</b>
+            </h3>
+          </Link>
           <div className="d-flex flex-wrap">
             <Pending className="justify-self-end" />
-            <Button
-              variant="outline-dark"
-              className="ml-2"
+            <Link
+              className="btn btn-outline-dark ml-2"
+              to=""
               onClick={() => {
-                console.log(props);
-                props.history.push("");
-
-                dispatch(alertAuthClear());
+                dispatch(clearAuth());
               }}
             >
               logout
-            </Button>
+            </Link>
           </div>
         </div>
       </div>
