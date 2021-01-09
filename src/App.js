@@ -33,11 +33,12 @@ function App() {
 }
 
 const Main = withRouter((props) => {
+  // const loggedIn = JSON.parse(localStorage.getItem("AUTH"));
   const loggedIn = useSelector((state) => state.auth.loggedIn);
 
   useEffect(() => {
     store.dispatch(hydrateAuth());
-  }, []);
+  });
 
   return (
     <Router>
@@ -49,7 +50,7 @@ const Main = withRouter((props) => {
           <ProtectedRoute exact path="/explore/users/:uid" component={User} />
           <ProtectedRoute exact path="/mine" component={Mine} />
           <ProtectedRoute exact path="/about" component={About} />
-          <Redirect to="/home" />
+          {/* <Redirect to="/home" /> */}
         </Switch>
       ) : (
         <PublicOnlyRoute path="/" component={LandingPage} />

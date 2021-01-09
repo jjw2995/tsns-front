@@ -15,12 +15,9 @@ export const endpoints = (userID = null) => {
 
 const PAGE_SIZE = 8;
 function Posts({ endPoint }) {
-  console.log(endPoint);
   const posts = useSelector((state) => state.post.posts);
   const hasFetched = useSelector((state) => state.post.hasFetched);
   const hasMore = useSelector((state) => state.post.hasMore);
-
-  const refreshToken = useSelector((state) => state.auth.refreshToken);
 
   const dispatch = useDispatch();
   useEffect(() => {

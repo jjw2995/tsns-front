@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
+// import Swal from "sweetalert2";
+import { deleteAccount } from "../../redux/auth/AuthActions";
 import BaseUrlAxios from "../../rest/AuthedAxios";
 import FollowersFollowees from "../follow/FollowersFollowees";
 import Posts, { endpoints } from "../post/Posts";
@@ -21,6 +23,8 @@ function Mine() {
         console.log(JSON.parse(JSON.stringify(e)));
       });
   }, [user._id]);
+
+  const dispatch = useDispatch();
 
   return (
     <React.Fragment>
@@ -73,13 +77,7 @@ function Mine() {
                 denyButtonText: "No",
               }).then((result) => {
                 if (result.isConfirmed) {
-                  Swal.fire(
-                    "Confirmed!",
-                    "you will be logged out now",
-                    "success"
-                  ).then(() => {
-                    console.log("removed");
-                  });
+                  dispatch(deleteAccount());
                 }
               });
             }}

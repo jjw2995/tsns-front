@@ -4,7 +4,9 @@ import { Route, Redirect } from "react-router-dom";
 import NavigationBar from "./NavigationBar";
 
 export function ProtectedRoute({ component: Component, ...rest }) {
-  const refreshToken = useSelector((state) => state.auth.refreshToken);
+  // const refreshToken = useSelector((state) => state.auth.refreshToken);
+  const refreshToken = JSON.parse(localStorage.getItem("AUTH"));
+
   // window.scrollTo(0, 0);
 
   return (
@@ -17,6 +19,7 @@ export function ProtectedRoute({ component: Component, ...rest }) {
             <Component {...props} />
           </React.Fragment>
         ) : (
+          // <div></div>
           <Redirect
             to={{
               pathname: "/",
@@ -30,7 +33,8 @@ export function ProtectedRoute({ component: Component, ...rest }) {
 }
 
 export function PublicOnlyRoute({ component: Component, ...rest }) {
-  const refreshToken = useSelector((state) => state.auth.refreshToken);
+  // const refreshToken = useSelector((state) => state.auth.refreshToken);
+  const refreshToken = JSON.parse(localStorage.getItem("AUTH"));
 
   return (
     <Route

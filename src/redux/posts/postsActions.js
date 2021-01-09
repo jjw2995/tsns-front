@@ -71,11 +71,9 @@ export const pathEqlExplore = (path) => {
 };
 
 export const getSetInitialPosts = (path, pageSize) => (dispatch, getState) => {
-  console.log(path);
   if (pageSize) {
     path += `?num=${pageSize}`;
   }
-
   BaseUrlAxios()
     .get(path)
     .then((r) => {

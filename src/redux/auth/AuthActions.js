@@ -1,6 +1,7 @@
 import { HYDRATE_AUTH, SET_AUTH, ERR_AUTH, CLEAR_AUTH } from "./AuthTypes";
 import Axios from "axios";
 import Swal from "sweetalert2";
+import BaseUrlAxios from "../../rest/AuthedAxios";
 
 export const setOnUserLogin = ({
   _id,
@@ -58,16 +59,46 @@ export const login = (data) => (dispatch) => {
       dispatch(setOnUserLogin({ ...r.data, loggedIn: true }));
     })
     .catch((e) => {
+      console.log("?????????");
       console.log(e);
       dispatch(errAuth(e));
     });
 };
 
 export const alertAuthClear = () => {
+  console.log("alertAuthClear");
   Swal.fire({
     icon: "error",
     title: "Session Expired",
     text: "please login again",
   });
   return clearAuth();
+};
+
+export const deleteAccount = () => (dispatch, getState) => {
+  BaseUrlAxios()
+    .get("/users/remove")
+    .then(() => {
+      console.log("remove request resolved");
+      return Swal.fire({
+        icon: "success",
+        title: "Your Account Has Been Removed",
+        text: "thank you for using tSNS",
+      });
+      // window.location.reload();
+    })
+    .then(() => {
+      console.log("deleteAccount");
+      dispatch(clearAuth());
+      console.log("resolved");
+    })
+    .catch((e) => {
+      console.log("remove request rejected");
+      console.log(e);
+      Swal.fire({
+        icon: "error",
+        title: "Failed To Remove Account",
+        text: "please try again later",
+      });
+    });
 };
