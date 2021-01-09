@@ -7,6 +7,7 @@ import { MyTextField, MyPasswordField } from "../myComponents/myFields";
 
 import * as yup from "yup";
 import Swal from "sweetalert2";
+import { useHistory } from "react-router";
 
 const validationSchema = yup.object({
   nickname: yup
@@ -20,17 +21,21 @@ const validationSchema = yup.object({
     .matches(
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,32})/,
       "8~32 characters containing at least one number, lowercase, UPPERCASE, and special character"
-    ),
+    )
+    .required(),
   confirmPassword: yup
     .string()
-    .oneOf([yup.ref("password"), null], "Passwords must match"),
+    .oneOf([yup.ref("password")], "Passwords must match")
+    .required("confirm your password")
+    .typeError("confirm your password"),
   email: yup.string().max(30).email(),
 });
 
-function RegisterForm(props) {
+function RegisterForm({ toLogin }) {
   const [showPass, setShowPass] = useState(false);
-  const [notUnique, setNotUnique] = useState("");
+  const [errorText, setErrorText] = useState("");
 
+  console.log(toLogin);
   const showPassFn = () => {
     return showPass ? "text" : "password";
   };
@@ -43,24 +48,26 @@ function RegisterForm(props) {
         password: "",
         confirmPassword: "",
       }}
-      onSubmit={async (data, { setSubmitting }) => {
-        setSubmitting(true);
-
+      onSubmit={async (data, { setSubmitting, resetForm }) => {
         try {
+          setSubmitting(true);
           let a = await axios.post(
             process.env.REACT_APP_API_ENDPOINT + "/auth/register",
             data
           );
+          console.log(a);
           Swal.fire({
             icon: "success",
             title: "Validation Email Sent",
             text: "click the link and login",
+          }).then(() => {
+            resetForm();
+            toLogin();
           });
-          setSubmitting(false);
-          console.log(a.data);
-          props.history.push("/login");
         } catch (e) {
-          setNotUnique(`this ${e.response.data.part} has already been taken`);
+          setErrorText(`this ${e.response.data.part} has already been taken`);
+        } finally {
+          setSubmitting(false);
         }
       }}
       validationSchema={validationSchema}
@@ -68,7 +75,7 @@ function RegisterForm(props) {
       {({ values, errors }) => (
         <Form>
           <div className="text-danger">
-            <h1>DO NOT USE PASSWORD USED ON OTHER SITES</h1>
+            <h2>DO NOT USE PASSWORD USED ON OTHER SITES</h2>
             <p style={{ fontSize: "1rem" }}>
               passwords are handled on my backend and while they are hashed and
               salted, assume it is not secure
@@ -78,7 +85,7 @@ function RegisterForm(props) {
             verification email will be sent, click the link within an hour to
             verify account.
           </p>
-          <h4 className="text-danger ">{notUnique}</h4>
+          <h4 className="text-danger">{errorText}</h4>
           <div>
             <MyTextField
               name="nickname"

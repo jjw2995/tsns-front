@@ -31,6 +31,7 @@ function LoginForm(props) {
             setSubmitting(false);
             props.history.push("/home");
           } catch (e) {
+            console.log(e);
             // TODO: if email or nickname already exists - handle
             // console.log(e);
           }

@@ -53,7 +53,10 @@ const Main = withRouter((props) => {
           {/* <Redirect to="/home" /> */}
         </Switch>
       ) : (
-        <PublicOnlyRoute path="/" component={LandingPage} />
+        <PublicOnlyRoute path="/:uid?/:vhash?" component={LandingPage} />
+        // <Switch>
+        //   {/* <PublicOnlyRoute path="/" component={LandingPage} /> */}
+        // </Switch>
       )}
     </Router>
   );

@@ -14,27 +14,36 @@ const BaseUrlAxios = (isMuliPart = false) => {
 
   // Create instance
   let instance = axios.create(defaultOptions);
-  // console.log(" @ refresh tokens compare @ ");
-  // const accessToken = store.getState().auth.accessToken;
-  // const refreshToken = store.getState().auth.refreshToken;
-  const accessToken = JSON.parse(localStorage.getItem("AUTH")).accessToken;
-  const refreshToken = JSON.parse(localStorage.getItem("AUTH")).refreshToken;
-
-  // console.log(store.getState().auth.refreshToken);
-  // console.log(JSON.parse(localStorage.getItem("AUTH")).refreshToken);
-
-  // refresh token to ensure token validity
-  // remove token from local storage
-  // request account deletion
-  //
 
   // // Set the AUTH token for any request instance.
   instance.interceptors.request.use(function (config) {
-    config.headers.Authorization = `Bearer ${accessToken}`;
+    config.headers.Authorization = `Bearer ${
+      JSON.parse(localStorage.getItem("AUTH")).accessToken
+    }`;
     return config;
   });
 
   // for multiple requests
+  instance.interceptors.response.use(
+    function (response) {
+      return response;
+    },
+    function (error) {
+      const originalRequest = error.config;
+
+      if (error.response.status === 401 && !originalRequest._retry) {
+        if (!isRefreshing) {
+          isRefreshing = true;
+          originalRequest._retry = true;
+          refreshTokenAndResolveQueue(originalRequest);
+        }
+        // queue faled requests
+        queueFailed(originalRequest);
+      }
+
+      return Promise.reject(error);
+    }
+  );
 
   const processQueue = (error, token = null) => {
     reqQueue.forEach((prom) => {
@@ -47,75 +56,44 @@ const BaseUrlAxios = (isMuliPart = false) => {
     reqQueue = [];
   };
 
-  instance.interceptors.response.use(
-    function (response) {
-      return response;
-    },
-    function (error) {
-      const originalRequest = error.config;
-
-      // queue faled requests
-      if (error.response.status === 401 && !originalRequest._retry) {
-        if (isRefreshing) {
-          return new Promise(function (resolve, reject) {
-            reqQueue.push({ resolve, reject });
-          })
-            .then((token) => {
-              console.log("resolving queued requests");
-
-              originalRequest.headers["Authorization"] = "Bearer " + token;
-              return instance(originalRequest);
-            })
-            .catch((err) => {
-              return Promise.reject(err);
-            });
-        }
-
-        isRefreshing = true;
-        originalRequest._retry = true;
-        // refresh tokens
-        // reRequest the one that triggered refresh tokens
-        // reRequest the rest of queued requests
-        console.log("");
-        console.log(" # config for the request refreshing the token");
-        console.log(originalRequest);
-
-        return new Promise(function (resolve, reject) {
-          // console.log(" @ in requesting RefreshTokens");
-          // console.log(" redux store: ", refreshToken);
-          // console.log(
-          //   " localStorage: ",
-          //   JSON.parse(localStorage.getItem("AUTH")).refreshToken
-          // );
-          axios
-            .post(`${process.env.REACT_APP_API_ENDPOINT}/auth/token`, {
-              refreshToken,
-            })
-            .then(({ data }) => {
-              store.dispatch(setOnTokenRefresh(data));
-              originalRequest.headers["Authorization"] =
-                "Bearer " + data.accessToken;
-              processQueue(null, data.accessToken);
-              resolve(instance(originalRequest));
-            })
-            .catch((err) => {
-              console.log("");
-              console.log("@@@ refresh token error @@@");
-              console.log(err);
-              console.log("");
-              processQueue(err, null);
-              store.dispatch(alertAuthClear());
-              reject(err);
-            })
-            .finally(() => {
-              isRefreshing = false;
-            });
+  const queueFailed = (originalRequest) => {
+    return new Promise(function (resolve, reject) {
+      reqQueue.push({ resolve, reject });
+    })
+      .then((token) => {
+        originalRequest.headers["Authorization"] = "Bearer " + token;
+        return instance(originalRequest);
+      })
+      .catch((err) => {
+        console.log(err);
+        return Promise.reject(err);
+      });
+  };
+  const refreshTokenAndResolveQueue = (originalRequest) => {
+    return new Promise(function (resolve, reject) {
+      axios
+        .post(`${process.env.REACT_APP_API_ENDPOINT}/auth/token`, {
+          refreshToken: JSON.parse(localStorage.getItem("AUTH")).refreshToken,
+        })
+        .then(({ data }) => {
+          store.dispatch(setOnTokenRefresh(data));
+          originalRequest.headers["Authorization"] =
+            "Bearer " + data.accessToken;
+          // reRequest the rest of queued requests
+          processQueue(null, data.accessToken);
+          // reRequest the one that triggered refresh tokens
+          resolve(instance(originalRequest));
+        })
+        .catch((err) => {
+          processQueue(err, null);
+          store.dispatch(alertAuthClear());
+          reject(err);
+        })
+        .finally(() => {
+          isRefreshing = false;
         });
-      }
-
-      return Promise.reject(error);
-    }
-  );
+    });
+  };
 
   return instance;
 };

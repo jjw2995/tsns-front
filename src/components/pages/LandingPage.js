@@ -3,37 +3,42 @@ import { Button } from "react-bootstrap";
 import About from "./About";
 import LoginForm from "../forms/LoginForm";
 import RegisterForm from "../forms/RegisterForm";
+import { useParams } from "react-router";
+import Swal from "sweetalert2";
+import axios from "axios";
 // TODO: error is from showing password, type set to bool
 function LandingPage(props) {
   const [activeTab, setActiveTab] = useState(1);
   // console.log(props);
+  const { uid, vhash } = useParams();
+  console.log(uid);
+  console.log(vhash);
+  const tab = { LOGIN: 1, REGI: 2, ABOUT: 3 };
+
+  // `${process.env.BASE_URL}/api/auth/verify-account/${uid}/${vhash}`
+  if (uid && vhash) {
+    // axios.get().then().catch();
+    Swal.fire({
+      icon: "success",
+      title: "Account Verified",
+      text: "you can now login",
+    });
+  }
 
   const setOnOff = (val) => {
     setActiveTab((pre) => {
       return val === pre ? 0 : val;
     });
   };
-  const isLoginActive = () => {
-    return activeTab === 1;
+  const isActive = (val) => {
+    return activeTab === val;
   };
-  const isRegisterActive = () => {
-    return activeTab === 2;
+  const toLogin = () => {
+    setActiveTab(tab.LOGIN);
   };
-  const isAboutActive = () => {
-    return activeTab === 3;
-  };
-  const setLoginActive = () => {
-    setOnOff(1);
-  };
-  const setRegisterActive = () => {
-    setOnOff(2);
-  };
-  const setAboutActive = () => {
-    setOnOff(3);
-  };
+
   return (
     <div
-      // className="d-flex flex-column justify-content-center"
       style={{
         fontSize: "1.4rem",
         textAlign: "center",
@@ -53,16 +58,16 @@ function LandingPage(props) {
             className="mx-3"
             variant="outline-dark"
             // active={activeTab === 1 ? true : false}
-            active={isLoginActive() ? true : false}
-            onClick={setLoginActive}
+            active={isActive(tab.LOGIN) ? true : false}
+            onClick={() => setOnOff(tab.LOGIN)}
           >
             Have Account? Login
           </Button>
           <Button
             className="mx-3"
             variant="outline-dark"
-            active={isRegisterActive() ? true : false}
-            onClick={setRegisterActive}
+            active={isActive(tab.REGI) ? true : false}
+            onClick={() => setOnOff(tab.REGI)}
           >
             Create New Account
           </Button>
@@ -71,15 +76,15 @@ function LandingPage(props) {
           className="mx-3"
           size="lg"
           variant="outline-dark"
-          active={isAboutActive() ? true : false}
-          onClick={setAboutActive}
+          active={isActive(tab.ABOUT) ? true : false}
+          onClick={() => setOnOff(tab.ABOUT)}
         >
           About Me and tSNS
         </Button>
       </div>
-      {isLoginActive() && <LoginForm props={props} />}
-      {isRegisterActive() && <RegisterForm />}
-      {isAboutActive() && <About />}
+      {isActive(tab.LOGIN) && <LoginForm props={props} />}
+      {isActive(tab.REGI) && <RegisterForm props={props} toLogin={toLogin} />}
+      {isActive(tab.ABOUT) && <About />}
     </div>
   );
 }
