@@ -1,18 +1,21 @@
 // import React from "react";
-// import { Switch, Route } from "react-router-dom";
-// import LandingPage from "./components/pages/LandingPage";
-// import LoginForm from "./components/forms/LoginForm";
-// import RegisterForm from "./components/forms/RegisterForm";
+// import { withRouter, Switch } from "react-router";
+// import { Link } from "react-router-dom";
+// import { LandingPage } from "./components/pages";
 
-// function LogoutRequired(props) {
+// function RouteLogoutRequired() {
 //   return (
 //     <Switch>
-//       {/* <Route exact path="/" component={LandingPage} />
-//       <Route exact path="/login" component={LoginForm} />
-//       <Route exact path="/register" component={RegisterForm} /> */}
-//       <Route path="/" component={LandingPage} />
+//       <Link to="/login" component={LandingPage} />
+//       <Link to="/register" component={LandingPage} />
+//       <Link to="/about" component={LandingPage} />
+//       {/* <PublicOnlyRoute
+//         path="/reset-password/:uid?/:rp_hash?"
+//         component={LandingPage}
+//       />
+//       <PublicOnlyRoute path="/:uid?/:v_hash?" component={LandingPage} /> */}
 //     </Switch>
 //   );
 // }
 
-// export default LogoutRequired;
+// export default withRouter(RouteLogoutRequired);

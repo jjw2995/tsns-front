@@ -1,6 +1,7 @@
 import React from "react";
 import reduxLogo from "../../static/logo-redux.png";
 import reactLogo from "../../static/logo-react.png";
+import exampleImg from "../../static/img-example.jpg";
 
 const ContainDiv = ({ title, children, anchorName, anchorLink }) => {
   return (
@@ -128,7 +129,27 @@ function About() {
             <b>Explore</b>
           </FeatureDesc> */}
         </div>
+        <div>
+          <h4>
+            private and public users with different levels of posts are created
+            for you to see how the app behaves
+          </h4>
+          (there are also posts with images)
+        </div>
+        <br />
+        <div
+          className="d-flex justify-content-center"
+          //  style={{ alignItems: "center", display: "flex" }}
+        >
+          <img
+            src={exampleImg}
+            width="90%"
+            style={{ maxWidth: "80rem" }}
+            alt=""
+          />
+        </div>
       </ContainDiv>
+
       <ContainDiv
         title="Backend"
         anchorLink="https://github.com/jjw2995/tsns"

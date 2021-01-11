@@ -59,14 +59,13 @@ export const alertAuthClear = () => {
 
 export const deleteAccount = () => (dispatch, getState) => {
   AuthedAxios()
-    .get("/users/removes")
+    .get("/users/remove")
     .then(() => {
       return Swal.fire({
         icon: "success",
         title: "Your Account Has Been Removed",
         text: "thank you for using tSNS",
       });
-      // window.location.reload();
     })
     .then(() => {
       dispatch(clearAuth());

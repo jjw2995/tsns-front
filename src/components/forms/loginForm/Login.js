@@ -6,10 +6,11 @@ import { BaseUrlAxios } from "../../../rest/axiosTypes";
 import { MyPasswordField, MyTextField } from "../../myComponents/myFields";
 import { Checkbox, FormControlLabel } from "@material-ui/core";
 import { login } from "../../../redux/auth/AuthActions";
-import * as yup from "yup";
 import { yupObj, email, password } from "../utils/yupValidation";
+import Swal from "sweetalert2";
+import { useHistory } from "react-router";
 
-function Login(props) {
+function Login() {
   const [showPass, setShowPass] = useState(false);
   const [doesExist, setDoesExist] = useState(true);
   const dispatch = useDispatch();
@@ -17,6 +18,7 @@ function Login(props) {
   const showPassFn = () => {
     return showPass ? "text" : "password";
   };
+  const history = useHistory();
 
   return (
     <div>
@@ -26,10 +28,18 @@ function Login(props) {
           BaseUrlAxios()
             .post(`/auth/login`, data)
             .then((r) => {
+              console.log(r.data);
               dispatch(login(r.data));
-              props.history.push("/home");
+              history.push("/home");
             })
             .catch((e) => {
+              console.log(e);
+              Swal.fire({
+                icon: "error",
+                title: "Account Not Found",
+                text: "try again",
+              });
+
               // setDoesExist(false);
             });
         }}

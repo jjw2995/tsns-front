@@ -1,25 +1,20 @@
-import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
+import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import NavigationBar from "./NavigationBar";
 
 export function ProtectedRoute({ component: Component, ...rest }) {
-  const refreshToken = useSelector((state) => state.auth.refreshToken);
-  // const refreshToken = JSON.parse(localStorage.getItem("AUTH"));
-
-  // window.scrollTo(0, 0);
+  const auth = JSON.parse(localStorage.getItem("AUTH"));
 
   return (
     <Route
       {...rest}
       render={(props) => {
-        return refreshToken ? (
+        return auth ? (
           <React.Fragment>
             <NavigationBar {...props} />
             <Component {...props} />
           </React.Fragment>
         ) : (
-          // <div></div>
           <Redirect
             to={{
               pathname: "/",
@@ -33,14 +28,15 @@ export function ProtectedRoute({ component: Component, ...rest }) {
 }
 
 export function PublicOnlyRoute({ component: Component, ...rest }) {
-  const refreshToken = useSelector((state) => state.auth.refreshToken);
-  // const refreshToken = JSON.parse(localStorage.getItem("AUTH"));
+  // const refreshToken = useSelector((state) => state.auth.refreshToken);
+  const auth = JSON.parse(localStorage.getItem("AUTH"));
+  console.log(auth);
 
   return (
     <Route
       {...rest}
       render={(props) =>
-        !refreshToken ? (
+        !auth ? (
           <Component {...props} />
         ) : (
           // <div></div>

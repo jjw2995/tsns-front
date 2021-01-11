@@ -3,7 +3,6 @@ import {
   ADD_NEW_POSTS,
   SET_MORE_POSTS,
   SET_INITIAL_POSTS,
-  CLEAR_POST_POSTS,
 } from "./postsTypes";
 
 const initialState = {
@@ -17,7 +16,6 @@ export const postsReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case SET_POST:
       return { ...state, ...payload };
-    case CLEAR_POST_POSTS:
 
     case SET_INITIAL_POSTS:
       return { ...state, posts: payload.posts, hasFetched: true };
