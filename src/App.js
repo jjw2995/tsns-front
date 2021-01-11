@@ -39,27 +39,44 @@ const Main = withRouter((props) => {
   useEffect(() => {
     store.dispatch(hydrateAuth());
   });
-
   return (
     <Router>
       <ScrollToTop />
-      {loggedIn ? (
-        <Switch>
-          <ProtectedRoute exact path="/home" component={Home} />
-          <ProtectedRoute exact path="/explore" component={Explore} />
-          <ProtectedRoute exact path="/explore/users/:uid" component={User} />
-          <ProtectedRoute exact path="/mine" component={Mine} />
-          <ProtectedRoute exact path="/about" component={About} />
-          {/* <Redirect to="/home" /> */}
-        </Switch>
-      ) : (
-        <PublicOnlyRoute path="/:uid?/:vhash?" component={LandingPage} />
-        // <Switch>
-        //   {/* <PublicOnlyRoute path="/" component={LandingPage} /> */}
-        // </Switch>
-      )}
+      <Switch>
+        <ProtectedRoute exact path="/home" component={Home} />
+        <ProtectedRoute exact path="/explore" component={Explore} />
+        <ProtectedRoute exact path="/explore/users/:uid" component={User} />
+        <ProtectedRoute exact path="/mine" component={Mine} />
+        <ProtectedRoute exact path="/about" component={About} />
+        <PublicOnlyRoute path="/login" component={LandingPage} />
+        <PublicOnlyRoute
+          path="/reset-password/:uid?/:rp_hash?"
+          component={LandingPage}
+        />
+        <PublicOnlyRoute path="/:uid?/:v_hash?" component={LandingPage} />
+      </Switch>
     </Router>
   );
+  // return (
+  //   <Router>
+  //     <ScrollToTop />
+  //     {loggedIn ? (
+  //       <Switch>
+  //         <ProtectedRoute exact path="/home" component={Home} />
+  //         <ProtectedRoute exact path="/explore" component={Explore} />
+  //         <ProtectedRoute exact path="/explore/users/:uid" component={User} />
+  //         <ProtectedRoute exact path="/mine" component={Mine} />
+  //         <ProtectedRoute exact path="/about" component={About} />
+  //         {/* <Redirect to="/home" /> */}
+  //       </Switch>
+  //     ) : (
+  //       <PublicOnlyRoute path="/:uid?/:vhash?" component={LandingPage} />
+  //       // <Switch>
+  //       //   {/* <PublicOnlyRoute path="/" component={LandingPage} /> */}
+  //       // </Switch>
+  //     )}
+  //   </Router>
+  // );
 });
 
 export default App;

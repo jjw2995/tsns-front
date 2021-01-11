@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import BaseUrlAxios from "../../rest/AuthedAxios";
+import { AuthedAxios } from "../../rest/axiosTypes";
 import FollowList from "./FollowList";
 
 function FollowersFollowees({ uid, isShow }) {
@@ -9,7 +9,7 @@ function FollowersFollowees({ uid, isShow }) {
   });
 
   useEffect(() => {
-    BaseUrlAxios()
+    AuthedAxios()
       .get(`/follows/count/${uid}`)
       .then((r) => {
         setFollowCounts((pre) => {

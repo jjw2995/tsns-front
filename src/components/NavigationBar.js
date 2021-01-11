@@ -87,7 +87,6 @@ function NavigationBar(props) {
               className="btn btn-outline-dark ml-2"
               to=""
               onClick={() => {
-                console.log("logout button");
                 dispatch(clearAuth());
               }}
             >

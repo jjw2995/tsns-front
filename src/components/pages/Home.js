@@ -17,8 +17,6 @@ function Home(props) {
     setOpen(true);
   };
 
-  // console.log("in Home");
-
   return (
     <div>
       <div style={{ textAlign: "center" }}>

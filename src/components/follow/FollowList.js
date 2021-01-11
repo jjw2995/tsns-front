@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import BaseUrlAxios from "../../rest/AuthedAxios";
+import { AuthedAxios } from "../../rest/axiosTypes";
 import { Button } from "react-bootstrap";
 import FollowLinkItem from "./FollowLinkItem";
 import { useSelector } from "react-redux";
@@ -22,7 +22,7 @@ function FollowList({
   const openModal = () => setModalIsOpen(true);
   const closeModal = () => setModalIsOpen(false);
   const getFollows = () => {
-    BaseUrlAxios()
+    AuthedAxios()
       .get(`/${item}/${uid}`)
       .then((r) => {
         setFollows(r.data);
@@ -38,7 +38,7 @@ function FollowList({
     if (follows && follows.length > 0) {
       path += `?last-doc-id=${follows[follows.length - 1]._id}`;
     }
-    BaseUrlAxios()
+    AuthedAxios()
       .get(path)
       .then((r) => {
         setFollows((pre) => {
@@ -51,7 +51,7 @@ function FollowList({
   };
 
   const removeFollow = (followDoc, idx) => {
-    BaseUrlAxios()
+    AuthedAxios()
       .delete(`/${item}/${followDoc.user._id}`, {
         _id: followDoc.user._id,
       })

@@ -1,4 +1,4 @@
-import BaseUrlAxios from "../../rest/AuthedAxios";
+import { AuthedAxios } from "../../rest/axiosTypes";
 import { filterExistingContents } from "../utils";
 import {
   ADD_NEW_POST,
@@ -43,13 +43,13 @@ const setPosts = (posts) => {
 };
 
 export const postPost = (postFormData) => (dispatch, getState) => {
-  BaseUrlAxios(true)
+  AuthedAxios(true)
     .post("/posts", postFormData)
     .then((r) => {
       dispatch(addNewPost(r.data));
     })
     .catch((e) => {
-      console.log(e.data);
+      console.log(e);
     });
 };
 
@@ -74,10 +74,9 @@ export const getSetInitialPosts = (path, pageSize) => (dispatch, getState) => {
   if (pageSize) {
     path += `?num=${pageSize}`;
   }
-  BaseUrlAxios()
+  AuthedAxios()
     .get(path)
     .then((r) => {
-      console.log("getPost r.data", r.data);
       dispatch(getInitialPosts(r.data));
     })
     .catch((e) => {
@@ -96,12 +95,9 @@ export const getSetMorePosts = (
     `${last_Created_OR_ReactionsCount}`;
   path += pageSize ? `&num=${pageSize}` : "";
 
-  console.log(path);
-
-  BaseUrlAxios()
+  AuthedAxios()
     .get(path)
     .then((r) => {
-      console.log("getSetMorePosts r.data", r.data);
       dispatch(
         getMorePosts(filterExistingContents(getState().post.posts, r.data))
       );
@@ -112,7 +108,7 @@ export const getSetMorePosts = (
 };
 
 export const deletePost = (postID) => (dispatch, getState) => {
-  BaseUrlAxios()
+  AuthedAxios()
     .delete(`${getPostEndpoints().HOME}/${postID}`)
     .then((r) => {
       let updatedPosts = [...getState().post.posts];
@@ -128,10 +124,9 @@ export const postPostReaction = (postID, idx, reaction) => (
   dispatch,
   getState
 ) => {
-  BaseUrlAxios()
+  AuthedAxios()
     .post("/posts/react", { postID: postID, reaction: reaction })
     .then((r) => {
-      console.log(r.data);
       let updatedPosts = [...getState().post.posts];
       updatedPosts[idx].reactions = r.data.reactions;
       updatedPosts[idx].userReaction = r.data.userReaction;
@@ -143,7 +138,7 @@ export const postPostReaction = (postID, idx, reaction) => (
 };
 
 export const deletePostReaction = (postID, idx) => (dispatch, getState) => {
-  BaseUrlAxios()
+  AuthedAxios()
     .delete(`/posts/react/${postID}`)
     .then((r) => {
       let updatedPosts = [...getState().post.posts];

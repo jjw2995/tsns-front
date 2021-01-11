@@ -1,4 +1,4 @@
-import BaseUrlAxios from "../../rest/AuthedAxios";
+import { AuthedAxios } from "../../rest/axiosTypes";
 import { filterExistingContents } from "../utils";
 import {
   COMMENTS_APPEND_TO_END,
@@ -43,7 +43,7 @@ export const clearComments = () => {
  */
 
 export const getInitialComments = (postID) => (dispatch, getState) => {
-  BaseUrlAxios()
+  AuthedAxios()
     .get(`comments/${postID}`)
     .then((r) => {
       dispatch(setComments(r.data));
@@ -64,7 +64,7 @@ const getIdxOfMatchingID = (arr = [], elem) => {
 };
 
 export const deleteComment = (targetComment) => (dispatch, getState) => {
-  BaseUrlAxios()
+  AuthedAxios()
     .delete(`comments/${targetComment._id}`)
     .then((r) => {
       let oldComments = [...getState().comments];
@@ -107,7 +107,7 @@ export const getMoreComments = (postID, lastComment) => (
   if (lastComment) {
     path += `?last-created-at=${lastComment.createdAt}`;
   }
-  BaseUrlAxios()
+  AuthedAxios()
     .get(path)
     .then((r) => {
       dispatch(
@@ -127,7 +127,7 @@ export const getMoreSubComments = (parentComID, lastComment) => (
   if (lastComment) {
     path += `?last-created-at=${lastComment.createdAt}`;
   }
-  BaseUrlAxios()
+  AuthedAxios()
     .get(path)
     .then((r) => {
       let oldComments = [...getState().comments];
@@ -146,7 +146,7 @@ export const getMoreSubComments = (parentComID, lastComment) => (
       dispatch(setComments(oldComments));
     })
     .catch((e) => {
-      console.log(JSON.parse(JSON.stringify(e)));
+      console.log(e);
     });
 };
 
@@ -158,7 +158,7 @@ export const postComment = (postID, parentCommentID = null, content) => (
 
   if (parentCommentID) data.parentComID = parentCommentID;
 
-  BaseUrlAxios()
+  AuthedAxios()
     .post("comments", data)
     .then((r) => {
       if (parentCommentID) {
@@ -187,11 +187,10 @@ export const postCommentReaction = (commentID, idx, reaction) => (
   dispatch,
   getState
 ) => {
-  BaseUrlAxios()
+  AuthedAxios()
     .post("/comments/react", { commentID: commentID, reaction: reaction })
     .then((r) => {
       let updatedComments = JSON.parse(JSON.stringify(getState().comments));
-      console.log(updatedComments);
       if (idx.length > 1) {
         updatedComments[idx[0]].subComments[idx[1]].reactions =
           r.data.reactions;
@@ -212,13 +211,10 @@ export const deleteCommentReaction = (commentID, idx) => (
   dispatch,
   getState
 ) => {
-  // console.log(commentID);
-  // console.log(idx);
-  BaseUrlAxios()
+  AuthedAxios()
     .delete(`/comments/react/${commentID}`)
     .then((r) => {
       let updatedComments = JSON.parse(JSON.stringify(getState().comments));
-      console.log(updatedComments);
       if (idx.length > 1) {
         updatedComments[idx[0]].subComments[idx[1]].reactions =
           r.data.reactions;

@@ -5,37 +5,26 @@ import { Formik, Form } from "formik";
 import { Checkbox, FormControlLabel } from "@material-ui/core";
 import { MyTextField, MyPasswordField } from "../myComponents/myFields";
 
-import * as yup from "yup";
 import Swal from "sweetalert2";
-import { useHistory } from "react-router";
+import {
+  nickname,
+  email,
+  password,
+  confirmPassword,
+  yupObj,
+} from "./utils/yupValidation";
 
-const validationSchema = yup.object({
-  nickname: yup
-    .string()
-    .matches(
-      /^[a-zA-Z0-9_]{3,16}$/,
-      "3~16 alphanumeric (including underscore) characters"
-    ),
-  password: yup
-    .string()
-    .matches(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,32})/,
-      "8~32 characters containing at least one number, lowercase, UPPERCASE, and special character"
-    )
-    .required(),
-  confirmPassword: yup
-    .string()
-    .oneOf([yup.ref("password")], "Passwords must match")
-    .required("confirm your password")
-    .typeError("confirm your password"),
-  email: yup.string().max(30).email(),
+const validationSchema = yupObj({
+  nickname,
+  password,
+  confirmPassword,
+  email,
 });
 
 function RegisterForm({ toLogin }) {
   const [showPass, setShowPass] = useState(false);
   const [errorText, setErrorText] = useState("");
 
-  console.log(toLogin);
   const showPassFn = () => {
     return showPass ? "text" : "password";
   };
@@ -48,8 +37,13 @@ function RegisterForm({ toLogin }) {
         password: "",
         confirmPassword: "",
       }}
-      onSubmit={async (data, { setSubmitting, resetForm }) => {
+      onSubmit={async (
+        data,
+        { setSubmitting, resetForm, setErrors, setFieldError }
+      ) => {
         try {
+          // setFieldError.name('email')
+
           setSubmitting(true);
           let a = await axios.post(
             process.env.REACT_APP_API_ENDPOINT + "/auth/register",
@@ -86,40 +80,33 @@ function RegisterForm({ toLogin }) {
             verify account.
           </p>
           <h4 className="text-danger">{errorText}</h4>
+          <MyTextField
+            name="nickname"
+            placeholder="Nickname"
+            type="input"
+            as={Form.Control}
+          />
+          <MyTextField
+            name="email"
+            placeholder="Email"
+            type="input"
+            as={Form.Control}
+          />
+          <MyPasswordField
+            name="password"
+            placeholder="Password"
+            type={showPassFn}
+            showPass={showPass}
+            as={Form.Control}
+          />
+          <MyPasswordField
+            name="confirmPassword"
+            placeholder="Confirm Password"
+            type={showPassFn}
+            showPass={showPass}
+            as={Form.Control}
+          />
           <div>
-            <MyTextField
-              name="nickname"
-              placeholder="Nickname"
-              type="input"
-              as={Form.Control}
-            />
-          </div>
-          <div>
-            <MyTextField
-              name="email"
-              placeholder="Email"
-              type="input"
-              as={Form.Control}
-            />
-          </div>
-          <div>
-            <MyPasswordField
-              name="password"
-              placeholder="Password"
-              type={showPassFn}
-              showPass={showPass}
-              as={Form.Control}
-            />
-          </div>
-          <div>
-            <MyPasswordField
-              name="confirmPassword"
-              placeholder="Confirm Password"
-              type={showPassFn}
-              showPass={showPass}
-              as={Form.Control}
-            />
-
             <FormControlLabel
               control={
                 <Checkbox

@@ -1,14 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
 import { useParams } from "react-router";
-import BaseUrlAxios from "../../rest/AuthedAxios";
+import { AuthedAxios } from "../../rest/axiosTypes";
 import FollowersFollowees from "../follow/FollowersFollowees";
 import Posts, { endpoints } from "../post/Posts";
 import UserInfo from "../UserInfo";
-
-const logErr = (e) => {
-  console.log(JSON.parse(JSON.stringify(e)));
-};
 
 function User() {
   // get posts by user id
@@ -17,13 +13,13 @@ function User() {
   const { uid } = useParams();
 
   useEffect(() => {
-    BaseUrlAxios()
+    AuthedAxios()
       .get(`/users/${uid}`)
       .then((r) => {
         setUser(r.data);
       })
       .catch((e) => {
-        logErr(e);
+        console.log(e);
       });
   }, [uid]);
 
@@ -37,23 +33,23 @@ function User() {
   const onClickRequest = () => {
     let newState = { ...user };
     !user.isFollowing
-      ? BaseUrlAxios()
+      ? AuthedAxios()
           .post("/followees", { _id: uid })
           .then((r) => {
             newState.isPending = r.data.isPending;
             onReqeust(newState);
           })
           .catch((e) => {
-            logErr(e);
+            console.log(e);
           })
-      : BaseUrlAxios()
+      : AuthedAxios()
           .delete(`/followees/${uid}`)
           .then((r) => {
             newState.isPending = false;
             onReqeust(newState);
           })
           .catch((e) => {
-            logErr(e);
+            console.log(e);
           });
   };
 

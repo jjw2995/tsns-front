@@ -1,4 +1,4 @@
-import BaseUrlAxios from "../../rest/AuthedAxios";
+import { AuthedAxios } from "../../rest/axiosTypes";
 import { SET_FOLLOWS, HYDRATE_FOLLOWS, CLEAR_FOLLOWS } from "./followsTypes";
 
 export const setFollows = (data) => {
@@ -47,10 +47,9 @@ export const getPendingFollowers = (getMore = false) => (
   let pending = getState().follows.pendingFollowers;
   path = setParamIfLastDoc(path, pending, getMore);
 
-  BaseUrlAxios()
+  AuthedAxios()
     .get(path)
     .then((r) => {
-      // console.log(r);
       if (r) {
         dispatch(
           setFollows({
@@ -71,7 +70,7 @@ export const getPendingFollowees = (getMore = false) => (
   let path = "/followees/pending";
   let pendingFollowees = getState().follows.pendingFollowees;
   path = setParamIfLastDoc(path, pendingFollowees, getMore);
-  BaseUrlAxios()
+  AuthedAxios()
     .get(path)
     .then((r) => {
       dispatch(
@@ -96,7 +95,7 @@ export const getDismissedPendingFollowers = (getMore = false) => (
 
   path = setParamIfLastDoc(path, dismissed, getMore);
 
-  BaseUrlAxios()
+  AuthedAxios()
     .get(path)
     .then((r) => {
       dispatch(
@@ -115,7 +114,7 @@ export const getDismissedPendingFollowers = (getMore = false) => (
 export const acceptPendingFollower = (followDoc) => (dispatch, getState) => {
   let pending = getState().follows.pendingFollowers;
 
-  BaseUrlAxios()
+  AuthedAxios()
     .post("/followers/accept", {
       _id: followDoc.user._id,
     })
@@ -131,7 +130,7 @@ export const acceptPendingFollower = (followDoc) => (dispatch, getState) => {
 export const dismissPendingFollower = (followDoc) => (dispatch, getState) => {
   let pending = getState().follows.pendingFollowers;
 
-  BaseUrlAxios()
+  AuthedAxios()
     .post("/followers/seen", {
       _id: followDoc.user._id,
     })
@@ -146,7 +145,7 @@ export const dismissPendingFollower = (followDoc) => (dispatch, getState) => {
 export const deletePendingFollower = (followDoc) => (dispatch, getState) => {
   let pending = getState().follows.pendingFollowers;
 
-  BaseUrlAxios()
+  AuthedAxios()
     .delete(`/followers/${followDoc.user._id}`, {
       _id: followDoc.user._id,
     })
@@ -168,7 +167,7 @@ export const acceptDismissedPendingFollower = (followDoc) => (
 ) => {
   let pending = getState().follows.dismissedPendingFollowers;
 
-  BaseUrlAxios()
+  AuthedAxios()
     .post("/followers/accept", {
       _id: followDoc.user._id,
     })
@@ -187,7 +186,7 @@ export const deleteDismissedPendingFollower = (followDoc) => (
 ) => {
   let pending = getState().follows.dismissedPendingFollowers;
 
-  BaseUrlAxios()
+  AuthedAxios()
     .delete(`/followers/${followDoc.user._id}`, {
       _id: followDoc.user._id,
     })
@@ -204,7 +203,7 @@ export const deleteDismissedPendingFollower = (followDoc) => (
 export const deletePendingFollowee = (followDoc) => (dispatch, getState) => {
   let pending = getState().follows.pendingFollowees;
 
-  BaseUrlAxios()
+  AuthedAxios()
     .delete(`/followees/${followDoc.user._id}`, {
       _id: followDoc.user._id,
     })

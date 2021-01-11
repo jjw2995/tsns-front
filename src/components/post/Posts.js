@@ -26,7 +26,6 @@ function Posts({ endPoint }) {
   }, []);
 
   const fetchMore = () => {
-    // console.log(posts[posts.length - 1].reactionsCount);
     dispatch(
       getSetMorePosts(
         endPoint,

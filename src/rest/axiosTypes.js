@@ -4,7 +4,7 @@ import store from "../redux/store";
 
 let isRefreshing = false;
 let reqQueue = [];
-const BaseUrlAxios = (isMuliPart = false) => {
+export const AuthedAxios = (isMuliPart = false) => {
   const defaultOptions = {
     baseURL: process.env.REACT_APP_API_ENDPOINT,
     headers: {
@@ -65,7 +65,6 @@ const BaseUrlAxios = (isMuliPart = false) => {
         return instance(originalRequest);
       })
       .catch((err) => {
-        console.log(err);
         return Promise.reject(err);
       });
   };
@@ -98,4 +97,15 @@ const BaseUrlAxios = (isMuliPart = false) => {
   return instance;
 };
 
-export default BaseUrlAxios;
+export const BaseUrlAxios = (isMuliPart = false) => {
+  const defaultOptions = {
+    baseURL: process.env.REACT_APP_API_ENDPOINT,
+    headers: {
+      "Content-Type": isMuliPart ? "multipart/form-data" : "application/json",
+    },
+  };
+  let instance = axios.create(defaultOptions);
+  return instance;
+};
+
+// export default BaseUrlAxios;

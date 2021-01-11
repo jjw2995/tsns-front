@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
 // import Swal from "sweetalert2";
 import { deleteAccount } from "../../redux/auth/AuthActions";
-import BaseUrlAxios from "../../rest/AuthedAxios";
+import { AuthedAxios } from "../../rest/axiosTypes";
 import FollowersFollowees from "../follow/FollowersFollowees";
 import Posts, { endpoints } from "../post/Posts";
 import UserInfo from "../UserInfo";
@@ -14,13 +14,13 @@ function Mine() {
   const [myInfo, setMyInfo] = useState();
 
   useEffect(() => {
-    BaseUrlAxios()
+    AuthedAxios()
       .get(`/users/${user._id}`)
       .then((r) => {
         setMyInfo(r.data);
       })
       .catch((e) => {
-        console.log(JSON.parse(JSON.stringify(e)));
+        console.log(e);
       });
   }, [user._id]);
 
@@ -42,7 +42,7 @@ function Mine() {
               size="sm"
               // style={{ padding: "0.2rem", marginTop: "0.5rem" }}
               onClick={() => {
-                BaseUrlAxios()
+                AuthedAxios()
                   .post("users/private", {
                     isPrivate: !myInfo.isPrivate,
                   })
@@ -52,7 +52,7 @@ function Mine() {
                     setMyInfo(newMyInfo);
                   })
                   .catch((e) => {
-                    console.log(JSON.parse(JSON.stringify(e)));
+                    console.log(e);
                   });
               }}
             >

@@ -1,29 +1,11 @@
 import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import About from "./About";
-import LoginForm from "../forms/LoginForm";
+import LoginForm from "../forms/loginForm/LoginForm";
 import RegisterForm from "../forms/RegisterForm";
-import { useParams } from "react-router";
-import Swal from "sweetalert2";
-import axios from "axios";
-// TODO: error is from showing password, type set to bool
 function LandingPage(props) {
   const [activeTab, setActiveTab] = useState(1);
-  // console.log(props);
-  const { uid, vhash } = useParams();
-  console.log(uid);
-  console.log(vhash);
   const tab = { LOGIN: 1, REGI: 2, ABOUT: 3 };
-
-  // `${process.env.BASE_URL}/api/auth/verify-account/${uid}/${vhash}`
-  if (uid && vhash) {
-    // axios.get().then().catch();
-    Swal.fire({
-      icon: "success",
-      title: "Account Verified",
-      text: "you can now login",
-    });
-  }
 
   const setOnOff = (val) => {
     setActiveTab((pre) => {

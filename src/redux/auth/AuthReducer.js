@@ -12,11 +12,6 @@ export const authReducer = (
   state = initialState,
   { type, payload, message }
 ) => {
-  // console.log("@ authReducer, state: ", state);
-  // console.log("@ authReducer, payload: ", payload);
-  if (message) {
-    console.log("@ authReducer, message: ", message);
-  }
   switch (type) {
     case SET_AUTH:
       localStorage.setItem("AUTH", JSON.stringify({ ...state, ...payload }));

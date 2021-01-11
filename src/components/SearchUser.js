@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import BaseUrlAxios from "../rest/AuthedAxios";
+import { AuthedAxios } from "../rest/axiosTypes";
 import UserLink from "./UserLink";
 
 function SearchUser() {
@@ -26,7 +26,7 @@ function SearchUser() {
 
   useEffect(() => {
     if (search && search.length > 0) {
-      BaseUrlAxios()
+      AuthedAxios()
         .get(`/users/search?query=${search}`)
         .then((r) => {
           setResults(r.data);
@@ -78,7 +78,6 @@ function SearchUser() {
                     userID={r._id}
                     onClick={() => {
                       blurSearch();
-                      console.log("clicked");
                     }}
                   >
                     {r.nickname}
