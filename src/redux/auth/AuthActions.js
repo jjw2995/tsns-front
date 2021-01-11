@@ -1,5 +1,4 @@
 import { HYDRATE_AUTH, SET_AUTH, ERR_AUTH, CLEAR_AUTH } from "./AuthTypes";
-import Axios from "axios";
 import Swal from "sweetalert2";
 import { AuthedAxios } from "../../rest/axiosTypes";
 
@@ -60,7 +59,7 @@ export const alertAuthClear = () => {
 
 export const deleteAccount = () => (dispatch, getState) => {
   AuthedAxios()
-    .get("/users/remove")
+    .get("/users/removes")
     .then(() => {
       return Swal.fire({
         icon: "success",

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Button } from "react-bootstrap";
-import axios from "axios";
 import { Formik, Form } from "formik";
 import { Checkbox, FormControlLabel } from "@material-ui/core";
 import { MyTextField, MyPasswordField } from "../myComponents/myFields";
@@ -13,6 +12,7 @@ import {
   confirmPassword,
   yupObj,
 } from "./utils/yupValidation";
+import { BaseUrlAxios } from "../../rest/axiosTypes";
 
 const validationSchema = yupObj({
   nickname,
@@ -23,7 +23,6 @@ const validationSchema = yupObj({
 
 function RegisterForm({ toLogin }) {
   const [showPass, setShowPass] = useState(false);
-  const [errorText, setErrorText] = useState("");
 
   const showPassFn = () => {
     return showPass ? "text" : "password";
@@ -37,36 +36,33 @@ function RegisterForm({ toLogin }) {
         password: "",
         confirmPassword: "",
       }}
-      onSubmit={async (
-        data,
-        { setSubmitting, resetForm, setErrors, setFieldError }
-      ) => {
+      onSubmit={async (data, { setSubmitting, resetForm, setFieldError }) => {
         try {
-          // setFieldError.name('email')
-
           setSubmitting(true);
-          let a = await axios.post(
-            process.env.REACT_APP_API_ENDPOINT + "/auth/register",
-            data
-          );
-          console.log(a);
+          let a = await BaseUrlAxios().post("/auth/register", data);
           Swal.fire({
             icon: "success",
-            title: "Validation Email Sent",
+            title: "Verification Email Sent",
             text: "click the link and login",
           }).then(() => {
             resetForm();
             toLogin();
           });
         } catch (e) {
-          setErrorText(`this ${e.response.data.part} has already been taken`);
+          let part = e.response.data.part;
+          if (part === "email") {
+            setFieldError("email", `${part} already taken`);
+          }
+          if (part === "nickname") {
+            setFieldError("nickname", `${part} already taken`);
+          }
         } finally {
           setSubmitting(false);
         }
       }}
       validationSchema={validationSchema}
     >
-      {({ values, errors }) => (
+      {() => (
         <Form>
           <div className="text-danger">
             <h2>DO NOT USE PASSWORD USED ON OTHER SITES</h2>
@@ -79,7 +75,6 @@ function RegisterForm({ toLogin }) {
             verification email will be sent, click the link within an hour to
             verify account.
           </p>
-          <h4 className="text-danger">{errorText}</h4>
           <MyTextField
             name="nickname"
             placeholder="Nickname"

@@ -2,18 +2,25 @@ import axios from "axios";
 import { alertAuthClear, setOnTokenRefresh } from "../redux/auth/AuthActions";
 import store from "../redux/store";
 
-let isRefreshing = false;
-let reqQueue = [];
-export const AuthedAxios = (isMuliPart = false) => {
-  const defaultOptions = {
+const defaultOptions = (isMuliPart) => {
+  return {
     baseURL: process.env.REACT_APP_API_ENDPOINT,
     headers: {
       "Content-Type": isMuliPart ? "multipart/form-data" : "application/json",
     },
   };
+};
 
+const setHeaderAccToken = (request, accTok) => {
+  request.headers["Authorization"] = "Bearer " + accTok;
+};
+
+let isRefreshing = false;
+let reqQueue = [];
+
+export const AuthedAxios = (isMuliPart = false) => {
   // Create instance
-  let instance = axios.create(defaultOptions);
+  let instance = axios.create(defaultOptions(isMuliPart));
 
   // // Set the AUTH token for any request instance.
   instance.interceptors.request.use(function (config) {
@@ -23,24 +30,25 @@ export const AuthedAxios = (isMuliPart = false) => {
     return config;
   });
 
-  // for multiple requests
+  //
   instance.interceptors.response.use(
     function (response) {
       return response;
     },
     function (error) {
-      const originalRequest = error.config;
+      const { config, response } = error;
 
-      if (error.response.status === 401 && !originalRequest._retry) {
+      if (response.status === 401 && !config._retry) {
+        // if no refresh req made
         if (!isRefreshing) {
           isRefreshing = true;
-          originalRequest._retry = true;
-          refreshTokenAndResolveQueue(originalRequest);
+          config._retry = true;
+          return refreshTokenAndResolveQueue(config);
+        } else {
+          // queue faled requests
+          return queueFailed(config);
         }
-        // queue faled requests
-        queueFailed(originalRequest);
       }
-
       return Promise.reject(error);
     }
   );
@@ -61,7 +69,9 @@ export const AuthedAxios = (isMuliPart = false) => {
       reqQueue.push({ resolve, reject });
     })
       .then((token) => {
-        originalRequest.headers["Authorization"] = "Bearer " + token;
+        // TODO: test with accTok timeout 10000ms
+        setHeaderAccToken(originalRequest, token);
+
         return instance(originalRequest);
       })
       .catch((err) => {
@@ -70,14 +80,14 @@ export const AuthedAxios = (isMuliPart = false) => {
   };
   const refreshTokenAndResolveQueue = (originalRequest) => {
     return new Promise(function (resolve, reject) {
-      axios
-        .post(`${process.env.REACT_APP_API_ENDPOINT}/auth/token`, {
+      BaseUrlAxios()
+        .post("/auth/token", {
           refreshToken: JSON.parse(localStorage.getItem("AUTH")).refreshToken,
         })
         .then(({ data }) => {
           store.dispatch(setOnTokenRefresh(data));
-          originalRequest.headers["Authorization"] =
-            "Bearer " + data.accessToken;
+          setHeaderAccToken(originalRequest, data.accessToken);
+
           // reRequest the rest of queued requests
           processQueue(null, data.accessToken);
           // reRequest the one that triggered refresh tokens
@@ -98,14 +108,7 @@ export const AuthedAxios = (isMuliPart = false) => {
 };
 
 export const BaseUrlAxios = (isMuliPart = false) => {
-  const defaultOptions = {
-    baseURL: process.env.REACT_APP_API_ENDPOINT,
-    headers: {
-      "Content-Type": isMuliPart ? "multipart/form-data" : "application/json",
-    },
-  };
-  let instance = axios.create(defaultOptions);
+  let instance = axios.create(defaultOptions(isMuliPart));
+
   return instance;
 };
-
-// export default BaseUrlAxios;

@@ -31,7 +31,7 @@ const RequestReset = () => {
             .catch((e) => {
               Swal.fire({
                 icon: "question",
-                title: "Could Not Find Account",
+                title: "Account Not Found",
                 html: `try again<br/><b>or</b><br/>create new account`,
               });
             });
@@ -100,9 +100,9 @@ const SetNewPassword = ({ uid, rp_hash, gotoResetReq, gotoLogin }) => {
             })
             .catch((e) => {
               Swal.fire({
-                icon: "warning",
+                icon: "error",
                 title: "Account Not Found",
-                html: `account does not exist <br/> <b>or</b> <br/>did not request a password reset`,
+                html: `account does not exist<br/><b>or</b><br/>no password reset request made`,
               });
               // history.push("/");
               // gotoLogin();

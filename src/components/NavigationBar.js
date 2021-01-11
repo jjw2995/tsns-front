@@ -11,7 +11,7 @@ function NavigationBar(props) {
   const path = props.location.pathname;
   const dispatch = useDispatch();
 
-  const nickname = useSelector((state) => state.auth.user.nickname || "");
+  const nickname = useSelector((state) => state.auth.user.nickname);
 
   const activeRetColor = (target) => {
     return path.split("/")[1] === target.split("/")[1] ? "black" : "grey";

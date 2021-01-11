@@ -1,12 +1,7 @@
 import "./css/App.css";
 import React, { useEffect } from "react";
 
-import {
-  BrowserRouter as Router,
-  Redirect,
-  Switch,
-  withRouter,
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, withRouter } from "react-router-dom";
 
 import { Provider, useSelector } from "react-redux";
 import store from "./redux/store";
@@ -34,11 +29,11 @@ function App() {
 
 const Main = withRouter((props) => {
   // const loggedIn = JSON.parse(localStorage.getItem("AUTH"));
-  const loggedIn = useSelector((state) => state.auth.loggedIn);
+  // const loggedIn = useSelector((state) => state.auth.loggedIn);
 
   useEffect(() => {
     store.dispatch(hydrateAuth());
-  });
+  }, []);
   return (
     <Router>
       <ScrollToTop />

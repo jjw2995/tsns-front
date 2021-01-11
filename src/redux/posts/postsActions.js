@@ -1,36 +1,36 @@
 import { AuthedAxios } from "../../rest/axiosTypes";
 import { filterExistingContents } from "../utils";
 import {
-  ADD_NEW_POST,
+  ADD_NEW_POSTS,
   SET_POST,
-  GET_MORE_POSTS,
-  GET_INITIAL_POSTS,
+  SET_MORE_POSTS,
+  SET_INITIAL_POSTS,
 } from "./postsTypes";
 
 const genPayload = (newPosts = [], newIsLoading = null) => {
   let rv = {};
   if (newPosts) rv.posts = newPosts;
-  if (newIsLoading !== null) rv.isLoading = newIsLoading;
+  if (newIsLoading) rv.isLoading = newIsLoading;
   return rv;
 };
 
 const getMorePosts = (posts) => {
   return {
-    type: GET_MORE_POSTS,
+    type: SET_MORE_POSTS,
     payload: genPayload(posts),
   };
 };
 
-const getInitialPosts = (posts) => {
+const setInitialPosts = (posts) => {
   return {
-    type: GET_INITIAL_POSTS,
+    type: SET_INITIAL_POSTS,
     payload: genPayload(posts),
   };
 };
 
 const addNewPost = (post) => {
   return {
-    type: ADD_NEW_POST,
+    type: ADD_NEW_POSTS,
     payload: genPayload([post]),
   };
 };
@@ -77,10 +77,10 @@ export const getSetInitialPosts = (path, pageSize) => (dispatch, getState) => {
   AuthedAxios()
     .get(path)
     .then((r) => {
-      dispatch(getInitialPosts(r.data));
+      dispatch(setInitialPosts(r.data));
     })
     .catch((e) => {
-      console.log(e.response);
+      console.log("@ getSetInitialPosts error, ", e.response);
     });
 };
 

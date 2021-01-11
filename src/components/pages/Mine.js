@@ -29,7 +29,7 @@ function Mine() {
   return (
     <React.Fragment>
       <div style={{ textAlign: "center" }}>
-        <h6>see user info and get all user's posts ordered by date</h6>
+        <h6>see user info and all user's posts ordered by date</h6>
         <br />
       </div>
       {myInfo && (
@@ -67,10 +67,9 @@ function Mine() {
             className="m-1"
             onClick={() => {
               Swal.fire({
-                icon: "warning",
+                icon: "question",
                 title: "Remove Account?",
-                text:
-                  "all information linked to your account will be deleted soon after",
+                text: "all information will be deleted",
                 showConfirmButton: true,
                 showDenyButton: true,
                 confirmButtonText: "Yes",

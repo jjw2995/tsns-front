@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Button } from "react-bootstrap";
-// import axios from "axios";
 
 import { useHistory, useParams, withRouter } from "react-router";
 import { BaseUrlAxios } from "../../../rest/axiosTypes";
