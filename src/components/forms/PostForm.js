@@ -4,6 +4,7 @@ import { Button } from "react-bootstrap";
 import Dropzone from "react-dropzone";
 import { useDispatch } from "react-redux";
 import { postPost } from "../../redux/posts/postsActions";
+import Swal from "sweetalert2";
 
 const MAX_NUM_IMAGES = 4;
 
@@ -25,8 +26,17 @@ function PostForm({ closeModal }) {
         values.images.forEach((r, i) => {
           formData.set(`${i}`, r);
         });
-        dispatch(postPost(formData));
-        closeModal();
+        dispatch(postPost(formData))
+          .then((r) => {
+            closeModal();
+          })
+          .catch((e) => {
+            Swal.fire({
+              icon: "error",
+              title: "Not Posted",
+              text: "must have a description",
+            });
+          });
       }}
     >
       {({ values, setFieldValue }) => (
@@ -114,11 +124,9 @@ function PostForm({ closeModal }) {
                         height: "8rem",
                         position: "relative",
                       }}
-                      // style={{ display: "-webkit-flex column" }}
                       key={idx}
                       onClick={() => {}}
                     >
-                      {/* <div></div> */}
                       <img
                         alt="not available"
                         src={image.preview}
@@ -127,14 +135,12 @@ function PostForm({ closeModal }) {
                         style={{
                           width: "8rem",
                           height: "8rem",
-                          // position: "relative",
                         }}
                       />
 
                       <Button
                         size="sm"
                         variant="dark"
-                        // style={{ zIndex: "1",  }}
                         style={{
                           position: "absolute",
                           right: "0",
@@ -143,7 +149,6 @@ function PostForm({ closeModal }) {
                         }}
                         type="button"
                         id={idx}
-                        // key={idx}
                         onClick={async (e) => {
                           let copy = [...values.images];
                           copy.splice(e.target.id, 1);

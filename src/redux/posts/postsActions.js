@@ -43,14 +43,17 @@ const setPosts = (posts) => {
 };
 
 export const postPost = (postFormData) => (dispatch, getState) => {
-  AuthedAxios(true)
-    .post("/posts", postFormData)
-    .then((r) => {
-      dispatch(addNewPost(r.data));
-    })
-    .catch((e) => {
-      console.log(e);
-    });
+  return new Promise((resolve, reject) => {
+    AuthedAxios(true)
+      .post("/posts", postFormData)
+      .then((r) => {
+        dispatch(addNewPost(r.data));
+        resolve();
+      })
+      .catch((e) => {
+        reject(e);
+      });
+  });
 };
 
 export const getPostEndpoints = (userID = "") => {

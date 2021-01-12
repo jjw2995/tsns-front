@@ -12,7 +12,6 @@ export const authReducer = (
   state = initialState,
   { type, payload, message }
 ) => {
-  console.log(state);
   switch (type) {
     case SET_AUTH:
       localStorage.setItem("AUTH", JSON.stringify({ ...state, ...payload }));
@@ -20,12 +19,6 @@ export const authReducer = (
 
     case HYDRATE_AUTH:
       // Get from local storage
-      console.log("local storage", JSON.parse(localStorage.getItem("AUTH")));
-      console.log("merged with state", {
-        ...initialState,
-        ...JSON.parse(localStorage.getItem("AUTH")),
-      });
-
       return { ...initialState, ...JSON.parse(localStorage.getItem("AUTH")) };
 
     case CLEAR_AUTH:

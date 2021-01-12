@@ -30,7 +30,6 @@ export function ProtectedRoute({ component: Component, ...rest }) {
 export function PublicOnlyRoute({ component: Component, ...rest }) {
   // const refreshToken = useSelector((state) => state.auth.refreshToken);
   const auth = JSON.parse(localStorage.getItem("AUTH"));
-  console.log(auth);
 
   return (
     <Route

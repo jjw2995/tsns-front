@@ -148,6 +148,14 @@ function About() {
             alt=""
           />
         </div>
+        <div className="mt-5">
+          If you don't want to register, you can try out with this account{" "}
+          <br /> <br />
+          <b>email</b> <br />
+          personalprojectonly@gmail.com <br />
+          <b>password</b> <br />
+          Qwer!234
+        </div>
       </ContainDiv>
 
       <ContainDiv

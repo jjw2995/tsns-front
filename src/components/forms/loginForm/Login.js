@@ -28,7 +28,6 @@ function Login() {
           BaseUrlAxios()
             .post(`/auth/login`, data)
             .then((r) => {
-              console.log(r.data);
               dispatch(login(r.data));
               history.push("/home");
             })
@@ -91,6 +90,14 @@ function Login() {
               {!doesExist && (
                 <p className="mt-4 text-danger">Account Does Not Exist</p>
               )}
+            </div>
+            <div className="mt-5">
+              If you don't want to register, you can try out with this account{" "}
+              <br /> <br />
+              <b>email</b> <br />
+              personalprojectonly@gmail.com <br />
+              <b>password</b> <br />
+              Qwer!234
             </div>
           </Form>
         )}
