@@ -1,5 +1,5 @@
 import React from "react";
-import { Col, Nav, Navbar, Row, Button } from "react-bootstrap";
+import { Col, Nav, Navbar, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { clearAuth } from "../redux/auth/AuthActions";
