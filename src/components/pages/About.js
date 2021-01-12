@@ -1,6 +1,7 @@
 import React from "react";
 import reduxLogo from "../../static/logo-redux.png";
 import reactLogo from "../../static/logo-react.png";
+import feelsLike from "../../static/feelslike.png";
 import exampleImg from "../../static/img-example.jpg";
 
 const ContainDiv = ({ title, children, anchorName, anchorLink }) => {
@@ -93,6 +94,17 @@ function About() {
             ReactJS frontend and NodeJS backend.
           </p>
         </div>
+        <div className="mt-3">
+          <b className="text-muted">looks like this</b>
+          <br />
+          <img
+            src={feelsLike}
+            width="90%"
+            style={{ maxWidth: "80rem" }}
+            alt=""
+          />
+          <br />
+        </div>
       </ContainDiv>
       <ContainDiv title="Its features?">
         <div style={textStyle}>
@@ -137,10 +149,7 @@ function About() {
           (there are also posts with images)
         </div>
         <br />
-        <div
-          className="d-flex justify-content-center"
-          //  style={{ alignItems: "center", display: "flex" }}
-        >
+        <div>
           <img
             src={exampleImg}
             width="90%"
