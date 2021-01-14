@@ -123,7 +123,7 @@ export const getMoreSubComments = (parentComID, lastComment) => (
   dispatch,
   getState
 ) => {
-  let path = `comments/${parentComID}/subcomments`;
+  let path = `comments/subcomments/${parentComID}`;
   if (lastComment) {
     path += `?last-created-at=${lastComment.createdAt}`;
   }

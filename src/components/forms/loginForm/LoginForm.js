@@ -34,7 +34,7 @@ function LoginForm(props) {
         });
       })
       .finally(() => {
-        history.push("");
+        // history.push("");
       });
   }
 

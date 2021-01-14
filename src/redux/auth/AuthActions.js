@@ -59,7 +59,7 @@ export const alertAuthClear = () => {
 
 export const deleteAccount = () => (dispatch, getState) => {
   AuthedAxios()
-    .get("/users/remove")
+    .delete("/users/remove")
     .then(() => {
       return Swal.fire({
         icon: "success",

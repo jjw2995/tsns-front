@@ -38,8 +38,6 @@ function Login() {
                 title: "Account Not Found",
                 text: "try again",
               });
-
-              // setDoesExist(false);
             });
         }}
         validationSchema={yupObj({
@@ -47,7 +45,7 @@ function Login() {
           password,
         })}
       >
-        {({ values, errors, handleChange }) => (
+        {() => (
           <Form
             onFocus={() => {
               setDoesExist(true);

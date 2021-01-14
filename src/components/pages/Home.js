@@ -5,6 +5,7 @@ import Posts, { endpoints } from "../post/Posts";
 import { isSmallWindow } from "../../utils";
 import { Button } from "react-bootstrap";
 import CloseButton from "../myComponents/CloseButton";
+import MyModal from "../myComponents/MyModal";
 
 Modal.setAppElement("#root");
 
@@ -37,7 +38,7 @@ function Home(props) {
             pointerEvents: "none",
           }}
         >
-          <Modal
+          {/* <Modal
             style={{
               overlay: {
                 zIndex: "1000",
@@ -53,9 +54,14 @@ function Home(props) {
             isOpen={open}
             onRequestClose={closeModal}
           >
-            <CloseButton onClickHandler={closeModal} />
+            <CloseButton onCloseHandler={closeModal} />
             <PostForm closeModal={closeModal} />
-          </Modal>
+          </Modal> */}
+          <MyModal isOpen={open} onRequestClose={closeModal}>
+            <CloseButton onCloseHandler={closeModal} />
+            <PostForm closeModal={closeModal} />
+          </MyModal>
+
           {isSmallWindow ? (
             <Button className="btn-secondary" onClick={openModal}>
               <b>+</b>
@@ -70,6 +76,7 @@ function Home(props) {
               new Post
             </Button>
           )}
+
           {/* <MyModal buttonName="new Post"></MyModal> */}
         </div>
       </div>

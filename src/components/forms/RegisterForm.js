@@ -39,7 +39,7 @@ function RegisterForm({ toLogin }) {
       onSubmit={async (data, { setSubmitting, resetForm, setFieldError }) => {
         try {
           setSubmitting(true);
-          await BaseUrlAxios().post("/auth/register", data);
+          let a = await BaseUrlAxios().post("/auth/register", data);
           Swal.fire({
             icon: "success",
             title: "Verification Email Sent",
