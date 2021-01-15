@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 
-import { useHistory, useParams, withRouter } from "react-router";
+import { useParams, withRouter } from "react-router";
 import { BaseUrlAxios } from "../../../rest/axiosTypes";
 import Swal from "sweetalert2";
 import Login from "./Login";
@@ -9,7 +9,6 @@ import ResetPassword from "./ResetPassword";
 
 function LoginForm(props) {
   const { uid, v_hash, rp_hash } = useParams();
-  const history = useHistory();
   const [showLogin, setShowLogin] = useState(rp_hash == null);
 
   const gotoLogin = () => {

@@ -14,6 +14,7 @@ function PendingFollowees({ userLinkOnClick }) {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getPendingFollowees());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

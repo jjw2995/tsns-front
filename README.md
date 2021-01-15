@@ -1,6 +1,6 @@
 # Simple Frontend to go with my Backend
 
-this is my first attempt at making a frontend related application 
+this is my first attempt at making a frontend related application
 
 # Getting Started with Create React App
 

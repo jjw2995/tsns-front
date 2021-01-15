@@ -16,6 +16,7 @@ function DismissedPendingFollowers({ userLinkOnClick }) {
 
   useEffect(() => {
     dispatch(getDismissedPendingFollowers());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

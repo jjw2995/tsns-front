@@ -14,6 +14,7 @@ import {
   LandingPage,
 } from "./components/pages";
 import ScrollToTop from "./components/ScrollToTop";
+import { BaseUrlAxios } from "./rest/axiosTypes";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
 
 const Main = withRouter((props) => {
   useEffect(() => {
+    BaseUrlAxios().get("");
     store.dispatch(hydrateAuth());
   }, []);
   return (
