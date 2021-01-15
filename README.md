@@ -1,7 +1,3 @@
-# Simple Frontend to go with my Backend
-
-this is my first attempt at making a frontend related application 
-
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
