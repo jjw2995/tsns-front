@@ -1,3 +1,7 @@
+![image](https://github.com/jjw2995/tsns-front/assets/17957701/cc2442d4-2e4c-40a7-ae51-6c3d194c9bc9)
+
+<details close>
+  <summary>Create React App miscel info for reference</summary>
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
@@ -68,3 +72,6 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+</details>
+
