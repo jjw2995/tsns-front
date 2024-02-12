@@ -1,4 +1,8 @@
-![image](https://github.com/jjw2995/tsns-front/assets/17957701/cc2442d4-2e4c-40a7-ae51-6c3d194c9bc9)
+![image](https://github.com/jjw2995/tsns-front/assets/17957701/e7daf678-1b61-4005-85a6-d8c2b751ba02)
+![image](https://github.com/jjw2995/tsns-front/assets/17957701/34731248-3096-4248-8cef-b08e8417f645)
+![image](https://github.com/jjw2995/tsns-front/assets/17957701/2c65fc6d-ba4e-45d5-b5ea-bd0cf8ae24c3)
+![image](https://github.com/jjw2995/tsns-front/assets/17957701/1825bca1-6d8f-48ea-ac44-ee7ae4702a3e)
+
 
 <details close>
   <summary>Create React App miscel info for reference</summary>
